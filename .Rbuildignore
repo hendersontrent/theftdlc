@@ -1,0 +1,12 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^README.Rmd
+^README_files
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
+^doc$
+^Meta$
+^LICENSE\.md$
+^data-raw$
