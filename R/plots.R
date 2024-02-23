@@ -39,15 +39,14 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
 
     #--------------- Calculate proportions ------------
 
-    tmp <- x[[1]] %>%
+    tmp <- x %>%
       dplyr::mutate(quality = dplyr::case_when(
         is.na(.data$values)                               ~ "NaN",
         is.nan(.data$values)                              ~ "NaN",
         is.infinite(.data$values)                         ~ "-Inf or Inf",
         is.numeric(.data$values) & !is.na(.data$values) &
           !is.na(.data$values) & !is.nan(.data$values)    ~ "Good")) %>%
-      dplyr::group_by(.data$names, .data$quality) %>%
-      dplyr::summarise(counter = dplyr::n()) %>%
+      dplyr::reframe(counter = dplyr::n(), .by = c(.data$names, .data$quality)) %>%
       dplyr::group_by(.data$names) %>%
       dplyr::mutate(props = .data$counter / sum(.data$counter)) %>%
       dplyr::ungroup() %>%
@@ -100,7 +99,7 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
 
     #------------- Apply normalisation -------------
 
-    data_id <- x[[1]] %>%
+    data_id <- x %>%
       dplyr::select(c(.data$id, .data$names, .data$values, .data$feature_set)) %>%
       tidyr::drop_na() %>%
       dplyr::mutate(names = paste0(.data$feature_set, "_", .data$names)) %>% # Catches errors when using all features across sets (i.e., there's duplicates)
@@ -168,7 +167,7 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
 
     #------------- Clean up structure --------------
 
-    data_id <- x[[1]] %>%
+    data_id <- x %>%
       dplyr::select(c(.data$id, .data$names, .data$values, .data$feature_set)) %>%
       tidyr::drop_na() %>%
       dplyr::mutate(names = paste0(.data$feature_set, "_", .data$names)) %>% # Catches errors when using all features across sets (i.e., there's duplicates)
@@ -241,9 +240,9 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
     if(is.null(feature_names)){
       stop("feature_names argument must not be NULL if drawing a violin plot. Please enter a vector of valid feature names.")
     } else{
-      p <- x[[1]] %>%
+      p <- x %>%
         dplyr::filter(names %in% feature_names) %>%
-        dplyr::mutate(names = paste0(feature_set, "_", .data$names))
+        dplyr::mutate(names = paste0(.data$feature_set, "_", .data$names))
 
       if("group" %in% colnames(p)){
         p <- p %>%
@@ -324,9 +323,8 @@ plot.low_dimension <- function(x, show_covariance = TRUE, ...){
 
       groups <- data_id %>%
         dplyr::rename(group_id = .data$group) %>%
-        dplyr::group_by(.data$id, .data$group_id) %>%
-        dplyr::summarise(counter = dplyr::n()) %>%
-        dplyr::ungroup() %>%
+        dplyr::reframe(counter = dplyr::n(),
+                       .by = c(.data$id, .data$group_id)) %>%
         dplyr::select(-c(.data$counter)) %>%
         dplyr::mutate(id = as.factor(.data$id))
 
@@ -404,9 +402,8 @@ plot.low_dimension <- function(x, show_covariance = TRUE, ...){
 
       groups <- data_id %>%
         dplyr::rename(group_id = .data$group) %>%
-        dplyr::group_by(.data$id, .data$group_id) %>%
-        dplyr::summarise(counter = dplyr::n()) %>%
-        dplyr::ungroup() %>%
+        dplyr::reframe(counter = dplyr::n(),
+                         .by = c(.data$id, .data$group_id)) %>%
         dplyr::select(-c(.data$counter)) %>%
         dplyr::mutate(id = as.factor(.data$id))
 

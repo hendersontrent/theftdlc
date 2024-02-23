@@ -31,20 +31,15 @@ Conduct statistical testing on time-series feature classification performance to
 }
 \examples{
 \donttest{
-featMat <- calculate_features(data = simData,
-  id_var = "id",
-  time_var = "timepoint",
-  values_var = "values",
+
+library(theft)
+
+features <- theft::calculate_features(theft::simData,
   group_var = "process",
-  feature_set = "catch22",
-  seed = 123)
+  feature_set = "catch22")
 
-classifiers <- tsfeature_classifier(featMat,
+classifiers <- tsfeature_classifier(features,
   by_set = FALSE)
-
-compare_features(classifiers,
-  by_set = FALSE,
-  hypothesis = "pairwise")
 }
 
 }

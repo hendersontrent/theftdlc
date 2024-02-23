@@ -55,26 +55,22 @@ stat_test <- function(data, iter_data, row_id, by_set = FALSE, hypothesis, metri
   if(hypothesis == "null"){
     if(by_set){
       sd_check <- tmp_data %>%
-        dplyr::group_by(.data$model_type, .data$feature_set) %>%
-        dplyr::summarise(stddev = stats::sd(.data$mymetric, na.rm = TRUE)) %>%
-        dplyr::ungroup()
+        dplyr::reframe(stddev = stats::sd(.data$mymetric, na.rm = TRUE),
+                         .by = c(.data$model_type, .data$feature_set))
     } else{
       sd_check <- tmp_data %>%
-        dplyr::group_by(.data$model_type, .data$names) %>%
-        dplyr::summarise(stddev = stats::sd(.data$mymetric, na.rm = TRUE)) %>%
-        dplyr::ungroup()
+        dplyr::reframe(stddev = stats::sd(.data$mymetric, na.rm = TRUE),
+                         .by = c(.data$model_type, .data$names))
     }
   } else{
     if(by_set){
       sd_check <- tmp_data %>%
-        dplyr::group_by(.data$feature_set) %>%
-        dplyr::summarise(stddev = stats::sd(.data$mymetric, na.rm = TRUE)) %>%
-        dplyr::ungroup()
+        dplyr::reframe(stddev = stats::sd(.data$mymetric, na.rm = TRUE),
+                       .by = c(.data$feature_set))
     } else{
       sd_check <- tmp_data %>%
-        dplyr::group_by(.data$names) %>%
-        dplyr::summarise(stddev = stats::sd(.data$mymetric, na.rm = TRUE)) %>%
-        dplyr::ungroup()
+        dplyr::reframe(stddev = stats::sd(.data$mymetric, na.rm = TRUE),
+                       .by = c(.data$names))
     }
   }
 

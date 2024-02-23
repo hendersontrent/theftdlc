@@ -11,6 +11,7 @@
 #' @importFrom scales rescale
 #' @importFrom tidyr gather unnest_wider pivot_longer pivot_wider drop_na crossing
 #' @importFrom broom augment tidy
+#' @import tibble
 #' @import dplyr
 #' @import ggplot2
 #' @importFrom normaliseR normalise

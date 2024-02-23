@@ -14,14 +14,15 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.5.0),
-    theft
+    R (>= 3.5.0)
 Imports: 
     rlang,
     stats,
+    tibble,
     dplyr,
     ggplot2,
     tidyr,
+    purrr,
     reshape2,
     scales,
     broom,
@@ -33,6 +34,7 @@ Imports:
     normaliseR,
     correctR
 Suggests: 
+    theft,
     lifecycle,
     cachem,
     bslib,

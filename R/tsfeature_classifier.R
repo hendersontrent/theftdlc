@@ -46,7 +46,7 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
 
   if(by_set){
 
-    tmp <- data[[1]] %>%
+    tmp <- data %>%
       dplyr::mutate(group = as.factor(as.character(.data$group)),
                     names = paste0(.data$feature_set, "_", .data$names)) %>%
       dplyr::select(c(.data$id, .data$group, .data$names, .data$values)) %>%
@@ -56,7 +56,7 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
 
     # Set up "All features" set
 
-    if(length(unique(data[[1]]$feature_set)) > 1){
+    if(length(unique(data$feature_set)) > 1){
 
       # Remove duplicate features
 
@@ -64,7 +64,7 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
 
       # Construct set of all features
 
-      tmp2 <- tmp2[[1]] %>%
+      tmp2 <- tmp2 %>%
         dplyr::mutate(group = as.factor(as.character(.data$group)),
                       names = paste0(.data$feature_set, "_", .data$names),
                       feature_set = "allfeatures",
@@ -86,7 +86,7 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
 
     tmp <- filter_duplicates(data = data, seed = seed)
 
-    tmp <- tmp[[1]] %>%
+    tmp <- tmp %>%
       dplyr::mutate(group = as.factor(as.character(.data$group)),
                     names = paste0(.data$feature_set, "_", .data$names)) %>%
       dplyr::select(c(.data$id, .data$group, .data$names, .data$values)) %>%
@@ -157,17 +157,15 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
     dplyr::filter(.data$set_split == "Train") %>%
     dplyr::select(c(.data$id, .data$group)) %>%
     dplyr::distinct() %>%
-    dplyr::group_by(.data$group) %>%
-    dplyr::summarise(counter = dplyr::n()) %>%
-    dplyr::ungroup()
+    dplyr::reframe(counter = dplyr::n(),
+                   .by = c(.data$group))
 
   test_props <- tmp %>%
     dplyr::filter(.data$set_split == "Test") %>%
     dplyr::select(c(.data$id, .data$group)) %>%
     dplyr::distinct() %>%
-    dplyr::group_by(.data$group) %>%
-    dplyr::summarise(counter = dplyr::n()) %>%
-    dplyr::ungroup()
+    dplyr::reframe(counter = dplyr::n(),
+                   .by = c(.data$group))
 
   #-------------------------------------------------
   # Keep all features that have enough unique values
@@ -186,11 +184,9 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
     unlist()
 
   good_features <- data.frame(names = good_features) %>%
-    group_by(.data$names) %>%
-    summarise(counter = n()) %>%
-    ungroup() %>%
-    filter(.data$counter == max(.data$counter)) %>%
-    pull(.data$names)
+    dplyr::reframe(counter = n(), .by = c(.data$names)) %>%
+    dplyr::filter(.data$counter == max(.data$counter)) %>%
+    dplyr::pull(.data$names)
 
   # Filter each resample by the new "good" feature vector
 

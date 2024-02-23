@@ -55,7 +55,7 @@ reduce_dims <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoi
 
   #------------- Normalise data -------------------
 
-  normed <- data[[1]] %>%
+  normed <- data %>%
     dplyr::select(c(.data$id, .data$names, .data$values, .data$feature_set)) %>%
     tidyr::drop_na() %>%
     dplyr::group_by(.data$names) %>%
@@ -164,7 +164,7 @@ reduce_dims <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoi
                     .fitted2 = 3)
   }
 
-  low_dim <- list(data[[1]], wide_data, fits)
+  low_dim <- list(data, wide_data, fits)
   low_dim <- structure(low_dim, class = "low_dimension")
   return(low_dim)
 }

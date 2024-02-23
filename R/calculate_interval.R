@@ -116,11 +116,10 @@ calculate_interval <- function(data, metric = c("accuracy", "precision", "recall
 
     intervals <- intervals %>%
       dplyr::filter(model_type == model_type_str) %>%
-      dplyr::group_by(!!rlang::sym(grouper)) %>%
-      dplyr::summarise(.mean = mean(.data$values),
+      dplyr::reframe(.mean = mean(.data$values),
                        .lower = .data$.mean - (interval * stats::sd(.data$values)),
-                       .upper = .data$.mean + (interval * stats::sd(.data$values))) %>%
-      dplyr::ungroup()
+                       .upper = .data$.mean + (interval * stats::sd(.data$values)),
+                     .by = !!rlang::sym(grouper))
 
   } else if(type == "qt"){
 
@@ -128,12 +127,11 @@ calculate_interval <- function(data, metric = c("accuracy", "precision", "recall
 
     intervals <- intervals %>%
       dplyr::filter(model_type == model_type_str) %>%
-      dplyr::group_by(!!rlang::sym(grouper)) %>%
       dplyr::summarise(.mean = mean(.data$values),
                        interval_width = stats::qt(interval, (n_samps - 1)) * stats::sd(.data$values) / sqrt(n_samps),
                        .lower = .data$.mean - .data$interval_width,
-                       .upper = .data$.mean + .data$interval_width) %>%
-      dplyr::ungroup() %>%
+                       .upper = .data$.mean + .data$interval_width,
+                       .by = !!rlang::sym(grouper)) %>%
       dplyr::select(-c(.data$interval_width))
 
   } else{
@@ -147,11 +145,10 @@ calculate_interval <- function(data, metric = c("accuracy", "precision", "recall
 
     intervals <- intervals %>%
       dplyr::filter(model_type == model_type_str) %>%
-      dplyr::group_by(!!rlang::sym(grouper)) %>%
       dplyr::summarise(.median = stats::median(.data$values),
                        .lower = stats::quantile(.data$values, prob = lower_bound),
-                       .upper = stats::quantile(.data$values, prob = upper_bound)) %>%
-      dplyr::ungroup()
+                       .upper = stats::quantile(.data$values, prob = upper_bound),
+                       .by = !!rlang::sym(grouper))
   }
 
   return(intervals)

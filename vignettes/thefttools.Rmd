@@ -197,12 +197,6 @@ Since feature-based time-series analysis has shown particular promise for classi
 * `use_null`---Boolean whether to fit null models where class labels are shuffled in order to generate a null distribution that can be compared to performance on correct class labels. Defaults to `FALSE`. This is known as permutation testing
 * `seed`---Integer to fix R's random number generator to ensure reproducibility. Defaults to `123`
 
-*NOTE:* You can filter the duplicate features contained in `tsfeatures`, `feasts`, `Kats`, and `catch22` in any `feature_calculations` object through the function `filter_duplicates`, which is also called internally in `tsfeature_classifier`. This function only has 2 arguments: `data` (the  `feature_calculations` object) and `seed`. For example, if you assumed that we calculated features from all the sets, you could run the following upfront:
-
-```{r, eval = FALSE}
-feature_matrix_filt <- filter_duplicates(feature_matrix, seed = 123)
-```
-
 Since we are interested in individual features in this section, we will calculate both main and null results for each feature using just `5` resamples for efficiency (in practice, we would use more!) with the default linear SVM:
 
 ```{r, message = FALSE, warning = FALSE}
@@ -263,12 +257,10 @@ top_10 <- feature_vs_null %>%
   dplyr::slice_min(p.value, n = 10) %>%
   dplyr::select(c(feature_set, original_names, p.value))
 
-feature_matrix_filt <- feature_matrix[[1]] %>%
+feature_matrix_filt <- feature_matrix %>%
   dplyr::filter(feature_set %in% top_10$feature_set & names %in% top_10$original_names)
 
-feature_matrix_filt <- structure(list(feature_matrix_filt),
-                                 class = "feature_calculations")
-
+feature_matrix_filt <- structure(feature_matrix_filt, class = c("feature_calculations", "data.frame"))
 plot(feature_matrix_filt, type = "cor")
 ```
 
@@ -297,10 +289,16 @@ calculate_interval(feature_classifiers, by_set = FALSE)
 
 ### Multi-feature
 
-Since `theft` contains entire sets of features, we can also use `tsfeature_classifier` to compare them at the set level through the `by_set` argument:
+Since `theft` contains entire sets of features, we can also use `tsfeature_classifier` to compare them at the set level through the `by_set` argument. Let's try both `catch22` and a custom set of just mean and standard deviation:
 
 ```{r, message = FALSE, warning = FALSE}
-set_classifiers <- tsfeature_classifier(feature_matrix,
+feature_matrix2 <- calculate_features(data = simData, 
+                                      group_var = "process", 
+                                      feature_set = "catch22",
+                                      features = list("mean" = mean, "sd" = sd),
+                                      seed = 123)
+
+set_classifiers <- tsfeature_classifier(feature_matrix2,
                                         by_set = TRUE,
                                         n_resamples = 5,
                                         use_null = TRUE)
@@ -308,7 +306,7 @@ set_classifiers <- tsfeature_classifier(feature_matrix,
 head(set_classifiers)
 ```
 
-Since we only calculated `catch22` in this vignette, `tsfeature_classifier` did not construct a composite set of `"All features"` (i.e., all features across all computed sets). This set is automatically included by default when $>2$ unique feature sets are detected in the feature data. Similar to the individual feature case, we can also use `calculate_interval` combined with `ggplot2` to summarise our findings. Here is a comparison of mean accuracy $\pm 1SD$ between feature sets:
+Note that `tsfeature_classifier` constructs a set of `"All features"` (i.e., all features across all computed sets) automatically when $>2$ unique feature sets are detected in the feature data. Similar to the individual feature case, we can also use `calculate_interval` combined with `ggplot2` to summarise our findings. Here is a comparison of mean accuracy $\pm 1SD$ between feature sets:
 
 ```{r, message = FALSE, warning = FALSE}
 interval_calcs <- calculate_interval(set_classifiers)
