@@ -48,6 +48,18 @@ The data follows the following structure:
 head(simData)
 ```
 
+We will use `theft` to quickly calculate features using the `catch22` set:
+
+```{r, message = FALSE, warning = FALSE}
+feature_matrix <- calculate_features(data = simData, 
+                                     id_var = "id", 
+                                     time_var = "timepoint", 
+                                     values_var = "values", 
+                                     group_var = "process", 
+                                     feature_set = "catch22",
+                                     seed = 123)
+```
+
 ## Data quality checks
 
 The core `calculate_features` function in `theft` returns an object of class `feature_calculations`. Objects of this type are purposefully looked-for by other functions in `thefttools`. Because it is a class, simple methods such as `plot()` can be called on the object to produce a range of statistical graphics. The first is a visualisation of the data types of the calculated feature vectors. This is useful for inspecting which features might need to be dropped due to large proportions of undesirable (e.g., `NA`, `NaN` etc.) values. We can specify the plot `type = "quality` to make this graphic:

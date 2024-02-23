@@ -9,7 +9,8 @@
 #' @importFrom tidyr pivot_wider pivot_longer drop_na
 #' @importFrom reshape2 melt
 #' @importFrom stats hclust dist cor
-#' @param x the \code{feature_calculations} object containing the raw feature matrix produced by \code{calculate_features}
+#' @importFrom normaliseR normalise
+#' @param x \code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}
 #' @param type \code{character} specifying the type of plot to draw. Defaults to \code{"quality"}
 #' @param norm_method \code{character} specifying a rescaling/normalising method to apply if \code{type = "matrix"} or if \code{type = "cor"}. Can be one of \code{"z-score"}, \code{"Sigmoid"}, \code{"RobustSigmoid"}, or \code{"MinMax"}. Defaults to \code{"z-score"}
 #' @param unit_int \code{Boolean} whether to rescale into unit interval \code{[0,1]} after applying normalisation method. Defaults to \code{FALSE}
@@ -105,7 +106,7 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
       dplyr::mutate(names = paste0(.data$feature_set, "_", .data$names)) %>% # Catches errors when using all features across sets (i.e., there's duplicates)
       dplyr::select(-c(.data$feature_set)) %>%
       dplyr::group_by(.data$names) %>%
-      dplyr::mutate(values = normalise(.data$values, norm_method = norm_method, unit_int = unit_int)) %>%
+      dplyr::mutate(values = normaliseR::normalise(.data$values, norm_method = norm_method, unit_int = unit_int)) %>%
       dplyr::ungroup()
 
     #------------- Hierarchical clustering ----------

@@ -17,7 +17,7 @@
 )
 }
 \arguments{
-\item{x}{the \code{feature_calculations} object containing the raw feature matrix produced by \code{calculate_features}}
+\item{x}{\code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}}
 
 \item{type}{\code{character} specifying the type of plot to draw. Defaults to \code{"quality"}}
 

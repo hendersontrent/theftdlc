@@ -19,4 +19,5 @@
 #' @importFrom janitor clean_names
 #' @importFrom MASS isoMDS sammon
 #' @importFrom umap umap
+#' @importFrom correctR resampled_ttest
 NULL

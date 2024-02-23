@@ -30,7 +30,8 @@ Imports:
     janitor,
     umap,
     MASS,
-    normaliseR
+    normaliseR,
+    correctR
 Suggests: 
     lifecycle,
     cachem,

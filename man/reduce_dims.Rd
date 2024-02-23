@@ -14,7 +14,7 @@ reduce_dims(
 )
 }
 \arguments{
-\item{data}{the \code{feature_calculations} object containing the raw feature matrix produced by \code{purloiner::extract_features}}
+\item{data}{\code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}}
 
 \item{norm_method}{\code{character} denoting the rescaling/normalising method to apply. Can be one of \code{"zScore"}, \code{"Sigmoid"}, \code{"RobustSigmoid"}, \code{"MinMax"}, or \code{"MaxAbs"}. Defaults to \code{"zScore"}}
 
@@ -37,33 +37,12 @@ Project a feature matrix into a two-dimensional representation using PCA, MDS, t
 
 library(theft)
 
-ar1 <- list()
-
-for(i in 1:10){
-  x <- data.frame(values = as.numeric(stats::arima.sim(model = list(ar = 0.8), n = 50)))
-  x$timepoint <- seq.int(from = 1, to = 50, by = 1)
-  x$id <- paste0("AR(1)_", i)
-  x$group <- "AR(1)"
-  ar1[[i]] <- x
-}
-
-noise <- list()
-
-for(i in 1:10){
-  x <- data.frame(values = stats::rnorm(50))
-  x$timepoint <- seq.int(from = 1, to = 50, by = 1)
-  x$id <- paste0("Noise_", i)
-  x$group <- "Gaussian Noise"
-  noise[[i]] <- x
-}
-
-ar1 <- do.call("rbind", ar1)
-noise <- do.call("rbind", noise)
-tmp <- rbind(ar1, noise)
-
-features <- theft::calculate_features(tmp,
-  group_var = "group",
+features <- theft::calculate_features(theft::simData,
+  group_var = "process",
   feature_set = "catch22")
+
+classifiers <- tsfeature_classifier(features,
+  by_set = FALSE)
 
 pca <- reduce_dims(features,
   norm_method = "zScore",
