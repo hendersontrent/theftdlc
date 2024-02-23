@@ -6,7 +6,7 @@
 #'
 #' @description Tools for Analysing and Interpreting Time Series Features
 #'
-#' @importFrom rlang .data as_function is_bool abort warn sym
+#' @importFrom rlang .data
 #' @importFrom stats IQR cor cor.test dist hclust median prcomp reorder sd var p.adjust quantile qt na.omit cmdscale
 #' @importFrom scales rescale
 #' @importFrom tidyr gather unnest_wider pivot_longer pivot_wider drop_na crossing

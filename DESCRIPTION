@@ -7,14 +7,14 @@ Authors@R: c(
   person("Trent", "Henderson", email = "then6675@uni.sydney.edu.au", role = c("cre", "aut"))
   )
 Maintainer: Trent Henderson <then6675@uni.sydney.edu.au>
-Description: Provides a suite of functions for analysis, interpreting, and visualising
+Description: Provides a suite of functions for analysing, interpreting, and visualising
     time-series features calculated from different feature sets from the 'theft' package.
 BugReports: https://github.com/hendersontrent/thefttools/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
     theft
 Imports: 
     rlang,
@@ -28,6 +28,8 @@ Imports:
     Rtsne,
     e1071,
     janitor,
+    umap,
+    MASS,
     normaliseR
 Suggests: 
     lifecycle,
