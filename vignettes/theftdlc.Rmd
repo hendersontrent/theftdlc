@@ -180,8 +180,6 @@ low_dim2 <- project(feature_matrix,
 plot(low_dim2, show_covariance = FALSE)
 ```
 
-You can consult the documentation to get a list of potential arguments by calling either `?prcomp` or `?Rtsne`.
-
 ### Pairwise correlations
 
 You can plot correlations between feature vectors using `plot(type = "cor")` on a `feature_calculations` object:
@@ -356,4 +354,22 @@ We can easily fit a $k$-means model with `k = 6` (since `theft::simData` contain
 
 ```{r, message = FALSE, warning = FALSE}
 feature_clusters <- cluster(feature_matrix, k = 6)
+```
+
+From here, it's easy to do any further analysis or data visualisation, such as computing proportion :
+
+```{r, message = FALSE, warning = FALSE}
+feature_clusters$Data %>%
+    dplyr::filter(names %in% c("CO_HistogramAMI_even_2_5", "DN_OutlierInclude_p_001_mdrmd")) %>%
+    tidyr::pivot_wider(id_cols = c("id", "group", "cluster"), names_from = "names", values_from = "values") %>%
+    ggplot2::ggplot(ggplot2::aes(x = CO_HistogramAMI_even_2_5, DN_OutlierInclude_p_001_mdrmd, colour = as.factor(cluster))) +
+    ggplot2::stat_ellipse(ggplot2::aes(fill = as.factor(cluster)), geom = "polygon", alpha = 0.2) +
+    ggplot2::geom_point() +
+    ggplot2::labs(colour = "Cluster") +
+    ggplot2::guides(fill = "none") +
+    ggplot2::scale_fill_brewer(palette = "Dark2") +
+    ggplot2::scale_colour_brewer(palette = "Dark2") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = "bottom",
+                   panel.grid.minor = ggplot2::element_blank())
 ```

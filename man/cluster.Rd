@@ -11,6 +11,7 @@ cluster(
   clust_method = c("kmeans", "hclust", "mclust"),
   k = 2,
   features = NULL,
+  na_removal = c("feature", "sample"),
   seed = 123,
   ...
 )
@@ -27,6 +28,8 @@ cluster(
 \item{k}{\code{integer} denoting the number of clusters to extract. Defaults to \code{2}}
 
 \item{features}{\code{character} vector denoting the names of time-series features to use in the clustering algorithm. Defaults to \code{NULL} for no feature filtering and usage of the entire feature matrix}
+
+\item{na_removal}{\code{character} defining the way to deal with NAs produced during feature calculation. Can be one of \code{"feature"} or \code{"sample"}. \code{"feature"} removes all features that produced any NAs in any sample, keeping the number of samples the same. \code{"sample"} omits all samples that produced at least one NA. Defaults to \code{"feature"}}
 
 \item{seed}{\code{integer} to fix R's random number generator to ensure reproducibility. Defaults to \code{123}}
 

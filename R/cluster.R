@@ -42,6 +42,7 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
   stopifnot(inherits(data, "feature_calculations") == TRUE)
   norm_method <- match.arg(norm_method)
   clust_method <- match.arg(clust_method)
+  na_removal <- match.arg(na_removal)
 
   #------------------- Filter data -------------------
 
@@ -115,7 +116,7 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
     clust_tidy <- filtered %>%
       dplyr::inner_join(clust_info, by = c("id" = "id"))
 
-    stopifnot(nrow(filtered) == nrow(clust_info)) # Check we didn't lose any data
+    stopifnot(nrow(wide_data) == nrow(clust_info)) # Check we didn't lose any data
 
   } else if(clust_method == "hclust"){
 
@@ -132,7 +133,7 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
     clust_tidy <- filtered %>%
       dplyr::inner_join(clust_info, by = c("id" = "id"))
 
-    stopifnot(nrow(filtered) == nrow(clust_info)) # Check we didn't lose any data
+    stopifnot(nrow(wide_data) == nrow(clust_info)) # Check we didn't lose any data
 
   } else{
 
@@ -147,10 +148,10 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
     clust_tidy <- filtered %>%
       dplyr::inner_join(clust_info, by = c("id" = "id"))
 
-    stopifnot(nrow(filtered) == nrow(clust_info)) # Check we didn't lose any data
+    stopifnot(nrow(wide_data) == nrow(clust_info)) # Check we didn't lose any data
   }
 
-  cluster_storage <- list(data, clusts)
+  cluster_storage <- list(clust_tidy, clusts)
   names(cluster_storage) <- c("Data", "ModelFit")
   cluster_storage <- structure(cluster_storage, class = c("feature_clusters", "list"))
   return(cluster_storage)

@@ -279,15 +279,15 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
 #' @import tibble
 #' @importFrom tidyr drop_na
 #' @importFrom broom augment tidy
-#' @param x \code{low_dimension} object containing the dimensionality reduction projection calculated by \code{project}
-#' @param show_covariance \code{Boolean} of whether covariance ellipses should be shown on the plot. Defaults to \code{TRUE}
+#' @param x \code{feature_projection} object containing the two-dimensional embedding calculated by \code{project}
+#' @param show_covariance \code{Boolean} specifying whether covariance ellipses should be shown on the plot. Defaults to \code{TRUE}
 #' @param ... Arguments to be passed to methods
 #' @return object of class \code{ggplot} that contains the graphic
 #' @author Trent Henderson
 #' @export
 #'
 
-plot.low_dimension <- function(x, show_covariance = TRUE, ...){
+plot.feature_projection <- function(x, show_covariance = TRUE, ...){
 
   stopifnot(inherits(x, "feature_projection") == TRUE)
 
@@ -310,7 +310,7 @@ plot.low_dimension <- function(x, show_covariance = TRUE, ...){
     eigen_pc1 <- paste0(eigen_pc1$percent,"%")
     eigen_pc2 <- paste0(eigen_pc2$percent,"%")
 
-    fits <- x[[4]] %>%
+    fits <- x[[3]] %>%
       broom::augment(x[[2]]) %>%
       dplyr::rename(id = 1) %>%
       dplyr::mutate(id = as.factor(.data$id)) %>%
