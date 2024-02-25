@@ -269,7 +269,7 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
   return(p)
 }
 
-#------------------------- low_dimension object methods -------------------------
+#------------------------- low_dimension object methods ------------------------
 
 #' Produce a plot for a low_dimension object
 #'

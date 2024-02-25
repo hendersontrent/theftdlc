@@ -1,4 +1,4 @@
 library(testthat)
-library(thefttools)
+library(theftdlc)
 
-test_check("thefttools")
+test_check("theftdlc")
