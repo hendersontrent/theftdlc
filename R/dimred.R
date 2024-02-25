@@ -71,8 +71,32 @@ dimred <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "
 
   wide_data <- normed %>%
     tidyr::pivot_wider(id_cols = "id", names_from = "names", values_from = "values") %>%
-    tibble::column_to_rownames(var = "id") %>%
-    tidyr::drop_na()
+    tibble::column_to_rownames(var = "id")
+
+  # Filter data
+
+  if(na_removal == "feature"){
+    wide_data <- wide_data %>%
+      dplyr::select(where(~!any(is.na(.))))
+  } else{
+    wide_data <- wide_data %>%
+      tidyr::drop_na()
+  }
+
+  # Report omitted features/samples
+
+  n_features <- length(unique(normed$names))
+  n_samples <- length(unique(normed$id))
+
+  n_features_after <- ncol(wide_data)
+  n_samples_after <- nrow(wide_data)
+
+  n_features_omitted <- n_features - n_features_after
+  n_samples_omitted <- n_samples - n_samples_after
+
+  if (n_features_omitted > 0) {message(paste(n_features_omitted, "features omitted due to NAs", sep = " "))}
+
+  if (n_samples_omitted > 0) {message(paste(n_samples_omitted, "samples omitted due to NAs", sep = " "))}
 
   set.seed(seed)
 
