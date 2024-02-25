@@ -13,6 +13,7 @@
 #' @param clust_method \code{character} specifying the clustering algorithm to use. Can be one of \code{"kmeans"} for k-means clustering, \code{"hclust"} for hierarchical clustering, or \code{"mclust"} for Gaussian mixture model clustering. Defaults to \code{"kMeans"}
 #' @param k \code{integer} denoting the number of clusters to extract. Defaults to \code{2}
 #' @param features \code{character} vector denoting the names of time-series features to use in the clustering algorithm. Defaults to \code{NULL} for no feature filtering and usage of the entire feature matrix
+#' @param na_removal \code{character} defining the way to deal with NAs produced during feature calculation. Can be one of \code{"feature"} or \code{"sample"}. \code{"feature"} removes all features that produced any NAs in any sample, keeping the number of samples the same. \code{"sample"} omits all samples that produced at least one NA. Defaults to \code{"feature"}
 #' @param seed \code{integer} to fix R's random number generator to ensure reproducibility. Defaults to \code{123}
 #' @param ... arguments to be passed to \code{stats::kmeans} or \code{stats::hclust}, or \code{mclust::Mclust} depending on selection in \code{clust_method}
 #' @return object of class \code{feature_cluster} containing the clustering algorithm and a tidy version of clusters joined to the input dataset ready for further analysis
@@ -35,7 +36,8 @@
 #'
 
 cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"), unit_int = FALSE,
-                    clust_method = c("kmeans", "hclust", "mclust"), k = 2, features = NULL, seed = 123, ...){
+                    clust_method = c("kmeans", "hclust", "mclust"), k = 2, features = NULL,
+                    na_removal = c("feature","sample"), seed = 123, ...){
 
   stopifnot(inherits(data, "feature_calculations") == TRUE)
   norm_method <- match.arg(norm_method)
@@ -92,17 +94,12 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
 
   n_features <- length(unique(normed$names))
   n_samples <- length(unique(normed$id))
-
   n_features_after <- ncol(wide_data)
   n_samples_after <- nrow(wide_data)
-
   n_features_omitted <- n_features - n_features_after
   n_samples_omitted <- n_samples - n_samples_after
-
   if (n_features_omitted > 0) {message(paste(n_features_omitted, "features omitted due to NAs", sep = " "))}
-
   if (n_samples_omitted > 0) {message(paste(n_samples_omitted, "samples omitted due to NAs", sep = " "))}
-
   set.seed(123)
 
   if(clust_method == "kmeans"){
@@ -153,8 +150,8 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
     stopifnot(nrow(filtered) == nrow(clust_info)) # Check we didn't lose any data
   }
 
-  cluster_storage <- list(data, clust_tidy, clusts)
-  names(cluster_storage) <- c("Data", "ModelData", "ModelFit")
+  cluster_storage <- list(data, clusts)
+  names(cluster_storage) <- c("Data", "ModelFit")
   cluster_storage <- structure(cluster_storage, class = c("feature_clusters", "list"))
   return(cluster_storage)
 }
