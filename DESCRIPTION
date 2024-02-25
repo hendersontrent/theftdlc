@@ -1,4 +1,4 @@
-Package: thefttools
+Package: theftdlc
 Type: Package
 Title: Tools for Analysing and Interpreting Time Series Features
 Version: 0.1.0
@@ -9,7 +9,7 @@ Authors@R: c(
 Maintainer: Trent Henderson <then6675@uni.sydney.edu.au>
 Description: Provides a suite of functions for analysing, interpreting, and visualising
     time-series features calculated from different feature sets from the 'theft' package.
-BugReports: https://github.com/hendersontrent/thefttools/issues
+BugReports: https://github.com/hendersontrent/theftdlc/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

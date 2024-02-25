@@ -53,6 +53,13 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
 
   #------------------- Perform clustering ----------------------
 
+  # Produce matrix
+
+  wide_data <- normed %>%
+    tidyr::pivot_wider(id_cols = "id", names_from = "names", values_from = "values") %>%
+    tibble::column_to_rownames(var = "id") %>%
+    tidyr::drop_na()
+
   set.seed(123)
 
   if(clust_method == "kmeans"){
