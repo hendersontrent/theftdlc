@@ -153,7 +153,6 @@ The result is stored in a custom object class called `feature_projection`. `proj
 3. `"ProjectedData"`---a tidy `data.frame` of the two-dimensional embedding
 4. `"ModelFit"`---the raw model object from the dimensionality reduction algorithm
 
-
 ```{r, message = FALSE, warning = FALSE}
 low_dim <- project(feature_matrix,
                    norm_method = "RobustSigmoid",
