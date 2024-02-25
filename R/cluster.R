@@ -138,9 +138,23 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
     stopifnot(nrow(filtered) == nrow(clust_info)) # Check we didn't lose any data
 
   } else{
-    x
+
+    # Fit finite mixture model
+
+    clusts <- mclust::Mclust(wide_data, G = k, ...)
+
+    # Extract results into a tidy format
+
+    clust_info <- data.frame(id = rownames(wide_data), cluster = clusts$classification)
+
+    clust_tidy <- filtered %>%
+      dplyr::inner_join(clust_info, by = c("id" = "id"))
+
+    stopifnot(nrow(filtered) == nrow(clust_info)) # Check we didn't lose any data
   }
 
+  cluster_storage <- list(data, clust_tidy, clusts)
+  names(cluster_storage) <- c("Data", "ModelData", "ModelFit")
   cluster_storage <- structure(cluster_storage, class = c("feature_clusters", "list"))
   return(cluster_storage)
 }

@@ -189,6 +189,7 @@ dimred <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "
   }
 
   low_dim <- list(data, wide_data, fits)
+  names(low_dim) <- c("Data", "ModelData", "ModelFit")
   low_dim <- structure(low_dim, class = "low_dimension")
   return(low_dim)
 }
