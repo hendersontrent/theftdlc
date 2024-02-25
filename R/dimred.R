@@ -13,7 +13,7 @@
 #' @param data \code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}
 #' @param norm_method \code{character} denoting the rescaling/normalising method to apply. Can be one of \code{"zScore"}, \code{"Sigmoid"}, \code{"RobustSigmoid"}, \code{"MinMax"}, or \code{"MaxAbs"}. Defaults to \code{"zScore"}
 #' @param unit_int \code{Boolean} whether to rescale into unit interval \code{[0,1]} after applying normalisation method. Defaults to \code{FALSE}
-#' @param low_dim_method \code{character} specifying the low dimensional embedding method to use. Defaults to \code{"PCA"}
+#' @param low_dim_method \code{character} specifying the low dimensional embedding method to use. Can be one of \code{"PCA"}, \code{"tSNE"}, \code{"ClassicalMDS"}, \code{"KruskalMDS"}, \code{"SammonMDS"}, or \code{"UMAP"}. Defaults to \code{"PCA"}
 #' @param seed \code{integer} to fix R's random number generator to ensure reproducibility. Defaults to \code{123}
 #' @param ... arguments to be passed to \code{stats::prcomp} or \code{Rtsne::Rtsne}, \code{stats::cmdscale}, \code{MASS::isoMDS}, \code{MASS::sammon}, or \code{umap::umap} depending on selection in \code{low_dim_method}
 #' @return object of class \code{low_dimension}
@@ -28,18 +28,18 @@
 #'   group_var = "process",
 #'   feature_set = "catch22")
 #'
-#' classifiers <- tsfeature_classifier(features,
+#' classifiers <- classify(features,
 #'   by_set = FALSE)
 #'
-#' pca <- reduce_dims(features,
+#' pca <- dimred(features,
 #'   norm_method = "zScore",
 #'   low_dim_method = "PCA")
 #' }
 #'
 
-reduce_dims <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"), unit_int = FALSE,
-                              low_dim_method = c("PCA", "tSNE", "ClassicalMDS", "KruskalMDS", "SammonMDS", "UMAP"),
-                              seed = 123, ...){
+dimred <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"), unit_int = FALSE,
+                   low_dim_method = c("PCA", "tSNE", "ClassicalMDS", "KruskalMDS", "SammonMDS", "UMAP"),
+                   seed = 123, ...){
 
   stopifnot(inherits(data, "feature_calculations") == TRUE)
   norm_method <- match.arg(norm_method)
@@ -53,7 +53,7 @@ reduce_dims <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoi
     norm_method <- "zScore" # Old version from {theft}
   }
 
-  #------------- Normalise data -------------------
+  #------------------- Normalise data -------------------
 
   normed <- data %>%
     dplyr::select(c(.data$id, .data$names, .data$values, .data$feature_set)) %>%
@@ -65,7 +65,7 @@ reduce_dims <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoi
     dplyr::mutate(names = paste0(.data$feature_set, "_", .data$names)) %>% # Catches errors when using all features across sets (i.e., there's duplicates)
     dplyr::select(-c(.data$feature_set))
 
-  #------------- Perform low dim ----------------------
+  #------------------- Perform dimension reduction ----------------------
 
   # Produce matrix
 
@@ -168,3 +168,9 @@ reduce_dims <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoi
   low_dim <- structure(low_dim, class = "low_dimension")
   return(low_dim)
 }
+
+# Previous version
+
+#' @rdname dimred
+#' @export
+reduce_dims <- dimred

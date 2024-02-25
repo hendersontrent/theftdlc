@@ -7,7 +7,7 @@
 #' @description Tools for Analysing and Interpreting Time Series Features
 #'
 #' @importFrom rlang .data
-#' @importFrom stats IQR cor cor.test dist hclust median prcomp reorder sd var p.adjust quantile qt na.omit cmdscale
+#' @importFrom stats IQR cor cor.test dist hclust median prcomp reorder sd var p.adjust quantile qt na.omit cmdscale kmeans
 #' @importFrom scales rescale
 #' @importFrom tidyr gather unnest_wider pivot_longer pivot_wider drop_na crossing
 #' @importFrom broom augment tidy
@@ -21,4 +21,5 @@
 #' @importFrom MASS isoMDS sammon
 #' @importFrom umap umap
 #' @importFrom correctR resampled_ttest
+#' @importFrom mclust Mclust
 NULL

@@ -6,7 +6,7 @@
 #' @importFrom e1071 svm
 #'
 #' @param data \code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}
-#' @param classifier \code{function} specifying the classifier to fit. Should be a function with 2 arguments: \code{formula} and \code{data} containing a classifier compatible with R's \code{predict} functionality. Please note that \code{tsfeature_classifier} z-scores data prior to modelling using the train set's information so disabling default scaling if your function uses it is recommended. Defaults to \code{NULL} which means the following linear SVM is fit: \code{classifier = function(formula, data){mod <- e1071::svm(formula, data = data, kernel = "linear", scale = FALSE, probability = TRUE)}}
+#' @param classifier \code{function} specifying the classifier to fit. Should be a function with 2 arguments: \code{formula} and \code{data} containing a classifier compatible with R's \code{predict} functionality. Please note that \code{classify} z-scores data prior to modelling using the train set's information so disabling default scaling if your function uses it is recommended. Defaults to \code{NULL} which means the following linear SVM is fit: \code{classifier = function(formula, data){mod <- e1071::svm(formula, data = data, kernel = "linear", scale = FALSE, probability = TRUE)}}
 #' @param train_size \code{numeric} denoting the proportion of samples to use in the training set. Defaults to \code{0.75}
 #' @param n_resamples \code{integer} denoting the number of resamples to calculate. Defaults to \code{30}
 #' @param by_set \code{Boolean} specifying whether to compute classifiers for each feature set. Defaults to \code{TRUE}. If \code{FALSE}, the function will instead find the best individually-performing features
@@ -24,13 +24,13 @@
 #'   group_var = "process",
 #'   feature_set = "catch22")
 #'
-#' classifiers <- tsfeature_classifier(features,
+#' classifiers <- classify(features,
 #'   by_set = FALSE)
 #'}
 #'
 
-tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 30, by_set = TRUE,
-                                 use_null = FALSE, seed = 123){
+classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 30, by_set = TRUE,
+                     use_null = FALSE, seed = 123){
 
   stopifnot(inherits(data, "feature_calculations") == TRUE)
 
@@ -259,3 +259,9 @@ tsfeature_classifier <- function(data, classifier = NULL, train_size = 0.75, n_r
   names(outs) <- c("TrainTestSizes", "ClassificationResults")
   return(outs)
 }
+
+# Previous version
+
+#' @rdname classify
+#' @export
+tsfeature_classifier <- classify

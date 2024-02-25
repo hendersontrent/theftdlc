@@ -34,19 +34,19 @@ make_title <- function(x){
 #'   group_var = "process",
 #'   feature_set = "catch22")
 #'
-#' classifiers <- tsfeature_classifier(features,
+#' classifiers <- classify(features,
 #'   by_set = FALSE)
 #'
-#' calculate_interval(classifiers,
+#' interval(classifiers,
 #'   by_set = FALSE,
 #'   type = "sd",
 #'   interval = 1)
 #' }
 #'
 
-calculate_interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
-                               by_set = TRUE, type = c("sd", "qt", "quantile"),
-                               interval = NULL, model_type = c("main", "null")){
+interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
+                     by_set = TRUE, type = c("sd", "qt", "quantile"),
+                     interval = NULL, model_type = c("main", "null")){
 
   type <- match.arg(type)
   metric <- match.arg(metric)
@@ -127,11 +127,11 @@ calculate_interval <- function(data, metric = c("accuracy", "precision", "recall
 
     intervals <- intervals %>%
       dplyr::filter(model_type == model_type_str) %>%
-      dplyr::summarise(.mean = mean(.data$values),
-                       interval_width = stats::qt(interval, (n_samps - 1)) * stats::sd(.data$values) / sqrt(n_samps),
-                       .lower = .data$.mean - .data$interval_width,
-                       .upper = .data$.mean + .data$interval_width,
-                       .by = !!rlang::sym(grouper)) %>%
+      dplyr::reframe(.mean = mean(.data$values),
+                     interval_width = stats::qt(interval, (n_samps - 1)) * stats::sd(.data$values) / sqrt(n_samps),
+                     .lower = .data$.mean - .data$interval_width,
+                     .upper = .data$.mean + .data$interval_width,
+                     .by = !!rlang::sym(grouper)) %>%
       dplyr::select(-c(.data$interval_width))
 
   } else{
@@ -145,11 +145,17 @@ calculate_interval <- function(data, metric = c("accuracy", "precision", "recall
 
     intervals <- intervals %>%
       dplyr::filter(model_type == model_type_str) %>%
-      dplyr::summarise(.median = stats::median(.data$values),
-                       .lower = stats::quantile(.data$values, prob = lower_bound),
-                       .upper = stats::quantile(.data$values, prob = upper_bound),
-                       .by = !!rlang::sym(grouper))
+      dplyr::reframe(.median = stats::median(.data$values),
+                     .lower = stats::quantile(.data$values, prob = lower_bound),
+                     .upper = stats::quantile(.data$values, prob = upper_bound),
+                     .by = !!rlang::sym(grouper))
   }
 
   return(intervals)
 }
+
+# Previous version
+
+#' @rdname interval
+#' @export
+calculate_interval <- interval
