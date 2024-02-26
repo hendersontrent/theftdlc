@@ -271,7 +271,7 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
 
 #------------------------- low_dimension object methods ------------------------
 
-#' Produce a plot for a low_dimension object
+#' Produce a plot for a feature_projection object
 #'
 #' @importFrom rlang .data
 #' @import dplyr
@@ -279,23 +279,23 @@ plot.feature_calculations <- function(x, type = c("quality", "matrix", "cor", "v
 #' @import tibble
 #' @importFrom tidyr drop_na
 #' @importFrom broom augment tidy
-#' @param x \code{low_dimension} object containing the dimensionality reduction projection calculated by \code{reduce_dims}
-#' @param show_covariance \code{Boolean} of whether covariance ellipses should be shown on the plot. Defaults to \code{TRUE}
+#' @param x \code{feature_projection} object containing the two-dimensional embedding calculated by \code{project}
+#' @param show_covariance \code{Boolean} specifying whether covariance ellipses should be shown on the plot. Defaults to \code{TRUE}
 #' @param ... Arguments to be passed to methods
 #' @return object of class \code{ggplot} that contains the graphic
 #' @author Trent Henderson
 #' @export
 #'
 
-plot.low_dimension <- function(x, show_covariance = TRUE, ...){
+plot.feature_projection <- function(x, show_covariance = TRUE, ...){
 
-  stopifnot(inherits(x, "low_dimension") == TRUE)
+  stopifnot(inherits(x, "feature_projection") == TRUE)
 
-  if(inherits(x[[3]], "prcomp") == TRUE){
+  if(inherits(x[[4]], "prcomp") == TRUE){
 
     # Retrieve eigenvalues and tidy up variance explained for plotting
 
-    eigens <- x[[3]] %>%
+    eigens <- x[[4]] %>%
       broom::tidy(matrix = "eigenvalues") %>%
       dplyr::filter(.data$PC %in% c(1, 2)) %>% # Filter to just the 2 going in the plot
       dplyr::select(c(.data$PC, .data$percent)) %>%

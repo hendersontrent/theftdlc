@@ -78,7 +78,7 @@ The package also comes with additional statistical and graphical functionality:
 
 ### Feature matrices
 
-The function calling `type = "matrix"` in `plot()` on a `feature_calculations` object takes itand produces a `ggplot` object heatmap showing the feature vectors across the `x` axis and each time series down the `y` axis. Prior to plotting, the function hierarchically clusters the data across both rows and columns to visually highlight the empirical structure. Note that you have several options for the hierarchical clustering linkage algorithm to use:
+The function calling `type = "matrix"` in `plot()` on a `feature_calculations` object takes it and produces a `ggplot` object heatmap showing the feature vectors across the `x` axis and each time series down the `y` axis. Prior to plotting, the function hierarchically clusters the data across both rows and columns to visually highlight the empirical structure. Note that you have several options for the hierarchical clustering linkage algorithm to use:
 
 * `"average"` (default)
 * `"ward.D"`
@@ -125,7 +125,9 @@ plot(feature_matrix, type = "violin",
 
 ### Low dimensional projections
 
-The function `dimred` takes the `feature_calculations` object and performs one of the following dimension reduction techniques on it:
+Low-dimensional projections are a useful tool for visualising the structure of high-dimensional datasets in low-dimensional spaces. In machine learning for time-series data, we are often interested in representing a time-series dataset in a two-dimensional projection of the high-dimensional feature space. This projection which can reveal structure in the dataset, including how different labeled classes are organized.
+
+The `theftdlc` function `project` takes the `feature_calculations` object and performs one of the following dimension reduction techniques on it to reduce its dimensionality to a bivariate state which can then be easily plotted:
 
 * Principal components analysis (PCA)---`"PCA"`
 * $t$-Stochastic Neighbor Embedding ($t$-SNE)---`"tSNE"`
@@ -134,22 +136,29 @@ The function `dimred` takes the `feature_calculations` object and performs one o
 * Sammon’s non-linear mapping non-metric multidimensional scaling---`"SammonMDS"`
 * Uniform Manifold Approximation and Projection for Dimension Reduction (UMAP)---`"UMAP"`
 
-The result is stored in a custom object class called `low_dimension`. `dimred` takes the following arguments:
+The result is stored in a custom object class called `feature_projection`. `project` takes the following arguments:
 
-* `data`---`feature_calculations` object containing the raw feature matrix produced by `calculate_features`
+* `data`---`feature_calculations` object containing the raw feature matrix produced by `theft::calculate_features`
 * `norm_method`---character denoting the rescaling/normalising method to apply. Can be one of `"zScore"`, `"Sigmoid"`, `"RobustSigmoid"`, `"MinMax"`, or `"MaxAbs"`. Defaults to `"zScore"`
 * `unit_int`---Boolean whether to rescale into unit interval $[0,1]$ after applying normalisation method. Defaults to `FALSE`
-* `low_dim_method`---character specifying the low dimensional embedding method to use. Can be one of `"PCA"` or `"tSNE"`. Defaults to `"PCA"`
+* `low_dim_method`---character specifying the low dimensional embedding method to use. Can be one of `"PCA"` or `"tSNE"`, `"ClassicalMDS"`, `"KruskalMDS"`, `"SammonMDS"`, or `"UMAP"`. Defaults to `"PCA"`
+* `na_removal`---character defining the way to deal with `NAs` produced during feature calculation. Can be one of `"feature"` or `"sample"`. `"feature"` removes all features that produced any `NAs` in any sample, keeping the number of samples the same. `"sample"` omits all samples that produced at least one `NA`. Defaults to `"feature"`
 * `seed`---integer to fix R's random number generator to ensure reproducibility. Defaults to `123`
 * `...` arguments to be passed to the respective function specified by `low_dim_method`
 
+`project` returns an object of class `feature_projection` which is essentially a named list comprised of four elements:
+
+1. `"Data"`---the `feature_calculations` object supplied to `project`
+2. `"ModelData"`---the wide matrix of filtered data supplied to the model fit
+3. `"ProjectedData"`---a tidy `data.frame` of the two-dimensional embedding
+4. `"ModelFit"`---the raw model object from the dimensionality reduction algorithm
 
 ```{r, message = FALSE, warning = FALSE}
-low_dim <- dimred(feature_matrix,
-                  norm_method = "RobustSigmoid",
-                  unit_int = TRUE,
-                  low_dim_method = "PCA",
-                  seed = 123)
+low_dim <- project(feature_matrix,
+                   norm_method = "RobustSigmoid",
+                   unit_int = TRUE,
+                   low_dim_method = "PCA",
+                   seed = 123)
 ```
 
 We can similarly call `plot()` on this object to produce a two-dimensional scatterplot of the results:
@@ -158,20 +167,18 @@ We can similarly call `plot()` on this object to produce a two-dimensional scatt
 plot(low_dim)
 ```
 
-As another example, a *t*-SNE version can be specified in a similar fashion, with any function parameters for the method supplied to the `...` argument to `dimred`. Shaded covariance ellipses can also be disabled when plotting `low_dimension` objects by setting `show_covariance = FALSE`. Here is an example where we modify the perplexity of the *t*-SNE algorithm:
+As another example, a *t*-SNE version can be specified in a similar fashion, with any function parameters for the method supplied to the `...` argument to `project`. Shaded covariance ellipses can also be disabled when plotting `feature_projection` objects by setting `show_covariance = FALSE`. Here is an example where we modify the perplexity of the *t*-SNE algorithm:
 
 ```{r, message = FALSE, warning = FALSE}
-low_dim2 <- dimred(feature_matrix,
-                   norm_method = "RobustSigmoid",
-                   unit_int = TRUE,
-                   low_dim_method = "tSNE",
-                   perplexity = 10,
-                   seed = 123)
+low_dim2 <- project(feature_matrix,
+                    norm_method = "RobustSigmoid",
+                    unit_int = TRUE,
+                    low_dim_method = "tSNE",
+                    perplexity = 10,
+                    seed = 123)
 
 plot(low_dim2, show_covariance = FALSE)
 ```
-
-You can consult the documentation to get a list of potential arguments by calling either `?prcomp` or `?Rtsne`.
 
 ### Pairwise correlations
 
@@ -189,7 +196,7 @@ Similarly, you can control the normalisation type with the `norm_method` argumen
 
 Since feature-based time-series analysis has shown particular promise for classification problems, `theftdlc` includes functionality for exploring group separation. The function `classify` enables you to fit a range of classification models to enable statistical comparisons using the resampling methodology presented in [this paper](https://pakdd2023.org/wp-content/uploads/2023/05/pakdd23_w1_p3.pdf) for a detailed review^[T. Henderson, A. G., Bryant, and B. D. Fulcher, "Never a Dull Moment: Distributional Properties as a Baseline for Time-Series Classification", 27th Pacific-Asia Conference on Knowledge Discovery and Data Mining, 2023.]. This function is meant to serve as a fast answer that can be used to guide analysis and not a replacement for the development of a careful statistical pipeline. `classify` has the following arguments:
 
-* `data`---`feature_calculations` object containing the raw feature matrix produced by `calculate_features` with an included `group` column as per `theft::calculate_features`
+* `data`---`feature_calculations` object containing the raw feature matrix produced by `theft::calculate_features` with an included `group` column as per `theft::calculate_features`
 * `classifier`---`function` specifying the classifier to fit. Should be a function with 2 arguments: `formula` and `data`. Please note that `classify` z-scores data prior to modelling using the train set's information so disabling default scaling if your function uses it is recommended. Defaults to `NULL` which means the following linear SVM is fit: `classifier = function(formula, data){mod <- e1071::svm(formula, data = data, kernel = "linear", scale = FALSE, probability = TRUE)}`
 * `train_size`---Numeric value denoting the proportion of samples to use in the training set. Defaults to `0.75`
 * `n_resamples`---Integer denoting the number of resamples to calculate. Defaults to `30`
@@ -322,4 +329,51 @@ interval_calcs %>%
   ggplot2::theme_bw() +
   ggplot2::theme(legend.position = "none",
                  panel.grid.minor = ggplot2::element_blank())
+```
+
+## Cluster analysis
+
+`theftdlc` also supports quick and simple cluster analysis using either [$k$-means](https://en.wikipedia.org/wiki/K-means_clustering), hierarchical clustering, or [Gaussian mixture models](https://en.wikipedia.org/wiki/Mixture_model) through the `cluster` function. `cluster` takes a few similar key arguments to other `theftdlc` functions (though defaults are set for all, and so only `data` is required for `cluster` to work):
+
+* `data`---`feature_calculations` object containing the raw feature matrix produced by `theft::calculate_features`
+* `norm_method`---character denoting the rescaling/normalising method to apply. Can be one of `"zScore"`, `"Sigmoid"`, `"RobustSigmoid"`, `"MinMax"`, or `"MaxAbs"`. Defaults to `"zScore"`
+* `unit_int`---Boolean whether to rescale into unit interval $[0,1]$ after applying normalisation method. Defaults to `FALSE`
+* `clust_method`---character specifying the clustering algorithm to use. Can be one of `"kmeans"`, `"hclust"`, or `"mclust"`. Defaults to `"kmeans"`
+* `k`---integer denoting the number of clusters to extract. Defaults to `2`
+* `features`---character vector denoting the names of time-series features to use in the clustering algorithm. Defaults to `NULL` for no feature filtering and usage of the entire feature matrix
+* `na_removal`---character defining the way to deal with `NAs` produced during feature calculation. Can be one of `"feature"` or `"sample"`. `"feature"` removes all features that produced any `NAs` in any sample, keeping the number of samples the same. `"sample"` omits all samples that produced at least one `NA`. Defaults to `"feature"`
+* `seed`---integer to fix R's random number generator to ensure reproducibility. Defaults to `123`
+* `...`---additional arguments to be passed to `stats::kmeans`, `stats::hclust`, or `mclust::Mclust` depending on `clust_method`
+
+`cluster` returns an object of class `feature_clusters` which is essentially a named list comprised of two elements:
+
+1. `"Data"`---the `feature_calculations` object supplied to `cluster` with the cluster label appended
+2. `"ModelFit"`---the raw model object from the clustering algorithm
+
+We can easily fit a $k$-means model with `k = 6` (since `theft::simData` contains data for six different temporal processes):
+
+```{r, message = FALSE, warning = FALSE}
+feature_clusters <- cluster(feature_matrix, k = 6)
+```
+
+From here, it's easy to do any further analysis or data visualisation:
+
+```{r, message = FALSE, warning = FALSE}
+feature_clusters$Data %>%
+    dplyr::filter(names %in% c("CO_HistogramAMI_even_2_5", 
+                               "DN_OutlierInclude_p_001_mdrmd")) %>%
+    tidyr::pivot_wider(id_cols = c("id", "group", "cluster"), 
+                       names_from = "names", values_from = "values") %>%
+    ggplot2::ggplot(ggplot2::aes(x = CO_HistogramAMI_even_2_5, 
+                                 DN_OutlierInclude_p_001_mdrmd, 
+                                 colour = as.factor(cluster))) +
+    ggplot2::stat_ellipse(ggplot2::aes(fill = as.factor(cluster)), geom = "polygon", alpha = 0.2) +
+    ggplot2::geom_point() +
+    ggplot2::labs(colour = "Cluster") +
+    ggplot2::guides(fill = "none") +
+    ggplot2::scale_fill_brewer(palette = "Dark2") +
+    ggplot2::scale_colour_brewer(palette = "Dark2") +
+    ggplot2::theme_bw() +
+    ggplot2::theme(legend.position = "bottom",
+                   panel.grid.minor = ggplot2::element_blank())
 ```

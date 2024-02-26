@@ -2,8 +2,8 @@ pandoc: 2.19.2
 pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
-  thefttools: thefttools.html
-last_built: 2024-02-24T07:23Z
+  theftdlc: theftdlc.html
+last_built: 2024-02-26T02:36Z
 urls:
   reference: https://hendersontrent.github.io/thefttools/reference
   article: https://hendersontrent.github.io/thefttools/articles

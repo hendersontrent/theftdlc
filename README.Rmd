@@ -8,7 +8,7 @@ Tools for Analysing and Interpreting Time Series Features
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
-comment = NA, fig.width = 12, fig.height = 8, cache = FALSE)
+comment = NA, fig.width = 14, fig.height = 10, cache = FALSE)
 ```
 
 ## Installation
@@ -27,9 +27,11 @@ The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates
 
 `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`. Functionality including data quality assessments and normalisation methods, low dimensional projections (linear and nonlinear), data matrix and feature distribution visualisations, time-series classification machine learning procedures, statistical hypothesis testing, and various other statistical and graphical tools.
 
+<img src="man/figures/theft-packages.png" width="400" height="200" alt="Hex stickers of the theft and theftdlc packages for R" />
+
 A high-level overview of how the `theft` ecosystem for R is typically accessed by users is shown below. Many more functions and options for customisation are available within the packages.
 
-<img src="man/figures/theft-ecosystem.png" width="700" alt="Schematic of the theft ecosystem in R" />
+<img src="man/figures/theft-ecosystem.png" width="900" alt="Schematic of the theft ecosystem in R" />
 
 ### What's in a name?
 
