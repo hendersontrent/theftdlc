@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Provides a suite of functions for analysing, interpreting, and visualising
     time-series features calculated from different feature sets from the theft package.">
-<title>Tools for Analysing and Interpreting Time Series Features • thefttools</title>
+<title>Tools for Analysing and Interpreting Time Series Features • theftdlc</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
 <link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
@@ -33,7 +33,7 @@
 
     <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
     
-    <a class="navbar-brand me-2" href="index.html">thefttools</a>
+    <a class="navbar-brand me-2" href="index.html">theftdlc</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
@@ -45,7 +45,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item">
-  <a class="nav-link" href="articles/thefttools.html">Get started</a>
+  <a class="nav-link" href="articles/theftdlc.html">Get started</a>
 </li>
 <li class="nav-item">
   <a class="nav-link" href="reference/index.html">Reference</a>
@@ -57,7 +57,7 @@
 
       <ul class="navbar-nav">
 <li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/hendersontrent/thefttools/" aria-label="github">
+  <a class="external-link nav-link" href="https://github.com/hendersontrent/theftdlc/" aria-label="github">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -71,8 +71,8 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
 <div class="page-header">
-<img src="logo.png" class="logo" alt=""><h1 id="thefttools-">thefttools
-<a class="anchor" aria-label="anchor" href="#thefttools-"></a>
+<img src="logo.png" class="logo" alt=""><h1 id="theftdlc-">theftdlc
+<a class="anchor" aria-label="anchor" href="#theftdlc-"></a>
 </h1>
 </div>
 <p>Tools for Analysing and Interpreting Time Series Features</p>
@@ -80,10 +80,10 @@
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p><em>Coming to CRAN soon!</em></p>
-<p>You can install the development version of <code>thefttools</code>
-from GitHub using the following:</p>
+<p>You can install the development version of <code>theftdlc</code> from
+GitHub using the following:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hendersontrent/thefttools"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hendersontrent/theftdlc"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="general-purpose">General purpose<a class="anchor" aria-label="anchor" href="#general-purpose"></a>
@@ -95,7 +95,7 @@ different feature sets (or a set of user-supplied features):
 <code>"catch22"</code>, <code>"feasts"</code>, <code>"Kats"</code>,
 <code>"tsfeatures"</code>, <code>"tsfresh"</code>, and
 <code>"TSFEL"</code>.</p>
-<p><code>thefttools</code> extends this feature-based ecosystem by
+<p><code>theftdlc</code> extends this feature-based ecosystem by
 providing a suite of functions for analysing, interpreting, and
 visualising time-series features calculated using <code>theft</code>.
 Functionality including data quality assessments and normalisation
@@ -103,15 +103,23 @@ methods, low dimensional projections (linear and nonlinear), data matrix
 and feature distribution visualisations, time-series classification
 machine learning procedures, statistical hypothesis testing, and various
 other statistical and graphical tools.</p>
-<p>A high-level overview of how the <code>theft</code> ecosystem is
-typically accessed by users is shown below. Many more functions and
+<p><img src="reference/figures/theft-packages.png" width="400" height="200" alt="Hex stickers of the theft and theftdlc packages for R"></p>
+<p>A high-level overview of how the <code>theft</code> ecosystem for R
+is typically accessed by users is shown below. Many more functions and
 options for customisation are available within the packages.</p>
-<p><img src="reference/figures/theft-ecosystem.png" width="700" alt="Schematic of the theft ecosystem in R"></p>
+<p><img src="reference/figures/theft-ecosystem.png" width="900" alt="Schematic of the theft ecosystem in R"></p>
+<div class="section level3">
+<h3 id="whats-in-a-name">What’s in a name?<a class="anchor" aria-label="anchor" href="#whats-in-a-name"></a>
+</h3>
+<p><code>theftdlc</code> means ‘downloadable content’ (DLC) for
+<code>theft</code>—just like you get <a href="https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree" class="external-link">DLCs
+and expansions</a> for video games.</p>
+</div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
-<p>If you use <code>theft</code> or <code>thefttools</code> in your own
+<p>If you use <code>theft</code> or <code>theftdlc</code> in your own
 work, please cite both the paper:</p>
 <p>T. Henderson and Ben D. Fulcher. <a href="https://arxiv.org/abs/2208.06146" class="external-link">Feature-Based Time-Series
 Analysis in R using the theft Package</a>. arXiv, (2022).</p>
@@ -133,26 +141,28 @@ Analysis in R using the theft Package</a>. arXiv, (2022).</p>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>To cite package <span class="st">'thefttools'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>To cite package <span class="st">'theftdlc'</span> <span class="cf">in</span> publications use<span class="sc">:</span></span>
 <span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  Trent <span class="fu">Henderson</span> (<span class="dv">2024</span>). thefttools<span class="sc">:</span> Tools <span class="cf">for</span> Analysing and</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  Trent <span class="fu">Henderson</span> (<span class="dv">2024</span>). theftdlc<span class="sc">:</span> Tools <span class="cf">for</span> Analysing and</span>
 <span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  Interpreting Time Series Features. R package version <span class="dv">0</span>.<span class="dv">1</span>.<span class="fl">0.</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {thefttools<span class="sc">:</span> Tools <span class="cf">for</span> Analysing and Interpreting Time Series Features},</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Trent Henderson},</span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2024</span>},</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">1.0</span>},</span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  https<span class="sc">:</span><span class="er">//</span>hendersontrent.github.io<span class="sc">/</span>theftdlc<span class="sc">/</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>A BibTeX entry <span class="cf">for</span> LaTeX users is</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="sc">@</span>Manual{,</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    title <span class="ot">=</span> {theftdlc<span class="sc">:</span> Tools <span class="cf">for</span> Analysing and Interpreting Time Series Features},</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    author <span class="ot">=</span> {Trent Henderson},</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    year <span class="ot">=</span> {<span class="dv">2024</span>},</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    note <span class="ot">=</span> {R package version <span class="dv">0</span>.<span class="fl">1.0</span>},</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    url <span class="ot">=</span> {https<span class="sc">:</span><span class="er">//</span>hendersontrent.github.io<span class="sc">/</span>theftdlc<span class="sc">/</span>},</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/hendersontrent/thefttools/" class="external-link">Browse source code</a></li>
-<li><a href="https://github.com/hendersontrent/thefttools/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://github.com/hendersontrent/theftdlc/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/hendersontrent/theftdlc/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
@@ -169,7 +179,7 @@ Analysis in R using the theft Package</a>. arXiv, (2022).</p>
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing thefttools</a></li>
+<li><a href="authors.html#citation">Citing theftdlc</a></li>
 </ul>
 </div>
 

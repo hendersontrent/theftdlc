@@ -10,6 +10,9 @@
     <loc>https://hendersontrent.github.io/thefttools/articles/index.html</loc>
   </url>
   <url>
+    <loc>https://hendersontrent.github.io/thefttools/articles/theftdlc.html</loc>
+  </url>
+  <url>
     <loc>https://hendersontrent.github.io/thefttools/articles/thefttools.html</loc>
   </url>
   <url>
@@ -20,6 +23,12 @@
   </url>
   <url>
     <loc>https://hendersontrent.github.io/thefttools/reference/calculate_interval.html</loc>
+  </url>
+  <url>
+    <loc>https://hendersontrent.github.io/thefttools/reference/classify.html</loc>
+  </url>
+  <url>
+    <loc>https://hendersontrent.github.io/thefttools/reference/cluster.html</loc>
   </url>
   <url>
     <loc>https://hendersontrent.github.io/thefttools/reference/compare_features.html</loc>
@@ -43,13 +52,22 @@
     <loc>https://hendersontrent.github.io/thefttools/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://hendersontrent.github.io/thefttools/reference/interval.html</loc>
+  </url>
+  <url>
     <loc>https://hendersontrent.github.io/thefttools/reference/make_title.html</loc>
   </url>
   <url>
     <loc>https://hendersontrent.github.io/thefttools/reference/plot.feature_calculations.html</loc>
   </url>
   <url>
+    <loc>https://hendersontrent.github.io/thefttools/reference/plot.feature_projection.html</loc>
+  </url>
+  <url>
     <loc>https://hendersontrent.github.io/thefttools/reference/plot.low_dimension.html</loc>
+  </url>
+  <url>
+    <loc>https://hendersontrent.github.io/thefttools/reference/project.html</loc>
   </url>
   <url>
     <loc>https://hendersontrent.github.io/thefttools/reference/reduce_dims.html</loc>

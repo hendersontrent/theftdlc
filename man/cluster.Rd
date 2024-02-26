@@ -51,8 +51,6 @@ features <- theft::calculate_features(theft::simData,
   feature_set = "catch22")
 
 clusts <- cluster(features,
-  norm_method = "zScore",
-  clust_method = "PCA",
   k = 6)
 }
 
