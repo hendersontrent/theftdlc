@@ -1,7 +1,7 @@
 #'
 #' @docType package
-#' @aliases thefttools-package
-#' @name thefttools
+#' @aliases theftdlc-package
+#' @name theftdlc
 #' @title Tools for Analysing and Interpreting Time Series Features
 #'
 #' @description Tools for Analysing and Interpreting Time Series Features

@@ -12,7 +12,6 @@ Description: Provides a suite of functions for analysing, interpreting, and visu
 BugReports: https://github.com/hendersontrent/theftdlc/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Depends: 
     R (>= 3.5.0)
 Imports: 
