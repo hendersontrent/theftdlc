@@ -13,7 +13,8 @@ BugReports: https://github.com/hendersontrent/theftdlc/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    theft (>= 0.6.1)
 Imports: 
     rlang,
     stats,
@@ -34,7 +35,6 @@ Imports:
     normaliseR,
     correctR
 Suggests: 
-    theft,
     lifecycle,
     cachem,
     bslib,
