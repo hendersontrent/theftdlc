@@ -1,11 +1,20 @@
 
 # theftdlc <img src="man/figures/logo.png" align="right" width="120" />
 
-Tools for Analysing and Interpreting Time Series Features
+[![CRAN
+version](https://www.r-pkg.org/badges/version/theftdlc)](https://www.r-pkg.org/pkg/theftdlc)
+[![CRAN RStudio mirror
+downloads](https://cranlogs.r-pkg.org/badges/theftdlc)](https://www.r-pkg.org/pkg/theftdlc)
+
+Analyse and Interpret Time Series Features
 
 ## Installation
 
-*Coming to CRAN soon!*
+You can install the stable version of `theftdlc` from CRAN:
+
+``` r
+install.packages("theftdlc")
+```
 
 You can install the development version of `theftdlc` from GitHub using
 the following:
@@ -70,7 +79,7 @@ calculate_features(data = theft::simData,
   plot()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
 In that example, `calculate_features` comes from `theft`, while
 `project` and the `plot` generic come from `theftdlc`.
@@ -97,9 +106,9 @@ calculate_features(data = theft::simData,
     2 User-supplied != own null User-supplied accuracy 0.7066667 0.1111111
     3       catch22 != own null       catch22 accuracy 0.7066667 0.1600000
       t_statistic      p.value
-    1    9.089132 0.0004062310
-    2    5.512023 0.0026431488
-    3    7.363817 0.0009059762
+    1    9.089132 0.0008124621
+    2    5.512023 0.0052862976
+    3    7.363817 0.0018119523
 
 In this example, `classify` and `compare_features` come from `theftdlc`.
 
@@ -137,14 +146,14 @@ and the software:
 
     To cite package 'theftdlc' in publications use:
 
-      Trent Henderson (2024). theftdlc: Tools for Analysing and
-      Interpreting Time Series Features. R package version 0.1.0.
+      Trent Henderson (2024). theftdlc: Analyse and Interpret Time Series
+      Features. R package version 0.1.0.
       https://hendersontrent.github.io/theftdlc/
 
     A BibTeX entry for LaTeX users is
 
       @Manual{,
-        title = {theftdlc: Tools for Analysing and Interpreting Time Series Features},
+        title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
         year = {2024},
         note = {R package version 0.1.0},

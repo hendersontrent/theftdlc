@@ -3,6 +3,8 @@ output: rmarkdown::github_document
 ---
 
 # theftdlc <img src="man/figures/logo.png" align="right" width="120" />
+[![CRAN version](https://www.r-pkg.org/badges/version/theftdlc)](https://www.r-pkg.org/pkg/theftdlc)
+[![CRAN RStudio mirror downloads](https://cranlogs.r-pkg.org/badges/theftdlc)](https://www.r-pkg.org/pkg/theftdlc)
 
 Analyse and Interpret Time Series Features
 
@@ -13,7 +15,11 @@ comment = NA, fig.width = 14, fig.height = 10, cache = FALSE)
 
 ## Installation
 
-*Coming to CRAN soon!*
+You can install the stable version of `theftdlc` from CRAN:
+
+```{r eval = FALSE}
+install.packages("theftdlc")
+```
 
 You can install the development version of `theftdlc` from GitHub using the following:
 
