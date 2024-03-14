@@ -3,8 +3,8 @@ pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   theftdlc: theftdlc.html
-last_built: 2024-02-26T13:08Z
+last_built: 2024-03-14T11:36Z
 urls:
-  reference: https://hendersontrent.github.io/thefttools/reference
-  article: https://hendersontrent.github.io/thefttools/articles
+  reference: https://hendersontrent.github.io/theftdlc/reference
+  article: https://hendersontrent.github.io/theftdlc/articles
 

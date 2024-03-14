@@ -26,22 +26,22 @@ make_title <- function(x){
 #' @author Trent Henderson
 #' @export
 #' @examples
-#' \donttest{
 #'
 #' library(theft)
 #'
 #' features <- theft::calculate_features(theft::simData,
 #'   group_var = "process",
-#'   feature_set = "catch22")
+#'   feature_set = NULL,
+#'   features = list("mean" = mean, "sd" = sd))
 #'
 #' classifiers <- classify(features,
-#'   by_set = FALSE)
+#'   by_set = FALSE,
+#'   n_resamples = 3)
 #'
 #' interval(classifiers,
 #'   by_set = FALSE,
 #'   type = "sd",
 #'   interval = 1)
-#' }
 #'
 
 interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),

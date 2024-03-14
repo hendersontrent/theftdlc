@@ -1,20 +1,22 @@
 Package: theftdlc
 Type: Package
-Title: Tools for Analysing and Interpreting Time Series Features
+Title: Analyse and Interpret Time Series Features
 Version: 0.1.0
-Date: 2024-02-26
+Date: 2024-03-14
 Authors@R: c(
   person("Trent", "Henderson", email = "then6675@uni.sydney.edu.au", role = c("cre", "aut"))
   )
 Maintainer: Trent Henderson <then6675@uni.sydney.edu.au>
 Description: Provides a suite of functions for analysing, interpreting, and visualising
-    time-series features calculated from different feature sets from the 'theft' package.
+    time-series features calculated from different feature sets from the 'theft' package. 
+    Implements statistical learning methodologies described in Henderson, T., 
+    Bryant, A., and Fulcher, B. (2023) <arXiv:2303.17809>.
 BugReports: https://github.com/hendersontrent/theftdlc/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Depends: 
-    R (>= 3.5.0)
+    R (>= 3.5.0),
+    theft (>= 0.6.1)
 Imports: 
     rlang,
     stats,
@@ -35,7 +37,6 @@ Imports:
     normaliseR,
     correctR
 Suggests: 
-    theft,
     lifecycle,
     cachem,
     bslib,

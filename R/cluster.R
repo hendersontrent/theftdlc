@@ -20,7 +20,6 @@
 #' @author Trent Henderson
 #' @export
 #' @examples
-#' \donttest{
 #'
 #' library(theft)
 #'
@@ -30,7 +29,6 @@
 #'
 #' clusts <- cluster(features,
 #'   k = 6)
-#' }
 #'
 
 cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"), unit_int = FALSE,
@@ -99,7 +97,7 @@ cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
   n_samples_omitted <- n_samples - n_samples_after
   if (n_features_omitted > 0) {message(paste(n_features_omitted, "features omitted due to NAs", sep = " "))}
   if (n_samples_omitted > 0) {message(paste(n_samples_omitted, "samples omitted due to NAs", sep = " "))}
-  set.seed(123)
+  set.seed(seed)
 
   if(clust_method == "kmeans"){
 

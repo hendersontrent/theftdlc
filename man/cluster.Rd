@@ -42,7 +42,6 @@ object of class \code{feature_cluster} containing the clustering algorithm and a
 Perform cluster analysis of time series using their feature vectors
 }
 \examples{
-\donttest{
 
 library(theft)
 
@@ -52,7 +51,6 @@ features <- theft::calculate_features(theft::simData,
 
 clusts <- cluster(features,
   k = 6)
-}
 
 }
 \author{
