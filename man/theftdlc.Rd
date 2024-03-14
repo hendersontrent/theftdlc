@@ -4,7 +4,7 @@
 \name{theftdlc}
 \alias{theftdlc}
 \alias{theftdlc-package}
-\title{Tools for Analysing and Interpreting Time Series Features}
+\title{Analyse and Interpret Time Series Features}
 \description{
-Tools for Analysing and Interpreting Time Series Features
+Analyse and Interpret Time Series Features
 }

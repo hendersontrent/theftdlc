@@ -47,7 +47,6 @@ tsfeature_classifier(
 Fit classifiers using time-series features using a resample-based approach and get a fast understanding of performance
 }
 \examples{
-\donttest{
 
 library(theft)
 
@@ -56,8 +55,8 @@ features <- theft::calculate_features(theft::simData,
   feature_set = "catch22")
 
 classifiers <- classify(features,
-  by_set = FALSE)
-}
+  by_set = FALSE,
+  n_resamples = 3)
 
 }
 \author{

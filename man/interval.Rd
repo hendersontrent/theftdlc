@@ -43,22 +43,22 @@ calculate_interval(
 Calculate interval summaries with a measure of central tendency of classification results
 }
 \examples{
-\donttest{
 
 library(theft)
 
 features <- theft::calculate_features(theft::simData,
   group_var = "process",
-  feature_set = "catch22")
+  feature_set = NULL,
+  features = list("mean" = mean, "sd" = sd))
 
 classifiers <- classify(features,
-  by_set = FALSE)
+  by_set = FALSE,
+  n_resamples = 3)
 
 interval(classifiers,
   by_set = FALSE,
   type = "sd",
   interval = 1)
-}
 
 }
 \author{

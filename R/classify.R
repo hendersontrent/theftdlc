@@ -16,7 +16,6 @@
 #' @author Trent Henderson
 #' @export
 #' @examples
-#' \donttest{
 #'
 #' library(theft)
 #'
@@ -25,8 +24,8 @@
 #'   feature_set = "catch22")
 #'
 #' classifiers <- classify(features,
-#'   by_set = FALSE)
-#'}
+#'   by_set = FALSE,
+#'   n_resamples = 3)
 #'
 
 classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 30, by_set = TRUE,

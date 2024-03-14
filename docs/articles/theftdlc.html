@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2024-03-11</h4>
+            <h4 data-toc-skip class="date">2024-03-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/HEAD/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -546,12 +546,12 @@ cleanliness):</p>
 <span><span class="co">#&gt; 5                        CO_trev_1_num     catch22 accuracy   0.11111111</span></span>
 <span><span class="co">#&gt; 6                  DN_HistogramMode_10     catch22 accuracy   0.08444444</span></span>
 <span><span class="co">#&gt;    null_mean t_statistic     p.value</span></span>
-<span><span class="co">#&gt; 1 0.12000000    4.894202 0.004038794</span></span>
-<span><span class="co">#&gt; 2 0.09777778    2.371708 0.038339070</span></span>
-<span><span class="co">#&gt; 3 0.09777778    2.317462 0.040681479</span></span>
-<span><span class="co">#&gt; 4 0.10666667    2.007068 0.057591771</span></span>
-<span><span class="co">#&gt; 5 0.07111111    3.674235 0.010655821</span></span>
-<span><span class="co">#&gt; 6 0.06666667    0.560112 0.302643313</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 0.12000000    4.894202 0.008077588</span></span>
+<span><span class="co">#&gt; 2 0.09777778    2.371708 0.076678140</span></span>
+<span><span class="co">#&gt; 3 0.09777778    2.317462 0.081362957</span></span>
+<span><span class="co">#&gt; 4 0.10666667    2.007068 0.115183542</span></span>
+<span><span class="co">#&gt; 5 0.07111111    3.674235 0.021311641</span></span>
+<span><span class="co">#&gt; 6 0.06666667    0.560112 0.605286626</span></span></code></pre></div>
 <p>Or to conduct pairwise comparisons between individual features:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pairwise_features</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compare_features.html">compare_features</a></span><span class="op">(</span><span class="va">feature_classifiers</span>,</span>
@@ -575,12 +575,12 @@ cleanliness):</p>
 <span><span class="co">#&gt; 5 catch22_CO_Embed2_Dist_tau_d_expfit_meandiff      catch22_DN_HistogramMode_10</span></span>
 <span><span class="co">#&gt; 6 catch22_CO_Embed2_Dist_tau_d_expfit_meandiff       catch22_DN_HistogramMode_5</span></span>
 <span><span class="co">#&gt;     metric names_a_mean names_b_mean t_statistic      p.value p_value_adj</span></span>
-<span><span class="co">#&gt; 1 accuracy    0.4044444   0.29777778    5.237229 0.0031761284  0.46053861</span></span>
-<span><span class="co">#&gt; 2 accuracy    0.4044444   0.31111111    3.500000 0.0124480817  1.00000000</span></span>
-<span><span class="co">#&gt; 3 accuracy    0.4044444   0.29777778    2.449490 0.0352419985  1.00000000</span></span>
-<span><span class="co">#&gt; 4 accuracy    0.4044444   0.11111111    9.241849 0.0003810008  0.07467616</span></span>
-<span><span class="co">#&gt; 5 accuracy    0.4044444   0.08444444    6.743418 0.0012602882  0.21676958</span></span>
-<span><span class="co">#&gt; 6 accuracy    0.4044444   0.06222222   15.717559 0.0000478576  0.01076796</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 accuracy    0.4044444   0.29777778    5.237229 6.352257e-03   1.0000000</span></span>
+<span><span class="co">#&gt; 2 accuracy    0.4044444   0.31111111    3.500000 2.489616e-02   1.0000000</span></span>
+<span><span class="co">#&gt; 3 accuracy    0.4044444   0.29777778    2.449490 7.048400e-02   1.0000000</span></span>
+<span><span class="co">#&gt; 4 accuracy    0.4044444   0.11111111    9.241849 7.620017e-04   0.1699264</span></span>
+<span><span class="co">#&gt; 5 accuracy    0.4044444   0.08444444    6.743418 2.520576e-03   0.5368828</span></span>
+<span><span class="co">#&gt; 6 accuracy    0.4044444   0.06222222   15.717559 9.571521e-05   0.0220145</span></span></code></pre></div>
 <p>We can then use <code>ggplot2</code> to summarise and visualise our
 results. Here is a pairwise correlation plot between the top 10 features
 in <code>catch22</code> for this toy problem. We are just simply

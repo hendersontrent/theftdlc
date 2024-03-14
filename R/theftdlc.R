@@ -2,9 +2,9 @@
 #' @docType package
 #' @aliases theftdlc-package
 #' @name theftdlc
-#' @title Tools for Analysing and Interpreting Time Series Features
+#' @title Analyse and Interpret Time Series Features
 #'
-#' @description Tools for Analysing and Interpreting Time Series Features
+#' @description Analyse and Interpret Time Series Features
 #'
 #' @importFrom rlang .data
 #' @importFrom stats IQR cor cor.test dist hclust median prcomp reorder sd var p.adjust quantile qt na.omit cmdscale kmeans cutree
@@ -22,4 +22,5 @@
 #' @importFrom umap umap
 #' @importFrom correctR resampled_ttest
 #' @importFrom mclust Mclust
+#' @import theft
 NULL
