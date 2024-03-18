@@ -31,7 +31,7 @@
 #'   k = 6)
 #'
 
-cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"), unit_int = FALSE,
+cluster <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax", "MaxAbs"), unit_int = FALSE,
                     clust_method = c("kmeans", "hclust", "mclust"), k = 2, features = NULL,
                     na_removal = c("feature","sample"), seed = 123, ...){
 
