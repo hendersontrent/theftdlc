@@ -17,7 +17,7 @@
 #' @param na_removal \code{character} defining the way to deal with NAs produced during feature calculation. Can be one of \code{"feature"} or \code{"sample"}. \code{"feature"} removes all features that produced any NAs in any sample, keeping the number of samples the same. \code{"sample"} omits all samples that produced at least one NA. Defaults to \code{"feature"}
 #' @param seed \code{integer} to fix R's random number generator to ensure reproducibility. Defaults to \code{123}
 #' @param ... arguments to be passed to \code{stats::prcomp} or \code{Rtsne::Rtsne}, \code{stats::cmdscale}, \code{MASS::isoMDS}, \code{MASS::sammon}, or \code{umap::umap} depending on selection in \code{low_dim_method}
-#' @return object of class \code{feature_project} which is a named list containing the \code{feature_calculations} data supplied to the function, the wide matrix of filtered data, a tidy \code{data.frame} of the projected 2-D data, and the model fit object
+#' @return object of class \code{feature_projection} which is a named list containing the \code{feature_calculations} data supplied to the function, the wide matrix of filtered data, a tidy \code{data.frame} of the projected 2-D data, and the model fit object
 #' @author Trent Henderson
 #' @export
 #' @examples
@@ -35,7 +35,7 @@
 #' }
 #'
 
-project <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"), unit_int = FALSE,
+project <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax", "MaxAbs"), unit_int = FALSE,
                     low_dim_method = c("PCA", "tSNE", "ClassicalMDS", "KruskalMDS", "SammonMDS", "UMAP"),
                     na_removal = c("feature","sample"), seed = 123, ...){
 

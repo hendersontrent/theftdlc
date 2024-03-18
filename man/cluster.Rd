@@ -6,7 +6,7 @@
 \usage{
 cluster(
   data,
-  norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax"),
+  norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax", "MaxAbs"),
   unit_int = FALSE,
   clust_method = c("kmeans", "hclust", "mclust"),
   k = 2,
