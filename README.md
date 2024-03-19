@@ -101,10 +101,10 @@ calculate_features(data = theft::simData,
   head()
 ```
 
-                     hypothesis   feature_set   metric  set_mean null_mean
-    1  All features != own null  All features accuracy 0.8400000 0.1688889
-    2 User-supplied != own null User-supplied accuracy 0.7066667 0.1111111
-    3       catch22 != own null       catch22 accuracy 0.7066667 0.1600000
+                    hypothesis  feature_set   metric  set_mean null_mean
+    1 All features != own null All features accuracy 0.8400000 0.1688889
+    2         User != own null         User accuracy 0.7066667 0.1111111
+    3      catch22 != own null      catch22 accuracy 0.7066667 0.1600000
       t_statistic      p.value
     1    9.089132 0.0008124621
     2    5.512023 0.0052862976
@@ -130,7 +130,7 @@ and the software:
     To cite package 'theft' in publications use:
 
       Trent Henderson (2024). theft: Tools for Handling Extraction of
-      Features from Time Series. R package version 0.6.1.
+      Features from Time Series. R package version 0.6.2.
       https://hendersontrent.github.io/theft/
 
     A BibTeX entry for LaTeX users is
@@ -139,7 +139,7 @@ and the software:
         title = {theft: Tools for Handling Extraction of Features from Time Series},
         author = {Trent Henderson},
         year = {2024},
-        note = {R package version 0.6.1},
+        note = {R package version 0.6.2},
         url = {https://hendersontrent.github.io/theft/},
       }
 

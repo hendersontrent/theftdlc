@@ -76,7 +76,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2024-03-18</h4>
+            <h4 data-toc-skip class="date">2024-03-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/HEAD/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -716,9 +716,9 @@ and a custom set of just mean and standard deviation:</p>
 <span>                                      seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">set_classifiers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify.html">classify</a></span><span class="op">(</span><span class="va">feature_matrix2</span>,</span>
-<span>                                        by_set <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>                                        n_resamples <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                                        use_null <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                            by_set <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                            n_resamples <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>                            use_null <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">set_classifiers</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $TrainTestSizes</span></span>
@@ -757,37 +757,37 @@ and a custom set of just mean and standard deviation:</p>
 <span><span class="co">#&gt; 28       Null        3 0.08888889     0.08552189  0.12500000     0.1939394</span></span>
 <span><span class="co">#&gt; 29       Null        4 0.26666667     0.24532828  0.27420635     0.3099160</span></span>
 <span><span class="co">#&gt; 30       Null        5 0.17777778     0.15172559  0.14587496     0.2203209</span></span>
-<span><span class="co">#&gt;      feature_set</span></span>
-<span><span class="co">#&gt; 1   All features</span></span>
-<span><span class="co">#&gt; 2   All features</span></span>
-<span><span class="co">#&gt; 3   All features</span></span>
-<span><span class="co">#&gt; 4   All features</span></span>
-<span><span class="co">#&gt; 5   All features</span></span>
-<span><span class="co">#&gt; 6   All features</span></span>
-<span><span class="co">#&gt; 7   All features</span></span>
-<span><span class="co">#&gt; 8   All features</span></span>
-<span><span class="co">#&gt; 9   All features</span></span>
-<span><span class="co">#&gt; 10  All features</span></span>
-<span><span class="co">#&gt; 11 User-supplied</span></span>
-<span><span class="co">#&gt; 12 User-supplied</span></span>
-<span><span class="co">#&gt; 13 User-supplied</span></span>
-<span><span class="co">#&gt; 14 User-supplied</span></span>
-<span><span class="co">#&gt; 15 User-supplied</span></span>
-<span><span class="co">#&gt; 16 User-supplied</span></span>
-<span><span class="co">#&gt; 17 User-supplied</span></span>
-<span><span class="co">#&gt; 18 User-supplied</span></span>
-<span><span class="co">#&gt; 19 User-supplied</span></span>
-<span><span class="co">#&gt; 20 User-supplied</span></span>
-<span><span class="co">#&gt; 21       catch22</span></span>
-<span><span class="co">#&gt; 22       catch22</span></span>
-<span><span class="co">#&gt; 23       catch22</span></span>
-<span><span class="co">#&gt; 24       catch22</span></span>
-<span><span class="co">#&gt; 25       catch22</span></span>
-<span><span class="co">#&gt; 26       catch22</span></span>
-<span><span class="co">#&gt; 27       catch22</span></span>
-<span><span class="co">#&gt; 28       catch22</span></span>
-<span><span class="co">#&gt; 29       catch22</span></span>
-<span><span class="co">#&gt; 30       catch22</span></span></code></pre></div>
+<span><span class="co">#&gt;     feature_set</span></span>
+<span><span class="co">#&gt; 1  All features</span></span>
+<span><span class="co">#&gt; 2  All features</span></span>
+<span><span class="co">#&gt; 3  All features</span></span>
+<span><span class="co">#&gt; 4  All features</span></span>
+<span><span class="co">#&gt; 5  All features</span></span>
+<span><span class="co">#&gt; 6  All features</span></span>
+<span><span class="co">#&gt; 7  All features</span></span>
+<span><span class="co">#&gt; 8  All features</span></span>
+<span><span class="co">#&gt; 9  All features</span></span>
+<span><span class="co">#&gt; 10 All features</span></span>
+<span><span class="co">#&gt; 11         User</span></span>
+<span><span class="co">#&gt; 12         User</span></span>
+<span><span class="co">#&gt; 13         User</span></span>
+<span><span class="co">#&gt; 14         User</span></span>
+<span><span class="co">#&gt; 15         User</span></span>
+<span><span class="co">#&gt; 16         User</span></span>
+<span><span class="co">#&gt; 17         User</span></span>
+<span><span class="co">#&gt; 18         User</span></span>
+<span><span class="co">#&gt; 19         User</span></span>
+<span><span class="co">#&gt; 20         User</span></span>
+<span><span class="co">#&gt; 21      catch22</span></span>
+<span><span class="co">#&gt; 22      catch22</span></span>
+<span><span class="co">#&gt; 23      catch22</span></span>
+<span><span class="co">#&gt; 24      catch22</span></span>
+<span><span class="co">#&gt; 25      catch22</span></span>
+<span><span class="co">#&gt; 26      catch22</span></span>
+<span><span class="co">#&gt; 27      catch22</span></span>
+<span><span class="co">#&gt; 28      catch22</span></span>
+<span><span class="co">#&gt; 29      catch22</span></span>
+<span><span class="co">#&gt; 30      catch22</span></span></code></pre></div>
 <p>Note that <code>classify</code> constructs a set of
 <code>"All features"</code> (i.e., all features across all computed
 sets) automatically when <span class="math inline">\(&gt;2\)</span>
