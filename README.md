@@ -106,9 +106,9 @@ calculate_features(data = theft::simData,
     2         User != own null         User accuracy 0.7066667 0.1111111
     3      catch22 != own null      catch22 accuracy 0.7066667 0.1600000
       t_statistic      p.value
-    1    9.089132 0.0004062310
-    2    5.512023 0.0026431488
-    3    7.363817 0.0009059762
+    1    9.089132 0.0008124621
+    2    5.512023 0.0052862976
+    3    7.363817 0.0018119523
 
 In this example, `classify` and `compare_features` come from `theftdlc`.
 
@@ -129,33 +129,33 @@ and the software:
 
     To cite package 'theft' in publications use:
 
-      Henderson T (2024). _theft: Tools for Handling Extraction of Features
-      from Time Series_. R package version 0.6.3,
-      <https://hendersontrent.github.io/theft/>.
+      Trent Henderson (2025). theft: Tools for Handling Extraction of
+      Features from Time Series. R package version 0.7.1.
+      https://hendersontrent.github.io/theft/
 
     A BibTeX entry for LaTeX users is
 
       @Manual{,
         title = {theft: Tools for Handling Extraction of Features from Time Series},
         author = {Trent Henderson},
-        year = {2024},
-        note = {R package version 0.6.3},
+        year = {2025},
+        note = {R package version 0.7.1},
         url = {https://hendersontrent.github.io/theft/},
       }
 
 
     To cite package 'theftdlc' in publications use:
 
-      Henderson T (2024). _theftdlc: Analyse and Interpret Time Series
-      Features_. R package version 0.1.2,
-      <https://hendersontrent.github.io/theftdlc/>.
+      Trent Henderson (2025). theftdlc: Analyse and Interpret Time Series
+      Features. R package version 0.1.3.
+      https://hendersontrent.github.io/theftdlc/
 
     A BibTeX entry for LaTeX users is
 
       @Manual{,
         title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
-        year = {2024},
-        note = {R package version 0.1.2},
+        year = {2025},
+        note = {R package version 0.1.3},
         url = {https://hendersontrent.github.io/theftdlc/},
       }

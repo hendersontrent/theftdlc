@@ -1,8 +1,8 @@
 Package: theftdlc
 Type: Package
 Title: Analyse and Interpret Time Series Features
-Version: 0.1.2
-Date: 2024-10-04
+Version: 0.1.3
+Date: 2025-02-05
 Authors@R: c(
   person("Trent", "Henderson", email = "then6675@uni.sydney.edu.au", role = c("cre", "aut"))
   )
