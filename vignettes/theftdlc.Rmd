@@ -279,7 +279,7 @@ plot(feature_matrix_filt,
      feature_names = top_10$original_names)
 ```
 
-Finally, `theftdlc` also contains a function `interval` for summarising the results of `classify`. `interval` takes the following arguments:
+`theftdlc` also contains a function `interval` for summarising the results of `classify`. `interval` returns an object of class `interval_calculations` which is a data frame containing the summary information. `interval` takes the following arguments:
 
 * `data`---list object containing the classification outputs produce by `classify`
 * `metric`---character denoting the classification performance metric to calculate intervals for. Can be one of `"accuracy"`, `"precision"`, `"recall"`, `"f1"`. Defaults to `"accuracy"`
@@ -313,22 +313,12 @@ set_classifiers <- classify(feature_matrix2,
 head(set_classifiers)
 ```
 
-Note that `classify` constructs a set of `"All features"` (i.e., all features across all computed sets) automatically when $>2$ unique feature sets are detected in the feature data. Similar to the individual feature case, we can also use `interval` combined with `ggplot2` to summarise our findings. Here is a comparison of mean accuracy $\pm 1SD$ between feature sets:
+Note that `classify` constructs a set of `"All features"` (i.e., all features across all computed sets) automatically when $>2$ unique feature sets are detected in the feature data. Since `interval` returns an S3 object, we can use the `plot` generic to automatically draw a useful visual summary:
 
 ```{r, message = FALSE, warning = FALSE}
 interval_calcs <- interval(set_classifiers)
 
-interval_calcs %>%
-  ggplot2::ggplot(ggplot2::aes(x = reorder(feature_set, -.mean), y = .mean,
-                               colour = feature_set)) +
-  ggplot2::geom_errorbar(ggplot2::aes(ymin = .lower, ymax = .upper)) +
-  ggplot2::geom_point(size = 5) +
-  ggplot2::labs(x = "Feature set",
-                y = "Classification accuracy") +
-  ggplot2::scale_colour_brewer(palette = "Dark2") +
-  ggplot2::theme_bw() +
-  ggplot2::theme(legend.position = "none",
-                 panel.grid.minor = ggplot2::element_blank())
+plot(interval_calcs)
 ```
 
 ## Cluster analysis
