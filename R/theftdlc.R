@@ -1,6 +1,5 @@
 #'
-#' @docType package
-#' @aliases theftdlc-package
+"_PACKAGE"
 #' @name theftdlc
 #' @title Analyse and Interpret Time Series Features
 #'
