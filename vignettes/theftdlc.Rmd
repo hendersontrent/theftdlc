@@ -32,11 +32,11 @@ library(theftdlc)
 
 ## Purpose
 
-The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from six different feature sets (or a set of user-supplied features): `"catch22"`, `"feasts"`, `"Kats"`, `"tsfeatures"`, `"tsfresh"`, and `"TSFEL"` `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`.
+The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from six different feature sets (and any number of individual user-supplied features): `"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, and `"tsfel"`. `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`.
 
 ## Core calculation functions
 
-To explore package functionality, we are going to use a dataset that comes standard with `theft` called `simData`. This dataset contains a collection of randomly generated time series for six different types of processes. The dataset can be accessed via:
+To explore package functionality, we are going to use a dataset that comes standard with `theft` called `simData`. This dataset is a `tsibble` which contains a collection of randomly generated time series for six different types of processes. The dataset can be accessed via:
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 theft::simData
@@ -52,12 +52,7 @@ We will use `theft` to quickly calculate features using the `catch22` set:
 
 ```{r, message = FALSE, warning = FALSE}
 feature_matrix <- calculate_features(data = simData, 
-                                     id_var = "id", 
-                                     time_var = "timepoint", 
-                                     values_var = "values", 
-                                     group_var = "process", 
-                                     feature_set = "catch22",
-                                     seed = 123)
+                                     feature_set = "catch22")
 ```
 
 ## Data quality checks
@@ -300,7 +295,6 @@ Since `theft` contains entire sets of features, we can also use `classify` to co
 
 ```{r, message = FALSE, warning = FALSE}
 feature_matrix2 <- calculate_features(data = simData, 
-                                      group_var = "process", 
                                       feature_set = "catch22",
                                       features = list("mean" = mean, "sd" = sd),
                                       seed = 123)

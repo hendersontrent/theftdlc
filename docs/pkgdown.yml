@@ -1,10 +1,9 @@
 pandoc: '3.2'
-pkgdown: 2.0.2
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   theftdlc: theftdlc.html
-last_built: 2025-02-05T09:12Z
+last_built: 2025-02-10T20:40Z
 urls:
   reference: https://hendersontrent.github.io/theftdlc/reference
   article: https://hendersontrent.github.io/theftdlc/articles
-
