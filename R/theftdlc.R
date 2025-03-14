@@ -22,4 +22,5 @@
 #' @importFrom correctR resampled_ttest
 #' @importFrom mclust Mclust
 #' @import theft
+#' @importFrom glmnet cv.glmnet
 NULL

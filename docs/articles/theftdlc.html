@@ -59,7 +59,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2025-02-11</h4>
+            <h4 data-toc-skip class="date">2025-03-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/HEAD/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -896,6 +896,54 @@ visualisation:</p>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
 <span>                   panel.grid.minor <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><img src="theftdlc_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;"></p>
+</div>
+<div class="section level2">
+<h2 id="feature-selection">Feature selection<a class="anchor" aria-label="anchor" href="#feature-selection"></a>
+</h2>
+<p>Feature selection is a well-studied field, and the selection approach
+for a given problem should be carefully considered.
+<code>theftdlc</code> offers a simple option for users seeking fast
+answers through the <code>shrink</code> function, which implements a
+cross-validated penalised maximum likelihood generalized linear model
+through the <code>glmnet</code> package. Since <code>theftdlc</code> is
+largely concerned with time-series classification, this is currently
+only possible if <code>calculate_features</code> has a
+<code>group</code> column. Specifically, for the binomial case,
+<code>shrink</code> finds the time-series features whose coefficients
+are non-zero, and for the multinomial case (i.e.,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">&gt;2</annotation></semantics></math>
+groups) <code>shrink</code> finds the time-series features who are
+non-zero across all group distinctions. <code>shrink</code> only takes
+three arguments and returns a <code>feature_calculations</code> object
+that can be used with all of <code>theftdlc</code>, just like
+<code>calculate_features</code>:</p>
+<ol style="list-style-type: decimal">
+<li>
+<code>data</code> — the <code>feature_calculations</code>
+object</li>
+<li>
+<code>plot</code> — whether to plot the misclassification error
+lambda plot for the CV model. Defaults to <code>FALSE</code>
+</li>
+<li>
+<code>...</code> — additional arguments that are passed to
+<code><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">glmnet::cv.glmnet</a></code> to control the model fitting process</li>
+</ol>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">feature_matrix_red</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/shrink.html">shrink</a></span><span class="op">(</span><span class="va">feature_matrix</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;"></p>
+<p>We can then compare the number of features between our original
+calculation and the CV penalised ML GLM:</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">feature_matrix</span><span class="op">$</span><span class="va">names</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 22</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">feature_matrix_red</span><span class="op">$</span><span class="va">names</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 4</span></span></code></pre></div>
+<p>We see that the selection process retained only
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mn>4</mn><annotation encoding="application/x-tex">4</annotation></semantics></math>
+features. Note that this process is far more useful in higher
+dimensional cases, such as when features from all six sets in
+<code>theft</code> are calculated.</p>
 </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

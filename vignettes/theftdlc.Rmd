@@ -361,3 +361,24 @@ feature_clusters$Data %>%
     ggplot2::theme(legend.position = "bottom",
                    panel.grid.minor = ggplot2::element_blank())
 ```
+
+## Feature selection
+
+Feature selection is a well-studied field, and the selection approach for a given problem should be carefully considered. `theftdlc` offers a simple option for users seeking fast answers through the `shrink` function, which implements a cross-validated penalised maximum likelihood generalized linear model through the `glmnet` package. Since `theftdlc` is largely concerned with time-series classification, this is currently only possible if `calculate_features` has a `group` column. Specifically, for the binomial case, `shrink` finds the time-series features whose coefficients are non-zero, and for the multinomial case (i.e., $>2$ groups) `shrink` finds the time-series features who are non-zero across all group distinctions. `shrink` only takes three arguments and returns a `feature_calculations` object that can be used with all of `theftdlc`, just like `calculate_features`:
+
+1. `data` --- the `feature_calculations` object
+2. `plot` --- whether to plot the misclassification error lambda plot for the CV model. Defaults to `FALSE`
+3. `...` --- additional arguments that are passed to `glmnet::cv.glmnet` to control the model fitting process
+
+```{r, message = FALSE, warning = FALSE}
+feature_matrix_red <- shrink(feature_matrix, plot = TRUE)
+```
+
+We can then compare the number of features between our original calculation and the CV penalised ML GLM:
+
+```{r, message = FALSE, warning = FALSE}
+length(unique(feature_matrix$names))
+length(unique(feature_matrix_red$names))
+```
+
+We see that the selection process retained only $4$ features. Note that this process is far more useful in higher dimensional cases, such as when features from all six sets in `theft` are calculated.
