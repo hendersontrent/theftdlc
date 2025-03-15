@@ -46,7 +46,7 @@ A high-level overview of how the `theft` ecosystem for R is typically
 accessed by users is shown below. Many more functions and options for
 customisation are available within the packages.
 
-<img src="man/figures/theft-ecosystem.png" width="900" alt="Schematic of the theft ecosystem in R" />
+<img src="man/figures/workflow-graphic-ecosystem-full.png" alt="Schematic of the theft ecosystem in R" />
 
 ### What’s in a name?
 
