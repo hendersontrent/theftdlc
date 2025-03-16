@@ -2,11 +2,12 @@
 #'
 #' @importFrom stats coef
 #' @importFrom tibble column_to_rownames rownames_to_column
-#' @importFrom dplyr %>% select mutate inner_join distinct filter
+#' @importFrom dplyr %>% select mutate inner_join distinct filter rowwise c_across everything
 #' @importFrom tidyr pivot_wider
 #' @importFrom glmnet cv.glmnet
 #'
 #' @param data \code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}
+#' @param threshold \code{character} denoting whether to retain features that have at least one non-zero coefficient \code{"one"} across all group levels or features that have non-zero coefficients across all group levels \code{"all"}. Applicable to multinomial case only. Defaults to \code{"one"} for less aggressive filtering
 #' @param plot \code{Boolean} whether to draw the misclassification error lambda plot for a \code{cv.glmnet} object. Defaults to \code{FALSE}
 #' @param ... arguments to be passed to \code{glmnet::cv.glmnet}
 #' @return \code{feature_calculations} object containing a data frame of the reduced feature set
@@ -23,9 +24,10 @@
 #' best_features <- shrink(features)
 #'
 
-shrink <- function(data, plot = FALSE, ...){
+shrink <- function(data, threshold = c("one", "all"), plot = FALSE, ...){
 
   stopifnot(inherits(data, "feature_calculations") == TRUE)
+  threshold <- match.arg(threshold)
   '%ni%' <- Negate('%in%')
 
   if("group" %ni% colnames(data)){
@@ -67,6 +69,7 @@ shrink <- function(data, plot = FALSE, ...){
     dplyr::select(-c("group"))
 
   X <- as.matrix(X)
+  X <- X[, colSums(is.na(X)) == 0] # Delete features with NAs as {glmnet} requires it
   y <- as.vector(y)
 
   # Fit model
@@ -116,16 +119,33 @@ shrink <- function(data, plot = FALSE, ...){
       tidyr::pivot_wider(id_cols = "names", names_from = "group", values_from = "values") %>%
       tibble::column_to_rownames(var = "names")
 
-    coefs_df$sums <- rowSums(coefs_df)
+    if(threshold == "one"){
 
-    coefs_df <- coefs_df %>%
-      dplyr::filter(sums != 0) %>%
-      dplyr::select(-c(sums)) %>%
-      tibble::rownames_to_column(var = "names") %>%
-      dplyr::mutate(feature_set = gsub("_.*", "\\1", names),
-                    names = sub("^[^_]*_", "", names)) %>%
-      dplyr::select(c(names, feature_set)) %>%
-      dplyr::distinct()
+      coefs_df <- coefs_df %>%
+        tibble::rownames_to_column(var = "names") %>%
+        dplyr::rowwise() %>%
+        dplyr::mutate(zeroes = sum(dplyr::c_across(-c("names")) == 0)) %>%
+        dplyr::ungroup() %>%
+        dplyr::filter(zeroes < num_classes) %>%
+        dplyr::select(-c(zeroes)) %>%
+        dplyr::mutate(feature_set = gsub("_.*", "\\1", names),
+                      names = sub("^[^_]*_", "", names)) %>%
+        dplyr::select(c(names, feature_set)) %>%
+        dplyr::distinct()
+
+    } else{
+
+      coefs_df$sums <- rowSums(coefs_df)
+
+      coefs_df <- coefs_df %>%
+        dplyr::filter(sums != 0) %>%
+        dplyr::select(-c(sums)) %>%
+        tibble::rownames_to_column(var = "names") %>%
+        dplyr::mutate(feature_set = gsub("_.*", "\\1", names),
+                      names = sub("^[^_]*_", "", names)) %>%
+        dplyr::select(c(names, feature_set)) %>%
+        dplyr::distinct()
+    }
   }
 
   # Perform final filtering of initial feature data

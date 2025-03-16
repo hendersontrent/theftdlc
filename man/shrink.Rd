@@ -4,10 +4,12 @@
 \alias{shrink}
 \title{Use a cross validated penalized maximum likelihood generalized linear model to perform feature selection}
 \usage{
-shrink(data, plot = FALSE, ...)
+shrink(data, threshold = c("one", "all"), plot = FALSE, ...)
 }
 \arguments{
 \item{data}{\code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}}
+
+\item{threshold}{\code{character} denoting whether to retain features that have at least one non-zero coefficient \code{"one"} across all group levels or features that have non-zero coefficients across all group levels \code{"all"}. Applicable to multinomial case only. Defaults to \code{"one"} for less aggressive filtering}
 
 \item{plot}{\code{Boolean} whether to draw the misclassification error lambda plot for a \code{cv.glmnet} object. Defaults to \code{FALSE}}
 
