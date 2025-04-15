@@ -126,13 +126,15 @@ stat_test <- function(data, iter_data, row_id, by_set = FALSE, hypothesis, metri
 
     if(hypothesis == "null"){
       if(by_set){
-        t_test <- correctR::resampled_ttest(x = x, y = y, n = n_resamples, n1 = train_test_sizes[1], n2 = train_test_sizes[1])
+        t_test <- correctR::resampled_ttest(x = x, y = y, n = n_resamples, n1 = train_test_sizes[1], n2 = train_test_sizes[1],
+                                            tailed = "one", greater = "x")
 
         outs <- data.frame(hypothesis = paste0(iter_filt, " != own null"),
                            feature_set = iter_filt, metric = metric, set_mean = x_mean, null_mean = y_mean,
                            t_statistic = t_test$statistic, p.value = t_test$p.value)
       } else{
-        t_test <- correctR::resampled_ttest(x = x, y = y, n = n_resamples, n1 = train_test_sizes[1], n2 = train_test_sizes[1])
+        t_test <- correctR::resampled_ttest(x = x, y = y, n = n_resamples, n1 = train_test_sizes[1], n2 = train_test_sizes[1],
+                                            tailed = "one", greater = "x")
 
         outs <- data.frame(hypothesis = paste0(iter_filt, " != own null"),
                            names = iter_filt, original_names = gsub("^[^_]*_", "", iter_filt),
