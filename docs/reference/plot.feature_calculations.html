@@ -41,7 +41,7 @@
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'feature_calculations'</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span></span>
 <span>  <span class="va">x</span>,</span>
-<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"quality"</span>, <span class="st">"matrix"</span>, <span class="st">"cor"</span>, <span class="st">"violin"</span><span class="op">)</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"matrix"</span>, <span class="st">"cor"</span>, <span class="st">"violin"</span>, <span class="st">"box"</span>, <span class="st">"quality"</span><span class="op">)</span>,</span>
 <span>  norm_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"zScore"</span>, <span class="st">"Sigmoid"</span>, <span class="st">"RobustSigmoid"</span>, <span class="st">"MinMax"</span>, <span class="st">"MaxAbs"</span><span class="op">)</span>,</span>
 <span>  unit_int <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  clust_method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"average"</span>, <span class="st">"ward.D"</span>, <span class="st">"ward.D2"</span>, <span class="st">"single"</span>, <span class="st">"complete"</span>, <span class="st">"mcquitty"</span>,</span>
@@ -61,7 +61,7 @@
 
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
-<dd><p><code>character</code> specifying the type of plot to draw. Defaults to <code>"quality"</code></p></dd>
+<dd><p><code>character</code> specifying the type of plot to draw. Can be one of <code>"matrix"</code>, <code>"cor"</code>, <code>"violin"</code>, <code>"box"</code>, or <code>"quality"</code>. Defaults to <code>"matrix"</code></p></dd>
 
 
 <dt id="arg-norm-method">norm_method<a class="anchor" aria-label="anchor" href="#arg-norm-method"></a></dt>

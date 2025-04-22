@@ -109,6 +109,7 @@ Note that when using these defined `plot()` generics, you can pass any additiona
 * `type = "matrix"`---`...` goes to `ggplot2::geom_raster`
 * `type = "cor"`---`...` goes to `ggplot2::geom_raster`
 * `type = "violin"`---`...` goes to `ggplot2::geom_point`
+* `type = "box"`---`...` goes to `ggplot2::geom_boxplot`
 
 For example, we may wish to control the point size and transparency in the above plot (not rendered here for space):
 
@@ -116,6 +117,13 @@ For example, we may wish to control the point size and transparency in the above
 plot(feature_matrix, type = "violin",
      feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"),
      size = 0.7, alpha = 0.9)
+```
+
+Alternatively, we may wish to identify if any univariate outliers exist by drawing a boxplot instead, which depicts outliers as points:
+
+```{r, message = FALSE, warning = FALSE}
+plot(feature_matrix, type = "box",
+     feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"))
 ```
 
 ### Low dimensional projections
