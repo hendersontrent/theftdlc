@@ -2,7 +2,7 @@ Package: theftdlc
 Type: Package
 Title: Analyse and Interpret Time Series Features
 Version: 0.1.3
-Date: 2025-04-23
+Date: 2025-07-08
 Authors@R: c(
   person("Trent", "Henderson", email = "then6675@uni.sydney.edu.au", role = c("cre", "aut"))
   )
@@ -25,6 +25,8 @@ Imports:
     ggplot2,
     tidyr,
     purrr,
+    furrr,
+    future,
     reshape2,
     scales,
     broom,
@@ -42,7 +44,6 @@ Suggests:
     cachem,
     bslib,
     knitr,
-    markdown,
     rmarkdown,
     pkgdown,
     testthat

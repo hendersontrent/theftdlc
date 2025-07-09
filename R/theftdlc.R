@@ -16,6 +16,8 @@
 #' @importFrom normaliseR normalise
 #' @importFrom e1071 svm
 #' @importFrom purrr map map_dfr
+#' @importFrom furrr future_map_dfr
+#' @importFrom future plan multisession
 #' @importFrom janitor clean_names
 #' @importFrom MASS isoMDS sammon
 #' @importFrom umap umap

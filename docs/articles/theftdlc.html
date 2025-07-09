@@ -59,7 +59,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2025-04-23</h4>
+            <h4 data-toc-skip class="date">2025-07-09</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/HEAD/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -510,6 +510,9 @@ feature should be conducted on main model fits only through
 p-values for multiple comparisons. Should be a valid argument to <a href="https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/p.adjust" class="external-link"><code>stats::p.adjust</code></a>.
 Defaults to <code>"none"</code> for no adjustment. <code>"holm"</code>
 is recommended as a starting point if adjustments are sought</li>
+<li>
+<code>n_workers</code>—Integer denoting the number of parallel
+processes to use. Defaults to <code>1</code> for serial processing</li>
 </ul>
 <p>We can use <code>compare_features</code> to evaluate how well each
 individual feature performs relative to its empirical null distribution
@@ -578,6 +581,12 @@ cleanliness):</p>
 <span><span class="co">#&gt; 4 accuracy    0.3333333    0.1377778   4.4907312 0.01089970   1.0000000</span></span>
 <span><span class="co">#&gt; 5 accuracy    0.3333333    0.0800000   5.7287155 0.00459701   0.7768946</span></span>
 <span><span class="co">#&gt; 6 accuracy    0.3333333    0.1022222   4.8702462 0.00821823   1.0000000</span></span></code></pre></div>
+<p><em>NOTE: Although it was not used in this vignette for simplicity,
+it is strongly recommended to use parallel processing in</em>
+<code>compare_features</code> <em>by setting</em> <code>n_workers</code>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">&gt;1</annotation></semantics></math>.
+<em>Performance benefits will be especially pronounced for pairwise
+comparisons.</em></p>
 <p>We can then use <code>ggplot2</code> to summarise and visualise our
 results. Here is a pairwise correlation plot between the top 10 features
 in <code>catch22</code> for this toy problem. We are just simply

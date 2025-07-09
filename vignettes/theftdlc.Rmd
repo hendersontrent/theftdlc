@@ -238,6 +238,7 @@ While have raw classification results is useful, we often also would like to sta
 * `by_set`---Boolean specifying whether you want to compare feature sets (if `TRUE`) or individual features (if `FALSE`). Defaults to `TRUE` but this is contingent on whether you computed by set or not in `classify`
 * `hypothesis`---Character denoting whether p-values should be calculated for each feature set or feature (depending on `by_set` argument) individually relative to the null if `use_null = TRUE` in `classify` through `"null"`, or whether pairwise comparisons between each set or feature should be conducted on main model fits only through `"pairwise"`. Defaults to `"null"`
 * `p_adj`---Character denoting the adjustment made to p-values for multiple comparisons. Should be a valid argument to [`stats::p.adjust`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/p.adjust). Defaults to `"none"` for no adjustment. `"holm"` is recommended as a starting point if adjustments are sought
+* `n_workers`---Integer denoting the number of parallel processes to use. Defaults to `1` for serial processing
 
 We can use `compare_features` to evaluate how well each individual feature performs relative to its empirical null distribution (noting that we are using the defaults for the other arguments for code cleanliness):
 
@@ -259,6 +260,8 @@ pairwise_features <- compare_features(feature_classifiers,
 
 head(pairwise_features)
 ```
+
+*NOTE: Although it was not used in this vignette for simplicity, it is strongly recommended to use parallel processing in* `compare_features` *by setting* `n_workers` $>1$. *Performance benefits will be especially pronounced for pairwise comparisons.*
 
 We can then use `ggplot2` to summarise and visualise our results. Here is a pairwise correlation plot between the top 10 features in `catch22` for this toy problem. We are just simply filtering the original full feature data and making use of the `plot` generic defined for objects of class `feature_calculations`:
 

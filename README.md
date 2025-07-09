@@ -40,19 +40,19 @@ visualisations, time-series classification machine learning procedures,
 statistical hypothesis testing, and various other statistical and
 graphical tools.
 
-<img src="man/figures/theft-packages.png" width="400" height="200" alt="Hex stickers of the theft and theftdlc packages for R" />
+<img src="man/figures/theft-packages.png" alt="Hex stickers of the theft and theftdlc packages for R" />
 
 A high-level overview of how the `theft` ecosystem for R is typically
 accessed by users is shown below. Many more functions and options for
 customisation are available within the packages.
 
-<img src="man/figures/workflow-graphic-ecosystem-full.png" alt="Schematic of the theft ecosystem in R" />
+<img src="man/figures/workflow-graphic_ecosystem-final.png" alt="Schematic of the theft ecosystem in R" />
 
 ### What’s in a name?
 
 `theftdlc` means ‘downloadable content’ (DLC) for `theft`—just like you
-get [DLCs and
-expansions](https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree)
+get
+[DLCs](https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree)
 for video games.
 
 ## Quick tour
@@ -104,9 +104,9 @@ calculate_features(data = theft::simData,
     2         User != own null         User accuracy 0.7955556 0.1200000
     3      catch22 != own null      catch22 accuracy 0.7511111 0.1377778
       t_statistic     p.value
-    1    4.759301 0.008909773
-    2    6.159351 0.003526169
-    3    4.866885 0.008238202
+    1    4.759301 0.004454886
+    2    6.159351 0.001763084
+    3    4.866885 0.004119101
 
 In this example, `classify` and `compare_features` come from `theftdlc`.
 
