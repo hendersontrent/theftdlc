@@ -9,8 +9,8 @@ Authors@R: c(
 Maintainer: Trent Henderson <then6675@uni.sydney.edu.au>
 Description: Provides a suite of functions for analysing, interpreting, and visualising
     time-series features calculated from different feature sets from the 'theft' package. 
-    Implements statistical learning methodologies described in Henderson, T., 
-    Bryant, A., and Fulcher, B. (2023) <arXiv:2303.17809>.
+    Implements statistical learning methodologies described in Henderson, T.,  
+    Bryant, A., and Fulcher, B. (2023) <doi:10.48550/arXiv.2303.17809>.
 BugReports: https://github.com/hendersontrent/theftdlc/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
