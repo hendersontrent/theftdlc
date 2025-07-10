@@ -4,11 +4,14 @@
 #' @import dplyr
 #' @importFrom tidyr crossing
 #' @importFrom purrr map_dfr
+#' @importFrom future plan multisession
+#' @importFrom furrr future_map_dfr
 #' @param data \code{list} object containing the classification outputs produce by \code{tsfeature_classifier}
 #' @param metric \code{character} denoting the classification performance metric to use in statistical testing. Can be one of \code{"accuracy"}, \code{"precision"}, \code{"recall"}, \code{"f1"}. Defaults to \code{"accuracy"}
 #' @param by_set \code{Boolean} specifying whether you want to compare feature sets (if \code{TRUE}) or individual features (if \code{FALSE}). Defaults to \code{TRUE} but this is contingent on whether you computed by set or not in \code{tsfeature_classifier}
 #' @param hypothesis \code{character} denoting whether p-values should be calculated for each feature set or feature (depending on \code{by_set} argument) individually relative to the null if \code{use_null = TRUE} in \code{tsfeature_classifier} through \code{"null"}, or whether pairwise comparisons between each set or feature should be conducted on main model fits only through \code{"pairwise"}. Defaults to \code{"null"}
 #' @param p_adj \code{character} denoting the adjustment made to p-values for multiple comparisons. Should be a valid argument to \code{stats::p.adjust}. Defaults to \code{"none"} for no adjustment. \code{"holm"} is recommended as a starting point for adjustments
+#' @param n_workers \code{integer} denoting the number of parallel processes to use. Defaults to \code{1} for serial processing
 #' @references Henderson, T., Bryant, A. G., and Fulcher, B. D. Never a Dull Moment: Distributional Properties as a Baseline for Time-Series Classification. 27th Pacific-Asia Conference on Knowledge Discovery and Data Mining, (2023).
 #' @return \code{data.frame} containing the results
 #' @author Trent Henderson
@@ -18,7 +21,6 @@
 #' library(theft)
 #'
 #' features <- theft::calculate_features(theft::simData,
-#'   group_var = "process",
 #'   feature_set = NULL,
 #'   features = list("mean" = mean, "sd" = sd))
 #'
@@ -33,7 +35,8 @@
 
 compare_features <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
                              by_set = TRUE, hypothesis = c("null", "pairwise"),
-                             p_adj = c("none", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr")){
+                             p_adj = c("none", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr"),
+                             n_workers = 1){
 
   p_adj <- match.arg(p_adj)
   '%ni%' <- Negate('%in%')
@@ -54,6 +57,16 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
     stop("hypothesis must be one of: 'null' or 'pairwise'. If 'null', input data requires null estimates which can be obtained through setting 'use_null = TRUE' in tsfeature_classifier")
   }
 
+  # Check workers
+
+  stopifnot(n_workers >= 1)
+
+  if(n_workers > 1){
+    is_parallel <- TRUE
+  } else{
+    is_parallel <- FALSE
+  }
+
   #--------------- Statistical testing ----------------
 
   if(by_set){
@@ -66,10 +79,20 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       # Produce final output
 
-      results <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
-                                   hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
-                                   n_resamples = max(data$ClassificationResults$resample)))
+      if(is_parallel){
+
+        future::plan(future::multisession, workers = n_workers)
+
+        results <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                            hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                            n_resamples = max(data$ClassificationResults$resample)))
+      } else{
+        results <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                     hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                     n_resamples = max(data$ClassificationResults$resample)))
+      }
 
     } else{
 
@@ -87,10 +110,20 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       # Produce final output
 
-      results <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
-                                   hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
-                                   n_resamples = max(data$ClassificationResults$resample)))
+      if(is_parallel){
+
+        future::plan(future::multisession, workers = n_workers)
+
+        results <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                            hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                            n_resamples = max(data$ClassificationResults$resample)))
+      } else{
+        results <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                     hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                     n_resamples = max(data$ClassificationResults$resample)))
+      }
     }
 
   } else{
@@ -103,10 +136,21 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       # Produce final output
 
-      results <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
-                                   hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
-                                   n_resamples = max(data$ClassificationResults$resample)))
+      if(is_parallel){
+
+        future::plan(future::multisession, workers = n_workers)
+
+        results <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                           hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                           n_resamples = max(data$ClassificationResults$resample)))
+
+      } else{
+        results <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                     hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                     n_resamples = max(data$ClassificationResults$resample)))
+      }
 
     } else{
 
@@ -124,10 +168,20 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       # Produce final output
 
-      results <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
-                                   hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
-                                   n_resamples = max(data$ClassificationResults$resample)))
+      if(is_parallel){
+
+        future::plan(future::multisession, workers = n_workers)
+
+        results <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                             hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                             n_resamples = max(data$ClassificationResults$resample)))
+      } else{
+        results <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
+                                     hypothesis = hypothesis, metric = metric, train_test_sizes = data$TrainTestSizes,
+                                     n_resamples = max(data$ClassificationResults$resample)))
+      }
     }
   }
 

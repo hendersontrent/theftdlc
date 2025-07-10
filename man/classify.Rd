@@ -51,7 +51,6 @@ Fit classifiers using time-series features using a resample-based approach and g
 library(theft)
 
 features <- theft::calculate_features(theft::simData,
-  group_var = "process",
   feature_set = "catch22")
 
 classifiers <- classify(features,

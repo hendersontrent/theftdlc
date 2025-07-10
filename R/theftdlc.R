@@ -1,6 +1,5 @@
 #'
-#' @docType package
-#' @aliases theftdlc-package
+"_PACKAGE"
 #' @name theftdlc
 #' @title Analyse and Interpret Time Series Features
 #'
@@ -17,10 +16,13 @@
 #' @importFrom normaliseR normalise
 #' @importFrom e1071 svm
 #' @importFrom purrr map map_dfr
+#' @importFrom furrr future_map_dfr
+#' @importFrom future plan multisession
 #' @importFrom janitor clean_names
 #' @importFrom MASS isoMDS sammon
 #' @importFrom umap umap
 #' @importFrom correctR resampled_ttest
 #' @importFrom mclust Mclust
 #' @import theft
+#' @importFrom glmnet cv.glmnet
 NULL

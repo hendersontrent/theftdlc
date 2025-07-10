@@ -47,7 +47,6 @@ Calculate interval summaries with a measure of central tendency of classificatio
 library(theft)
 
 features <- theft::calculate_features(theft::simData,
-  group_var = "process",
   feature_set = NULL,
   features = list("mean" = mean, "sd" = sd))
 

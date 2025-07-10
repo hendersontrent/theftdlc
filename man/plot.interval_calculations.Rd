@@ -10,8 +10,6 @@
 \item{x}{\code{interval_calculations} object containing the summary calculated by \code{interval}}
 
 \item{...}{Arguments to be passed to methods}
-
-\item{show_covariance}{\code{Boolean} specifying whether covariance ellipses should be shown on the plot. Defaults to \code{TRUE}}
 }
 \value{
 object of class \code{ggplot} that contains the graphic

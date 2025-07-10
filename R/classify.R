@@ -20,7 +20,6 @@
 #' library(theft)
 #'
 #' features <- theft::calculate_features(theft::simData,
-#'   group_var = "process",
 #'   feature_set = "catch22")
 #'
 #' classifiers <- classify(features,
@@ -172,6 +171,8 @@ classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 3
   #-------------------------------------------------
 
   # Generate resamples
+
+  message("Generating resampled data...\n")
 
   res_data <- 1:n_resamples %>%
     purrr::map(~ resample_data(tmp, train_rows = train_rows, test_rows = test_rows, train_props, test_props, .x))

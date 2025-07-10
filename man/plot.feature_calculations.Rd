@@ -6,7 +6,7 @@
 \usage{
 \method{plot}{feature_calculations}(
   x,
-  type = c("quality", "matrix", "cor", "violin"),
+  type = c("matrix", "cor", "violin", "box", "quality"),
   norm_method = c("zScore", "Sigmoid", "RobustSigmoid", "MinMax", "MaxAbs"),
   unit_int = FALSE,
   clust_method = c("average", "ward.D", "ward.D2", "single", "complete", "mcquitty",
@@ -19,7 +19,7 @@
 \arguments{
 \item{x}{\code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}}
 
-\item{type}{\code{character} specifying the type of plot to draw. Defaults to \code{"quality"}}
+\item{type}{\code{character} specifying the type of plot to draw. Can be one of \code{"matrix"}, \code{"cor"}, \code{"violin"}, \code{"box"}, or \code{"quality"}. Defaults to \code{"matrix"}}
 
 \item{norm_method}{\code{character} specifying a rescaling/normalising method to apply if \code{type = "matrix"} or if \code{type = "cor"}. Can be one of \code{"zScore"}, \code{"Sigmoid"}, \code{"RobustSigmoid"}, \code{"MinMax"}, or \code{"MaxAbs"}. Defaults to \code{"zScore"}}
 

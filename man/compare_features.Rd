@@ -9,7 +9,8 @@ compare_features(
   metric = c("accuracy", "precision", "recall", "f1"),
   by_set = TRUE,
   hypothesis = c("null", "pairwise"),
-  p_adj = c("none", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr")
+  p_adj = c("none", "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr"),
+  n_workers = 1
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ compare_features(
 \item{hypothesis}{\code{character} denoting whether p-values should be calculated for each feature set or feature (depending on \code{by_set} argument) individually relative to the null if \code{use_null = TRUE} in \code{tsfeature_classifier} through \code{"null"}, or whether pairwise comparisons between each set or feature should be conducted on main model fits only through \code{"pairwise"}. Defaults to \code{"null"}}
 
 \item{p_adj}{\code{character} denoting the adjustment made to p-values for multiple comparisons. Should be a valid argument to \code{stats::p.adjust}. Defaults to \code{"none"} for no adjustment. \code{"holm"} is recommended as a starting point for adjustments}
+
+\item{n_workers}{\code{integer} denoting the number of parallel processes to use. Defaults to \code{1} for serial processing}
 }
 \value{
 \code{data.frame} containing the results
@@ -34,7 +37,6 @@ Conduct statistical testing on time-series feature classification performance to
 library(theft)
 
 features <- theft::calculate_features(theft::simData,
-  group_var = "process",
   feature_set = NULL,
   features = list("mean" = mean, "sd" = sd))
 

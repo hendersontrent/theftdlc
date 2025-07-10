@@ -28,8 +28,8 @@ devtools::install_github("hendersontrent/theftdlc")
 The [`theft`](https://hendersontrent.github.io/theft/) package for R
 facilitates user-friendly access to a structured analytical workflow for
 the extraction of time-series features from six different feature sets
-(or a set of user-supplied features): `"catch22"`, `"feasts"`, `"Kats"`,
-`"tsfeatures"`, `"tsfresh"`, and `"TSFEL"`.
+(and any number of individual user-supplied features): `"catch22"`,
+`"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, and `"tsfel"`.
 
 `theftdlc` extends this feature-based ecosystem by providing a suite of
 functions for analysing, interpreting, and visualising time-series
@@ -40,19 +40,19 @@ visualisations, time-series classification machine learning procedures,
 statistical hypothesis testing, and various other statistical and
 graphical tools.
 
-<img src="man/figures/theft-packages.png" width="400" height="200" alt="Hex stickers of the theft and theftdlc packages for R" />
+<img src="man/figures/theft-packages.png" alt="Hex stickers of the theft and theftdlc packages for R" />
 
 A high-level overview of how the `theft` ecosystem for R is typically
 accessed by users is shown below. Many more functions and options for
 customisation are available within the packages.
 
-<img src="man/figures/theft-ecosystem.png" width="900" alt="Schematic of the theft ecosystem in R" />
+<img src="man/figures/workflow-graphic_ecosystem-final.png" alt="Schematic of the theft ecosystem in R" />
 
 ### What’s in a name?
 
 `theftdlc` means ‘downloadable content’ (DLC) for `theft`—just like you
-get [DLCs and
-expansions](https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree)
+get
+[DLCs](https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree)
 for video games.
 
 ## Quick tour
@@ -70,7 +70,6 @@ library(theft)
 library(theftdlc)
 
 calculate_features(data = theft::simData, 
-                   group_var = "process", 
                    feature_set = "catch22",
                    features = list("mean" = mean, "sd" = sd)) %>%
   project(norm_method = "RobustSigmoid",
@@ -90,7 +89,6 @@ custom set of the first two moments of the distribution:
 
 ``` r
 calculate_features(data = theft::simData, 
-                   group_var = "process", 
                    feature_set = "catch22",
                    features = list("mean" = mean, "sd" = sd)) %>%
   classify(by_set = TRUE,
@@ -102,13 +100,13 @@ calculate_features(data = theft::simData,
 ```
 
                     hypothesis  feature_set   metric  set_mean null_mean
-    1 All features != own null All features accuracy 0.8400000 0.1688889
-    2         User != own null         User accuracy 0.7066667 0.1111111
-    3      catch22 != own null      catch22 accuracy 0.7066667 0.1600000
-      t_statistic      p.value
-    1    9.089132 0.0008124621
-    2    5.512023 0.0052862976
-    3    7.363817 0.0018119523
+    1 All features != own null All features accuracy 0.8177778 0.1644444
+    2         User != own null         User accuracy 0.7955556 0.1200000
+    3      catch22 != own null      catch22 accuracy 0.7511111 0.1377778
+      t_statistic     p.value
+    1    4.759301 0.004454886
+    2    6.159351 0.001763084
+    3    4.866885 0.004119101
 
 In this example, `classify` and `compare_features` come from `theftdlc`.
 
@@ -126,12 +124,11 @@ R using the theft Package](https://arxiv.org/abs/2208.06146). arXiv,
 
 and the software:
 
-
     To cite package 'theft' in publications use:
 
-      Trent Henderson (2025). theft: Tools for Handling Extraction of
-      Features from Time Series. R package version 0.7.1.
-      https://hendersontrent.github.io/theft/
+      Henderson T (2025). _theft: Tools for Handling Extraction of Features
+      from Time Series_. R package version 0.8.1,
+      <https://hendersontrent.github.io/theft/>.
 
     A BibTeX entry for LaTeX users is
 
@@ -139,16 +136,15 @@ and the software:
         title = {theft: Tools for Handling Extraction of Features from Time Series},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.7.1},
+        note = {R package version 0.8.1},
         url = {https://hendersontrent.github.io/theft/},
       }
 
-
     To cite package 'theftdlc' in publications use:
 
-      Trent Henderson (2025). theftdlc: Analyse and Interpret Time Series
-      Features. R package version 0.1.3.
-      https://hendersontrent.github.io/theftdlc/
+      Henderson T (2025). _theftdlc: Analyse and Interpret Time Series
+      Features_. R package version 0.2.0,
+      <https://hendersontrent.github.io/theftdlc/>.
 
     A BibTeX entry for LaTeX users is
 
@@ -156,6 +152,6 @@ and the software:
         title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.1.3},
+        note = {R package version 0.2.0},
         url = {https://hendersontrent.github.io/theftdlc/},
       }

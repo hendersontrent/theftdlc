@@ -1,8 +1,8 @@
 Package: theftdlc
 Type: Package
 Title: Analyse and Interpret Time Series Features
-Version: 0.1.3
-Date: 2025-02-05
+Version: 0.2.0
+Date: 2025-07-10
 Authors@R: c(
   person("Trent", "Henderson", email = "then6675@uni.sydney.edu.au", role = c("cre", "aut"))
   )
@@ -16,7 +16,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
     R (>= 3.5.0),
-    theft (>= 0.6.1)
+    theft (>= 0.8.1)
 Imports: 
     rlang,
     stats,
@@ -25,6 +25,8 @@ Imports:
     ggplot2,
     tidyr,
     purrr,
+    furrr,
+    future,
     reshape2,
     scales,
     broom,
@@ -35,16 +37,16 @@ Imports:
     MASS,
     mclust,
     normaliseR,
-    correctR
+    correctR,
+    glmnet
 Suggests: 
     lifecycle,
     cachem,
     bslib,
     knitr,
-    markdown,
     rmarkdown,
     pkgdown,
     testthat
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 VignetteBuilder: knitr
 URL: https://hendersontrent.github.io/theftdlc/

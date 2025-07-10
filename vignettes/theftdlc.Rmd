@@ -32,11 +32,11 @@ library(theftdlc)
 
 ## Purpose
 
-The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from six different feature sets (or a set of user-supplied features): `"catch22"`, `"feasts"`, `"Kats"`, `"tsfeatures"`, `"tsfresh"`, and `"TSFEL"` `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`.
+The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from six different feature sets (and any number of individual user-supplied features): `"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, and `"tsfel"`. `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`.
 
 ## Core calculation functions
 
-To explore package functionality, we are going to use a dataset that comes standard with `theft` called `simData`. This dataset contains a collection of randomly generated time series for six different types of processes. The dataset can be accessed via:
+To explore package functionality, we are going to use a dataset that comes standard with `theft` called `simData`. This dataset is a `tsibble` which contains a collection of randomly generated time series for six different types of processes. The dataset can be accessed via:
 
 ```{r, message = FALSE, warning = FALSE, eval = FALSE}
 theft::simData
@@ -52,12 +52,7 @@ We will use `theft` to quickly calculate features using the `catch22` set:
 
 ```{r, message = FALSE, warning = FALSE}
 feature_matrix <- calculate_features(data = simData, 
-                                     id_var = "id", 
-                                     time_var = "timepoint", 
-                                     values_var = "values", 
-                                     group_var = "process", 
-                                     feature_set = "catch22",
-                                     seed = 123)
+                                     feature_set = "catch22")
 ```
 
 ## Data quality checks
@@ -114,6 +109,7 @@ Note that when using these defined `plot()` generics, you can pass any additiona
 * `type = "matrix"`---`...` goes to `ggplot2::geom_raster`
 * `type = "cor"`---`...` goes to `ggplot2::geom_raster`
 * `type = "violin"`---`...` goes to `ggplot2::geom_point`
+* `type = "box"`---`...` goes to `ggplot2::geom_boxplot`
 
 For example, we may wish to control the point size and transparency in the above plot (not rendered here for space):
 
@@ -121,6 +117,13 @@ For example, we may wish to control the point size and transparency in the above
 plot(feature_matrix, type = "violin",
      feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"),
      size = 0.7, alpha = 0.9)
+```
+
+Alternatively, we may wish to identify if any univariate outliers exist by drawing a boxplot instead, which depicts outliers as points:
+
+```{r, message = FALSE, warning = FALSE}
+plot(feature_matrix, type = "box",
+     feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"))
 ```
 
 ### Low dimensional projections
@@ -235,6 +238,7 @@ While have raw classification results is useful, we often also would like to sta
 * `by_set`---Boolean specifying whether you want to compare feature sets (if `TRUE`) or individual features (if `FALSE`). Defaults to `TRUE` but this is contingent on whether you computed by set or not in `classify`
 * `hypothesis`---Character denoting whether p-values should be calculated for each feature set or feature (depending on `by_set` argument) individually relative to the null if `use_null = TRUE` in `classify` through `"null"`, or whether pairwise comparisons between each set or feature should be conducted on main model fits only through `"pairwise"`. Defaults to `"null"`
 * `p_adj`---Character denoting the adjustment made to p-values for multiple comparisons. Should be a valid argument to [`stats::p.adjust`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/p.adjust). Defaults to `"none"` for no adjustment. `"holm"` is recommended as a starting point if adjustments are sought
+* `n_workers`---Integer denoting the number of parallel processes to use. Defaults to `1` for serial processing
 
 We can use `compare_features` to evaluate how well each individual feature performs relative to its empirical null distribution (noting that we are using the defaults for the other arguments for code cleanliness):
 
@@ -256,6 +260,8 @@ pairwise_features <- compare_features(feature_classifiers,
 
 head(pairwise_features)
 ```
+
+*NOTE: Although it was not used in this vignette for simplicity, it is strongly recommended to use parallel processing in* `compare_features` *by setting* `n_workers` $>1$. *Performance benefits will be especially pronounced for pairwise comparisons.*
 
 We can then use `ggplot2` to summarise and visualise our results. Here is a pairwise correlation plot between the top 10 features in `catch22` for this toy problem. We are just simply filtering the original full feature data and making use of the `plot` generic defined for objects of class `feature_calculations`:
 
@@ -300,7 +306,6 @@ Since `theft` contains entire sets of features, we can also use `classify` to co
 
 ```{r, message = FALSE, warning = FALSE}
 feature_matrix2 <- calculate_features(data = simData, 
-                                      group_var = "process", 
                                       feature_set = "catch22",
                                       features = list("mean" = mean, "sd" = sd),
                                       seed = 123)
@@ -367,3 +372,25 @@ feature_clusters$Data %>%
     ggplot2::theme(legend.position = "bottom",
                    panel.grid.minor = ggplot2::element_blank())
 ```
+
+## Feature selection
+
+Feature selection is a well-studied field, and the selection approach for a given problem should be carefully considered. `theftdlc` offers a simple option for users seeking fast answers through the `shrink` function, which implements a cross-validated penalised maximum likelihood generalized linear model through the `glmnet` package. Since `theftdlc` is largely concerned with time-series classification, this is currently only possible if `calculate_features` has a `group` column. Specifically, for the binomial case, `shrink` finds the time-series features whose coefficients are non-zero, and for the multinomial case (i.e., $>2$ groups) `shrink` finds the time-series features who are non-zero across all group distinctions. `shrink` only takes four arguments and returns a `feature_calculations` object that can be used with all of `theftdlc`, just like `calculate_features`:
+
+1. `data` --- the `feature_calculations` object
+2. `threshold` --- applies to multinomial (i.e., multiclass) classification problems only. Determines whether to retain features that have at least one non-zero coefficient across all the different classes (`threshold = "one"`) or features that have non-zero coefficients across all the classes (`threshold = "all"`). Defaults to `"one"` for less aggressive filtering
+3. `plot` --- whether to plot the misclassification error lambda plot for the CV model. Defaults to `FALSE`
+4. `...` --- additional arguments that are passed to `glmnet::cv.glmnet` to control the model fitting process
+
+```{r, message = FALSE, warning = FALSE}
+feature_matrix_red <- shrink(feature_matrix, plot = TRUE)
+```
+
+We can then compare the number of features between our original set and the reduced feature set:
+
+```{r, message = FALSE, warning = FALSE}
+length(unique(feature_matrix$names))
+length(unique(feature_matrix_red$names))
+```
+
+We see that the selection process retained only $4$ features. Note that this process is far more useful in higher dimensional cases, such as when features from all six sets in `theft` are calculated.
