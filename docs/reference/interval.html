@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">theftdlc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -100,21 +100,29 @@
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hendersontrent.github.io/theft/" class="external-link">theft</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">features</span> <span class="op">&lt;-</span> <span class="fu">theft</span><span class="fu">::</span><span class="fu"><a href="https://hendersontrent.github.io/theft/reference/calculate_features.html" class="external-link">calculate_features</a></span><span class="op">(</span><span class="fu">theft</span><span class="fu">::</span><span class="va"><a href="https://hendersontrent.github.io/theft/reference/simData.html" class="external-link">simData</a></span>,</span></span>
-<span class="r-in"><span>  group_var <span class="op">=</span> <span class="st">"process"</span>,</span></span>
 <span class="r-in"><span>  feature_set <span class="op">=</span> <span class="cn">NULL</span>,</span></span>
 <span class="r-in"><span>  features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="st">"mean"</span> <span class="op">=</span> <span class="va">mean</span>, <span class="st">"sd"</span> <span class="op">=</span> <span class="va">sd</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in theft::calculate_features(theft::simData, group_var = "process",     feature_set = NULL, features = list(mean = mean, sd = sd)):</span> unused argument (group_var = "process")</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Running computations for user-supplied features...</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">classifiers</span> <span class="op">&lt;-</span> <span class="fu"><a href="classify.html">classify</a></span><span class="op">(</span><span class="va">features</span>,</span></span>
 <span class="r-in"><span>  by_set <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  n_resamples <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'features' not found</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Only one set of 'catch22', 'feasts', 'tsfeatures', or 'Kats' with potential duplicates is in your feature data. Exiting and returning original input data.</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Generating resampled data...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fitting model 1/6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fitting model 2/6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fitting model 3/6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fitting model 4/6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fitting model 5/6</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fitting model 6/6</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">interval</span><span class="op">(</span><span class="va">classifiers</span>,</span></span>
 <span class="r-in"><span>  by_set <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
 <span class="r-in"><span>  type <span class="op">=</span> <span class="st">"sd"</span>,</span></span>
 <span class="r-in"><span>  interval <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'classifiers' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       names     .mean    .lower    .upper</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 User_mean 0.1259259 0.1130959 0.1387559</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   User_sd 0.5629630 0.5501330 0.5757930</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

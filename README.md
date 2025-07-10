@@ -143,7 +143,7 @@ and the software:
     To cite package 'theftdlc' in publications use:
 
       Henderson T (2025). _theftdlc: Analyse and Interpret Time Series
-      Features_. R package version 0.1.3,
+      Features_. R package version 0.2.0,
       <https://hendersontrent.github.io/theftdlc/>.
 
     A BibTeX entry for LaTeX users is
@@ -152,6 +152,6 @@ and the software:
         title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.1.3},
+        note = {R package version 0.2.0},
         url = {https://hendersontrent.github.io/theftdlc/},
       }

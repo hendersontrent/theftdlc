@@ -26,7 +26,6 @@ Use a cross validated penalized maximum likelihood generalized linear model to p
 library(theft)
 
 features <- theft::calculate_features(theft::simData,
-  group_var = "process",
   feature_set = "catch22")
 
 best_features <- shrink(features)

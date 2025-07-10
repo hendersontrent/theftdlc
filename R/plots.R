@@ -504,7 +504,6 @@ plot.feature_projection <- function(x, show_covariance = TRUE, ...){
 #' @import dplyr
 #' @importFrom ggplot2 ggplot aes geom_errorbar geom_point labs scale_colour_brewer theme_bw theme element_blank
 #' @param x \code{interval_calculations} object containing the summary calculated by \code{interval}
-#' @param show_covariance \code{Boolean} specifying whether covariance ellipses should be shown on the plot. Defaults to \code{TRUE}
 #' @param ... Arguments to be passed to methods
 #' @return object of class \code{ggplot} that contains the graphic
 #' @author Trent Henderson
@@ -518,7 +517,7 @@ plot.interval_calculations <- function(x, ...){
   p <- x %>%
     ggplot2::ggplot(ggplot2::aes(x = reorder(.data$feature_set, -.data$.mean), y = .data$.mean,
                                  colour = .data$feature_set)) +
-    ggplot2::geom_errorbar(ggplot2::aes(ymin = .lower, ymax = .upper)) +
+    ggplot2::geom_errorbar(ggplot2::aes(ymin = .data$.lower, ymax = .data$.upper)) +
     ggplot2::geom_point(size = 5) +
     ggplot2::labs(x = "Feature set",
                   y = "Classification accuracy") +

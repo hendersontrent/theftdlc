@@ -1,5 +1,6 @@
 #' Use a cross validated penalized maximum likelihood generalized linear model to perform feature selection
 #'
+#' @importFrom rlang .data
 #' @importFrom stats coef
 #' @importFrom tibble column_to_rownames rownames_to_column
 #' @importFrom dplyr %>% select mutate inner_join distinct filter rowwise c_across everything
@@ -18,7 +19,6 @@
 #' library(theft)
 #'
 #' features <- theft::calculate_features(theft::simData,
-#'   group_var = "process",
 #'   feature_set = "catch22")
 #'
 #' best_features <- shrink(features)
@@ -94,11 +94,11 @@ shrink <- function(data, threshold = c("one", "all"), plot = FALSE, ...){
     rownames(coefs_df) <- NULL
 
     coefs_df <- coefs_df %>%
-      dplyr::filter(names != "(Intercept)") %>%
-      dplyr::filter(values != 0) %>%
-      dplyr::mutate(feature_set = gsub("_.*", "\\1", names),
-                    names = sub("^[^_]*_", "", names)) %>%
-      dplyr::select(c(names, feature_set)) %>%
+      dplyr::filter(.data$names != "(Intercept)") %>%
+      dplyr::filter(.data$values != 0) %>%
+      dplyr::mutate(feature_set = gsub("_.*", "\\1", .data$names),
+                    names = sub("^[^_]*_", "", .data$names)) %>%
+      dplyr::select(c(.data$names, .data$feature_set)) %>%
       dplyr::distinct()
 
   } else{
@@ -126,11 +126,11 @@ shrink <- function(data, threshold = c("one", "all"), plot = FALSE, ...){
         dplyr::rowwise() %>%
         dplyr::mutate(zeroes = sum(dplyr::c_across(-c("names")) == 0)) %>%
         dplyr::ungroup() %>%
-        dplyr::filter(zeroes < num_classes) %>%
-        dplyr::select(-c(zeroes)) %>%
-        dplyr::mutate(feature_set = gsub("_.*", "\\1", names),
-                      names = sub("^[^_]*_", "", names)) %>%
-        dplyr::select(c(names, feature_set)) %>%
+        dplyr::filter(.data$zeroes < num_classes) %>%
+        dplyr::select(-c(.data$zeroes)) %>%
+        dplyr::mutate(feature_set = gsub("_.*", "\\1", .data$names),
+                      names = sub("^[^_]*_", "", .data$names)) %>%
+        dplyr::select(c(.data$names, .data$feature_set)) %>%
         dplyr::distinct()
 
     } else{
@@ -138,12 +138,12 @@ shrink <- function(data, threshold = c("one", "all"), plot = FALSE, ...){
       coefs_df$sums <- rowSums(coefs_df)
 
       coefs_df <- coefs_df %>%
-        dplyr::filter(sums != 0) %>%
-        dplyr::select(-c(sums)) %>%
+        dplyr::filter(.data$sums != 0) %>%
+        dplyr::select(-c(.data$sums)) %>%
         tibble::rownames_to_column(var = "names") %>%
-        dplyr::mutate(feature_set = gsub("_.*", "\\1", names),
-                      names = sub("^[^_]*_", "", names)) %>%
-        dplyr::select(c(names, feature_set)) %>%
+        dplyr::mutate(feature_set = gsub("_.*", "\\1", .data$names),
+                      names = sub("^[^_]*_", "", .data$names)) %>%
+        dplyr::select(c(.data$names, .data$feature_set)) %>%
         dplyr::distinct()
     }
   }

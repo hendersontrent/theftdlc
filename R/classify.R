@@ -20,7 +20,6 @@
 #' library(theft)
 #'
 #' features <- theft::calculate_features(theft::simData,
-#'   group_var = "process",
 #'   feature_set = "catch22")
 #'
 #' classifiers <- classify(features,
