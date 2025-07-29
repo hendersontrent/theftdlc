@@ -127,7 +127,7 @@ and the software:
     To cite package 'theft' in publications use:
 
       Henderson T (2025). _theft: Tools for Handling Extraction of Features
-      from Time Series_. R package version 0.8.1,
+      from Time Series_. R package version 0.8.2,
       <https://hendersontrent.github.io/theft/>.
 
     A BibTeX entry for LaTeX users is
@@ -136,14 +136,14 @@ and the software:
         title = {theft: Tools for Handling Extraction of Features from Time Series},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.8.1},
+        note = {R package version 0.8.2},
         url = {https://hendersontrent.github.io/theft/},
       }
 
     To cite package 'theftdlc' in publications use:
 
       Henderson T (2025). _theftdlc: Analyse and Interpret Time Series
-      Features_. R package version 0.2.0,
+      Features_. R package version 0.2.1,
       <https://hendersontrent.github.io/theftdlc/>.
 
     A BibTeX entry for LaTeX users is
@@ -152,6 +152,6 @@ and the software:
         title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.2.0},
+        note = {R package version 0.2.1},
         url = {https://hendersontrent.github.io/theftdlc/},
       }

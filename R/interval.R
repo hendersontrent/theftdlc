@@ -19,8 +19,8 @@ make_title <- function(x){
 #' @param data \code{list} object containing the classification outputs produce by \code{tsfeature_classifier}
 #' @param metric \code{character} denoting the classification performance metric to calculate intervals for. Can be one of \code{"accuracy"}, \code{"precision"}, \code{"recall"}, \code{"f1"}. Defaults to \code{"accuracy"}
 #' @param by_set \code{Boolean} specifying whether to compute intervals for each feature set. Defaults to \code{TRUE}. If \code{FALSE}, the function will instead calculate intervals for each feature
-#' @param type \code{character} denoting whether to calculate a +/- SD interval with \code{"sd"}, confidence interval based off the t-distribution with \code{"qt"}, or based on a quantile with \code{"quantile"}. Defaults to \code{"sd"}
-#' @param interval \code{numeric} scalar denoting the width of the interval to calculate. Defaults to \code{1} if \code{type = "sd"} to produce a +/- 1 SD interval. Defaults to \code{0.95} if \code{type = "qt"} or \code{type = "quantile"} for a 95 per cent interval
+#' @param type \code{character} denoting whether to calculate a +/- SD interval with \code{"sd"}, confidence interval based off the t-distribution with \code{"se"}, or based on a quantile with \code{"quantile"}. Defaults to \code{"sd"}
+#' @param interval \code{numeric} scalar denoting the width of the interval to calculate. Defaults to \code{1} if \code{type = "sd"} to produce a +/- 1 SD interval. Defaults to \code{0.95} if \code{type = "se"} or \code{type = "quantile"} for a 95 per cent interval
 #' @param model_type \code{character} denoting whether to calculate intervals for main models with \code{"main"} or null models with \code{"null"} if the \code{use_null} argument when using \code{tsfeature_classifier} was \code{use_null = TRUE}. Defaults to \code{"main"}
 #' @return \code{interval_calculations} object which is a data frame containing the results
 #' @author Trent Henderson
@@ -44,7 +44,7 @@ make_title <- function(x){
 #'
 
 interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
-                     by_set = TRUE, type = c("sd", "qt", "quantile"),
+                     by_set = TRUE, type = c("sd", "se", "quantile"),
                      interval = NULL, model_type = c("main", "null")){
 
   type <- match.arg(type)
@@ -52,10 +52,14 @@ interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
   model_type <- match.arg(model_type)
   '%ni%' <- Negate('%in%')
 
+  if(type == "qt"){
+    type <- "se" # Catches old argument specification for t-distribution
+  }
+
   # Check args
 
-  if(type %ni% c("sd", "qt", "quantile")){
-    stop("type must be one of 'sd', 'qt', or 'quantile'.")
+  if(type %ni% c("sd", "se", "quantile")){
+    stop("type must be one of 'sd', 'se', or 'quantile'.")
   }
 
   if(metric %ni% c("accuracy", "precision", "recall", "f1")){
@@ -78,8 +82,8 @@ interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
     stop("interval must be > 0. 1 is recommended to start with if type = 'sd' or 0.95 for type = 'quantile'.")
   }
 
-  if(type %in% c("qt", "quantile") && interval >= 1){
-    stop("for type 'qt' or 'quantile', interval must be 0 < interval < 1. For example, interval = 0.95 produces a 95% CI.")
+  if(type %in% c("se", "quantile") && interval >= 1){
+    stop("for type 'se' or 'quantile', interval must be 0 < interval < 1. For example, interval = 0.95 produces a 95% CI.")
   }
 
   # Set up strings to make code easier
@@ -120,7 +124,7 @@ interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
                        .upper = .data$.mean + (interval * stats::sd(.data$values)),
                      .by = !!rlang::sym(grouper))
 
-  } else if(type == "qt"){
+  } else if(type == "se"){
 
     n_samps <- max(data$ClassificationResults$resample)
 
