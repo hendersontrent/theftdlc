@@ -290,8 +290,8 @@ plot(feature_matrix_filt,
 * `data`---list object containing the classification outputs produce by `classify`
 * `metric`---character denoting the classification performance metric to calculate intervals for. Can be one of `"accuracy"`, `"precision"`, `"recall"`, `"f1"`. Defaults to `"accuracy"`
 * `by_set`---Boolean specifying whether to compute intervals for each feature set. Defaults to `TRUE`. If `FALSE`, the function will instead calculate intervals for each feature
-* `type`---character denoting whether to calculate a $\pm$ SD interval with `"sd"`, confidence interval based off the $t$-distribution with    `"qt"`, or based on a quantile with `"quantile"`. Defaults to `"sd"`
-* `interval`---numeric scalar denoting the width of the interval to calculate. Defaults to `1` if `type = "sd"` to produce a $\pm 1$ SD interval. Defaults to `0.95` if `type = "qt"` or `type = "quantile"` for a $95\%$ interval
+* `type`---character denoting whether to calculate a $\pm$ SD interval with `"sd"`, confidence interval based off the $t$-distribution with `"se"`, or based on a quantile with `"quantile"`. Defaults to `"sd"`
+* `interval`---numeric scalar denoting the width of the interval to calculate. Defaults to `1` if `type = "sd"` to produce a $\pm 1$ SD interval. Defaults to `0.95` if `type = "se"` or `type = "quantile"` for a $95\%$ interval
 * `model_type`---character denoting whether to calculate intervals for main models with `"main"` or null models with `"null"` if the `use_null` argument when using `classify` was `use_null = TRUE`. Defaults to `"main"`
 
 We can evidently use `interval` to produce a variety of different summaries for us. For example, we might wish to compute the $\pm1$ SD interval for each feature's main model classification accuracy values (note that the defaults for the function do this for us, so we only need to set `by_set = FALSE` manually):
