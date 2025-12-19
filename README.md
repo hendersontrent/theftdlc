@@ -27,9 +27,10 @@ devtools::install_github("hendersontrent/theftdlc")
 
 The [`theft`](https://hendersontrent.github.io/theft/) package for R
 facilitates user-friendly access to a structured analytical workflow for
-the extraction of time-series features from six different feature sets
+the extraction of time-series features from seven different feature sets
 (and any number of individual user-supplied features): `"catch22"`,
-`"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, and `"tsfel"`.
+`"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, `"tsfel"`, and
+`"hctsa"`.
 
 `theftdlc` extends this feature-based ecosystem by providing a suite of
 functions for analysing, interpreting, and visualising time-series
@@ -99,14 +100,12 @@ calculate_features(data = theft::simData,
   head()
 ```
 
-                    hypothesis  feature_set   metric  set_mean null_mean
-    1 All features != own null All features accuracy 0.8177778 0.1644444
-    2         User != own null         User accuracy 0.7955556 0.1200000
-    3      catch22 != own null      catch22 accuracy 0.7511111 0.1377778
-      t_statistic     p.value
-    1    4.759301 0.004454886
-    2    6.159351 0.001763084
-    3    4.866885 0.004119101
+               hypothesis feature_set   metric  set_mean  null_mean t_statistic
+    1    User != own null        User accuracy 0.5466667 0.09333333    3.631296
+    2 catch22 != own null     catch22 accuracy 0.7377778 0.15111111    5.794157
+          p.value
+    1 0.011067234
+    2 0.002205415
 
 In this example, `classify` and `compare_features` come from `theftdlc`.
 
@@ -118,16 +117,32 @@ of both packages.
 If you use `theft` or `theftdlc` in your own work, please cite both the
 paper:
 
-T. Henderson and Ben D. Fulcher. [Feature-Based Time-Series Analysis in
-R using the theft Package](https://arxiv.org/abs/2208.06146). arXiv,
-(2022).
+T. Henderson and Ben D. Fulcher. [“Feature-Based Time-Series Analysis in
+R using the Theft
+Ecosystem”](https://journal.r-project.org/articles/RJ-2025-023/), The R
+Journal, 2025.
+
+BibTeX version:
+
+    @article{RJ-2025-023,
+      author = {Henderson, Trent and Fulcher, Ben D.},
+      title = {Feature-Based Time-Series Analysis in R using the Theft Ecosystem},
+      journal = {The R Journal},
+      year = {2025},
+      note = {https://doi.org/10.32614/RJ-2025-023},
+      doi = {10.32614/RJ-2025-023},
+      volume = {17},
+      issue = {3},
+      issn = {2073-4859},
+      pages = {43-68}
+    }
 
 and the software:
 
     To cite package 'theft' in publications use:
 
       Henderson T (2025). _theft: Tools for Handling Extraction of Features
-      from Time Series_. R package version 0.8.2,
+      from Time Series_. R package version 0.8.3,
       <https://hendersontrent.github.io/theft/>.
 
     A BibTeX entry for LaTeX users is
@@ -136,14 +151,14 @@ and the software:
         title = {theft: Tools for Handling Extraction of Features from Time Series},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.8.2},
+        note = {R package version 0.8.3},
         url = {https://hendersontrent.github.io/theft/},
       }
 
     To cite package 'theftdlc' in publications use:
 
       Henderson T (2025). _theftdlc: Analyse and Interpret Time Series
-      Features_. R package version 0.2.1,
+      Features_. R package version 0.2.2,
       <https://hendersontrent.github.io/theftdlc/>.
 
     A BibTeX entry for LaTeX users is
@@ -152,6 +167,6 @@ and the software:
         title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
         year = {2025},
-        note = {R package version 0.2.1},
+        note = {R package version 0.2.2},
         url = {https://hendersontrent.github.io/theftdlc/},
       }

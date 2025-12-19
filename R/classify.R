@@ -6,11 +6,15 @@
 #' @importFrom e1071 svm
 #'
 #' @param data \code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}
+#' @param tt_labels \code{data.frame} containing data with two columns: an id column that aligns with the id column in \code{data} and a column for train-test designation of each id. Defaults to \code{NULL}. If \code{tt_labels = NULL}, labels will be created by constructing a new train-test split using `train_size`
 #' @param classifier \code{function} specifying the classifier to fit. Should be a function with 2 arguments: \code{formula} and \code{data} containing a classifier compatible with R's \code{predict} functionality. Please note that \code{classify} z-scores data prior to modelling using the train set's information so disabling default scaling if your function uses it is recommended. Defaults to \code{NULL} which means the following linear SVM is fit: \code{classifier = function(formula, data){mod <- e1071::svm(formula, data = data, kernel = "linear", scale = FALSE, probability = TRUE)}}
 #' @param train_size \code{numeric} denoting the proportion of samples to use in the training set. Defaults to \code{0.75}
 #' @param n_resamples \code{integer} denoting the number of resamples to calculate. Defaults to \code{30}
 #' @param by_set \code{Boolean} specifying whether to compute classifiers for each feature set. Defaults to \code{TRUE}. If \code{FALSE}, the function will instead find the best individually-performing features
 #' @param use_null \code{Boolean} whether to fit null models where class labels are shuffled in order to generate a null distribution that can be compared to performance on correct class labels. Defaults to \code{FALSE}
+#' @param filter_duplicates \code{Boolean} denoting whether to filter duplicate features when \code{by_set = FALSE} or not. Only useful for determining top individual unique features for a problem. Defaults to \code{FALSE}
+#' @param add_all_features \code{Boolean} denoting whether to construct a composite set of all features to use as a comparison. Only applicable if \code{by_set = TRUE}. Defaults to \code{FALSE}
+#' @param n_workers \code{integer} denoting the number of parallel processes to use. Likely only beneficial for smaller datasets. Defaults to \code{1} for serial processing
 #' @param seed \code{integer} to fix R's random number generator to ensure reproducibility. Defaults to \code{123}
 #' @return \code{list} containing a named \code{vector} of train-test set sizes, and a \code{data.frame} of classification performance results
 #' @author Trent Henderson
@@ -27,8 +31,8 @@
 #'   n_resamples = 3)
 #'
 
-classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 30, by_set = TRUE,
-                     use_null = FALSE, seed = 123){
+classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.75, n_resamples = 30, by_set = TRUE,
+                     use_null = FALSE, filter_duplicates = FALSE, add_all_features = FALSE, n_workers = 1, seed = 123){
 
   stopifnot(inherits(data, "feature_calculations") == TRUE)
 
@@ -38,6 +42,24 @@ classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 3
 
   if(n_resamples < 0){
     stop("n_resamples must be an integer >= 1.")
+  }
+
+  # Check workers
+
+  stopifnot(n_workers >= 1)
+
+  if(n_workers > 1){
+    is_parallel <- TRUE
+  } else{
+    is_parallel <- FALSE
+  }
+
+  # Validate train-test label data if supplied
+
+  if(!is.null(tt_labels)){
+    stopifnot(class(tt_labels) == "data.frame")
+    stopifnot(ncol(tt_labels) == 2)
+    stopifnot("id" %in% colnames(tt_labels))
   }
 
   # Set up data
@@ -54,35 +76,45 @@ classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 3
 
     # Set up "All features" set
 
-    if(length(unique(data$feature_set)) > 1){
+    if(add_all_features){
+      if(length(unique(data$feature_set)) > 1){
 
-      # Remove duplicate features
+        # Remove duplicate features
 
-      tmp2 <- filter_duplicates(data = data, seed = seed)
+        if(filter_duplicates){
+          tmp2 <- filter_duplicates(data = data, seed = seed)
+        } else{
+          tmp2 <- data
+        }
 
-      # Construct set of all features
+        # Construct set of all features
 
-      tmp2 <- tmp2 %>%
-        dplyr::mutate(group = as.factor(as.character(.data$group)),
-                      names = paste0(.data$feature_set, "_", .data$names),
-                      feature_set = "allfeatures",
-                      names = paste0(.data$feature_set, "_", .data$names)) %>%
-        dplyr::select(c(.data$id, .data$group, .data$names, .data$values)) %>%
-        tidyr::pivot_wider(id_cols = c("id", "group"), names_from = "names", values_from = "values") %>%
-        dplyr::select_if(~sum(!is.na(.)) > 0) %>% # Delete features that are all NaNs
-        dplyr::select(mywhere(~dplyr::n_distinct(.) > 1)) # Delete features with constant values
+        tmp2 <- tmp2 %>%
+          dplyr::mutate(group = as.factor(as.character(.data$group)),
+                        names = paste0(.data$feature_set, "_", .data$names),
+                        feature_set = "allfeatures",
+                        names = paste0(.data$feature_set, "_", .data$names)) %>%
+          dplyr::select(c(.data$id, .data$group, .data$names, .data$values)) %>%
+          tidyr::pivot_wider(id_cols = c("id", "group"), names_from = "names", values_from = "values") %>%
+          dplyr::select_if(~sum(!is.na(.)) > 0) %>% # Delete features that are all NaNs
+          dplyr::select(mywhere(~dplyr::n_distinct(.) > 1)) # Delete features with constant values
 
-      tmp <- tmp %>%
-        dplyr::left_join(tmp2, by = c("id" = "id", "group" = "group"))
-    } else{
-      message("Only one unique feature set detected. Will not construct composite set of 'all features'.")
+        tmp <- tmp %>%
+          dplyr::left_join(tmp2, by = c("id" = "id", "group" = "group"))
+      } else{
+        message("Only one unique feature set detected. Will not construct composite set of 'all features'.")
+      }
     }
 
   } else{
 
     # Remove duplicate features
 
-    tmp <- filter_duplicates(data = data, seed = seed)
+    if(filter_duplicates){
+      tmp <- filter_duplicates(data = data, seed = seed)
+    } else{
+      tmp <- data
+    }
 
     tmp <- tmp %>%
       dplyr::mutate(group = as.factor(as.character(.data$group)),
@@ -95,10 +127,21 @@ classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 3
 
   # Assign samples to train or test
 
-  set.seed(seed)
-  dt <- sort(sample(nrow(tmp), nrow(tmp) * train_size))
-  train <- tmp[dt, ] %>% dplyr::mutate(set_split = "Train")
-  test <- tmp[-dt, ] %>% dplyr::mutate(set_split = "Test")
+  if(is.null(tt_labels)){
+    set.seed(seed)
+    dt <- sort(sample(nrow(tmp), nrow(tmp) * train_size))
+    train <- tmp[dt, ] %>% dplyr::mutate(set_split = "Train")
+    test <- tmp[-dt, ] %>% dplyr::mutate(set_split = "Test")
+  } else{
+    dt <- tmp %>%
+      dplyr::inner_join(tt_labels, by = c("id" = "id"))
+
+    train <- dt %>%
+      filter(.data$set_split == "Train")
+
+    test <- dt %>%
+      filter(.data$set_split == "Test")
+  }
 
   # Ensure train set gets at least a sample from each group
 
@@ -207,24 +250,48 @@ classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 3
     if(use_null){
       # Compute main results
 
-      outs <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+      if(is_parallel){
+        future::plan(future::multisession, workers = n_workers)
 
-      # Compute null results
+        outs <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
 
-      message("\n")
+        # Compute null results
 
-      outs_null <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = TRUE, classifier = classifier))
+        message("\n")
+
+        outs_null <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = TRUE, classifier = classifier))
+
+      } else{
+        outs <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+
+        # Compute null results
+
+        message("\n")
+
+        outs_null <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = TRUE, classifier = classifier))
+      }
 
       outs <- dplyr::bind_rows(outs, outs_null) %>%
         dplyr::mutate(feature_set = ifelse(.data$feature_set == "allfeatures", "All features", .data$feature_set)) %>%
         dplyr::arrange(.data$feature_set)
 
     } else{
-      outs <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier)) %>%
-        dplyr::mutate(feature_set = ifelse(.data$feature_set == "allfeatures", "All features", .data$feature_set))
+
+      if(is_parallel){
+        future::plan(future::multisession, workers = n_workers)
+
+        outs <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier)) %>%
+          dplyr::mutate(feature_set = ifelse(.data$feature_set == "allfeatures", "All features", .data$feature_set))
+      } else{
+        outs <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier)) %>%
+          dplyr::mutate(feature_set = ifelse(.data$feature_set == "allfeatures", "All features", .data$feature_set))
+      }
     }
   } else{
 
@@ -237,20 +304,42 @@ classify <- function(data, classifier = NULL, train_size = 0.75, n_resamples = 3
     if(use_null){
       # Compute main results
 
-      outs <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+      if(is_parallel){
+        future::plan(future::multisession, workers = n_workers)
 
-      # Compute null results
+        outs <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
 
-      outs_null <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = TRUE, classifier = classifier))
+        # Compute null results
 
-      outs <- dplyr::bind_rows(outs, outs_null)
+        outs_null <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = TRUE, classifier = classifier))
 
+        outs <- dplyr::bind_rows(outs, outs_null)
+      }
+      else{
+        outs <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+
+        # Compute null results
+
+        outs_null <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = TRUE, classifier = classifier))
+
+        outs <- dplyr::bind_rows(outs, outs_null)
+      }
     } else{
 
-      outs <- 1:nrow(iters) %>%
-        purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+      if(is_parallel){
+        future::plan(future::multisession, workers = n_workers)
+
+        outs <- 1:nrow(iters) %>%
+          furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+      }
+      else{
+        outs <- 1:nrow(iters) %>%
+          purrr::map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
+      }
     }
   }
 

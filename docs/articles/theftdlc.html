@@ -25,7 +25,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">theftdlc</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2025-07-29</h4>
+            <h4 data-toc-skip class="date">2025-12-19</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/HEAD/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -76,14 +76,17 @@ Henderson</h4>
 </h2>
 <p>The <a href="https://hendersontrent.github.io/theft/" class="external-link"><code>theft</code></a>
 package for R facilitates user-friendly access to a structured
-analytical workflow for the extraction of time-series features from six
-different feature sets (and any number of individual user-supplied
+analytical workflow for the extraction of time-series features from
+seven different feature sets (and any number of individual user-supplied
 features): <code>"catch22"</code>, <code>"feasts"</code>,
 <code>"kats"</code>, <code>"tsfeatures"</code>, <code>"tsfresh"</code>,
-and <code>"tsfel"</code>. <code>theftdlc</code> extends this
-feature-based ecosystem by providing a suite of functions for analysing,
-interpreting, and visualising time-series features calculated using
-<code>theft</code>.</p>
+<code>"tsfel"</code>, and <code>"hctsa"</code>. <code>theftdlc</code>
+extends this feature-based ecosystem by providing a suite of functions
+for analysing, interpreting, and visualising time-series features
+calculated using <code>theft</code>.</p>
+<p>Please see our recent paper <a href="https://journal.r-project.org/articles/RJ-2025-023/" class="external-link">“Feature-Based
+Time-Series Analysis in R using the Theft Ecosystem”</a> for more
+information.</p>
 </div>
 <div class="section level2">
 <h2 id="core-calculation-functions">Core calculation functions<a class="anchor" aria-label="anchor" href="#core-calculation-functions"></a>
@@ -410,6 +413,16 @@ containing the raw feature matrix produced by
 <code><a href="https://hendersontrent.github.io/theft/reference/calculate_features.html" class="external-link">theft::calculate_features</a></code>
 </li>
 <li>
+<code>tt_labels</code>—<code>data.frame</code> containing data with
+two columns: an <code>id</code> column whose values that aligns with the
+id column in <code>data</code> and a column for train-test designation
+of each id named <code>set_split</code> where entries are
+<code>"Train"</code> or <code>"Test"</code>. Defaults to
+<code>NULL</code>. If <code>tt_labels = NULL</code>, labels will be
+created by constructing a new train-test split using
+<code>train_size</code>
+</li>
+<li>
 <code>classifier</code>—<code>function</code> specifying the
 classifier to fit. Should be a function with 2 arguments:
 <code>formula</code> and <code>data</code>. Please note that
@@ -438,6 +451,21 @@ features</li>
 labels are shuffled in order to generate a null distribution that can be
 compared to performance on correct class labels. Defaults to
 <code>FALSE</code>. This is known as permutation testing</li>
+<li>
+<code>filter_duplicates</code>—Boolean denoting whether to filter
+duplicate features when <code>by_set = FALSE</code> or not. Only useful
+for determining top individual unique features for a problem. Defaults
+to <code>FALSE</code>
+</li>
+<li>
+<code>add_all_features</code>—Boolean denoting whether to construct
+a composite set of all features to use as a comparison. Only applicable
+if <code>by_set = TRUE</code>. Defaults to <code>FALSE</code>
+</li>
+<li>
+<code>n_workers</code>—integer denoting the number of parallel
+processes to use. Likely only beneficial for smaller datasets. Defaults
+to <code>1</code> for serial processing</li>
 <li>
 <code>seed</code>—Integer to fix R’s random number generator to
 ensure reproducibility. Defaults to <code>123</code>
@@ -726,7 +754,8 @@ and a custom set of just mean and standard deviation:</p>
 <span><span class="va">set_classifiers</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/classify.html">classify</a></span><span class="op">(</span><span class="va">feature_matrix2</span>,</span>
 <span>                            by_set <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>                            n_resamples <span class="op">=</span> <span class="fl">5</span>,</span>
-<span>                            use_null <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>                            use_null <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>                            add_all_features <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">set_classifiers</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $TrainTestSizes</span></span>

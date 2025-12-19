@@ -7,26 +7,36 @@
 \usage{
 classify(
   data,
+  tt_labels = NULL,
   classifier = NULL,
   train_size = 0.75,
   n_resamples = 30,
   by_set = TRUE,
   use_null = FALSE,
+  filter_duplicates = FALSE,
+  add_all_features = FALSE,
+  n_workers = 1,
   seed = 123
 )
 
 tsfeature_classifier(
   data,
+  tt_labels = NULL,
   classifier = NULL,
   train_size = 0.75,
   n_resamples = 30,
   by_set = TRUE,
   use_null = FALSE,
+  filter_duplicates = FALSE,
+  add_all_features = FALSE,
+  n_workers = 1,
   seed = 123
 )
 }
 \arguments{
 \item{data}{\code{feature_calculations} object containing the raw feature matrix produced by \code{theft::calculate_features}}
+
+\item{tt_labels}{\code{data.frame} containing data with two columns: an id column that aligns with the id column in \code{data} and a column for train-test designation of each id. Defaults to \code{NULL}. If \code{tt_labels = NULL}, labels will be created by constructing a new train-test split using `train_size`}
 
 \item{classifier}{\code{function} specifying the classifier to fit. Should be a function with 2 arguments: \code{formula} and \code{data} containing a classifier compatible with R's \code{predict} functionality. Please note that \code{classify} z-scores data prior to modelling using the train set's information so disabling default scaling if your function uses it is recommended. Defaults to \code{NULL} which means the following linear SVM is fit: \code{classifier = function(formula, data){mod <- e1071::svm(formula, data = data, kernel = "linear", scale = FALSE, probability = TRUE)}}}
 
@@ -37,6 +47,12 @@ tsfeature_classifier(
 \item{by_set}{\code{Boolean} specifying whether to compute classifiers for each feature set. Defaults to \code{TRUE}. If \code{FALSE}, the function will instead find the best individually-performing features}
 
 \item{use_null}{\code{Boolean} whether to fit null models where class labels are shuffled in order to generate a null distribution that can be compared to performance on correct class labels. Defaults to \code{FALSE}}
+
+\item{filter_duplicates}{\code{Boolean} denoting whether to filter duplicate features when \code{by_set = FALSE} or not. Only useful for determining top individual unique features for a problem. Defaults to \code{FALSE}}
+
+\item{add_all_features}{\code{Boolean} denoting whether to construct a composite set of all features to use as a comparison. Only applicable if \code{by_set = TRUE}. Defaults to \code{FALSE}}
+
+\item{n_workers}{\code{integer} denoting the number of parallel processes to use. Likely only beneficial for smaller datasets. Defaults to \code{1} for serial processing}
 
 \item{seed}{\code{integer} to fix R's random number generator to ensure reproducibility. Defaults to \code{123}}
 }

@@ -32,7 +32,9 @@ library(theftdlc)
 
 ## Purpose
 
-The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from six different feature sets (and any number of individual user-supplied features): `"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, and `"tsfel"`. `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`.
+The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from seven different feature sets (and any number of individual user-supplied features): `"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, `"tsfel"`, and `"hctsa"`. `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`.
+
+Please see our recent paper ["Feature-Based Time-Series Analysis in R using the Theft Ecosystem"](https://journal.r-project.org/articles/RJ-2025-023/) for more information.
 
 ## Core calculation functions
 
@@ -200,11 +202,15 @@ Similarly, you can control the normalisation type with the `norm_method` argumen
 Since feature-based time-series analysis has shown particular promise for classification problems, `theftdlc` includes functionality for exploring group separation. The function `classify` enables you to fit a range of classification models to enable statistical comparisons using the resampling methodology presented in [this paper](https://arxiv.org/abs/2303.17809). This function is meant to serve as a fast answer that can be used to guide analysis and not a replacement for the development of a bespoke statistical pipeline. `classify` has the following arguments:
 
 * `data`---`feature_calculations` object containing the raw feature matrix produced by `theft::calculate_features` with an included `group` column as per `theft::calculate_features`
+* `tt_labels`---`data.frame` containing data with two columns: an `id` column whose values that aligns with the id column in `data` and a column for train-test designation of each id named `set_split` where entries are `"Train"` or `"Test"`. Defaults to `NULL`. If `tt_labels = NULL`, labels will be created by constructing a new train-test split using `train_size`
 * `classifier`---`function` specifying the classifier to fit. Should be a function with 2 arguments: `formula` and `data`. Please note that `classify` z-scores data prior to modelling using the train set's information so disabling default scaling if your function uses it is recommended. Defaults to `NULL` which means the following linear SVM is fit: `classifier = function(formula, data){mod <- e1071::svm(formula, data = data, kernel = "linear", scale = FALSE, probability = TRUE)}`
 * `train_size`---Numeric value denoting the proportion of samples to use in the training set. Defaults to `0.75`
 * `n_resamples`---Integer denoting the number of resamples to calculate. Defaults to `30`
 * `by_set`---Boolean specifying whether to compute classifiers for each feature set. Defaults to `TRUE` (see below section "Multi-feature" for more on this). If `FALSE`, the function will instead find the best individually-performing features
 * `use_null`---Boolean whether to fit null models where class labels are shuffled in order to generate a null distribution that can be compared to performance on correct class labels. Defaults to `FALSE`. This is known as permutation testing
+* `filter_duplicates`---Boolean denoting whether to filter duplicate features when `by_set = FALSE` or not. Only useful for determining top individual unique features for a problem. Defaults to `FALSE`
+* `add_all_features`---Boolean denoting whether to construct a composite set of all features to use as a comparison. Only applicable if `by_set = TRUE`. Defaults to `FALSE`
+* `n_workers`---integer denoting the number of parallel processes to use. Likely only beneficial for smaller datasets. Defaults to `1` for serial processing
 * `seed`---Integer to fix R's random number generator to ensure reproducibility. Defaults to `123`
 
 Since we are interested in individual features in this section, we will calculate both main and null results for each feature using just `5` resamples for efficiency (in practice, we would use more!) with the default linear SVM:
@@ -313,7 +319,8 @@ feature_matrix2 <- calculate_features(data = simData,
 set_classifiers <- classify(feature_matrix2,
                             by_set = TRUE,
                             n_resamples = 5,
-                            use_null = TRUE)
+                            use_null = TRUE,
+                            add_all_features = TRUE)
 
 head(set_classifiers)
 ```
