@@ -29,7 +29,7 @@ devtools::install_github("hendersontrent/theftdlc")
 
 ## General purpose
 
-The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from six different feature sets (and any number of individual user-supplied features): `"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, and `"tsfel"`.
+The [`theft`](https://hendersontrent.github.io/theft/) package for R facilitates user-friendly access to a structured analytical workflow for the extraction of time-series features from seven different feature sets (and any number of individual user-supplied features): `"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, `"tsfel"`, and `"hctsa"`.
 
 `theftdlc` extends this feature-based ecosystem by providing a suite of functions for analysing, interpreting, and visualising time-series features calculated using `theft`. Functionality including data quality assessments and normalisation methods, low dimensional projections (linear and nonlinear), data matrix and feature distribution visualisations, time-series classification machine learning procedures, statistical hypothesis testing, and various other statistical and graphical tools.
 
@@ -85,7 +85,24 @@ Please see the vignette for more information and the full functionality of both 
 
 If you use `theft` or `theftdlc` in your own work, please cite both the paper:
 
-T. Henderson and Ben D. Fulcher. [Feature-Based Time-Series Analysis in R using the theft Package](https://arxiv.org/abs/2208.06146). arXiv, (2022).
+T. Henderson and Ben D. Fulcher. ["Feature-Based Time-Series Analysis in R using the Theft Ecosystem"](https://journal.r-project.org/articles/RJ-2025-023/), The R Journal, 2025.
+
+BibTeX version:
+
+```
+@article{RJ-2025-023,
+  author = {Henderson, Trent and Fulcher, Ben D.},
+  title = {Feature-Based Time-Series Analysis in R using the Theft Ecosystem},
+  journal = {The R Journal},
+  year = {2025},
+  note = {https://doi.org/10.32614/RJ-2025-023},
+  doi = {10.32614/RJ-2025-023},
+  volume = {17},
+  issue = {3},
+  issn = {2073-4859},
+  pages = {43-68}
+}
+```
 
 and the software:
 
