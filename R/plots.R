@@ -190,6 +190,10 @@ plot.feature_calculations <- function(x, type = c("matrix", "cor", "violin", "bo
       tidyr::pivot_wider(id_cols = "id", names_from = "names", values_from = "values") %>%
       dplyr::select(-c(.data$id))
 
+    # Filter to features that have SD > 0
+
+    cor_dat <- Filter(function(x) sd(x, na.rm = TRUE) != 0, cor_dat)
+
     #--------- Correlation ----------
 
     # Calculate correlations and take absolute

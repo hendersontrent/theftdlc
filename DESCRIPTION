@@ -47,6 +47,6 @@ Suggests:
     rmarkdown,
     pkgdown,
     testthat
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 URL: https://hendersontrent.github.io/theftdlc/
