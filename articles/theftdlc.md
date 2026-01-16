@@ -815,7 +815,7 @@ with all of `theftdlc`, just like `calculate_features`:
 3.  `plot` — whether to plot the misclassification error lambda plot for
     the CV model. Defaults to `FALSE`
 4.  `...` — additional arguments that are passed to
-    [`glmnet::cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html)
+    [`glmnet::cv.glmnet`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html)
     to control the model fitting process
 
 ``` r
