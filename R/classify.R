@@ -57,7 +57,7 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
   # Validate train-test label data if supplied
 
   if(!is.null(tt_labels)){
-    stopifnot(class(tt_labels) == "data.frame")
+    stopifnot(inherits(tt_labels, "data.frame") == TRUE)
     stopifnot(ncol(tt_labels) == 2)
     stopifnot("id" %in% colnames(tt_labels))
   }
@@ -163,7 +163,7 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
     test <- tmp[setdiff(1:nrow(tmp), selected_indices), ] %>% dplyr::mutate(set_split = "Test")
   }
 
-  stopifnot(nrow(train) + nrow(test) == nrow(tmp))
+  stopifnot(nrow(train) + nrow(test) == nrow(dt))
 
   # Pivot back to tidy dataframe
 
