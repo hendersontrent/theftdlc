@@ -58,7 +58,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2025-12-19</h4>
+            <h4 data-toc-skip class="date">2026-01-17</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/HEAD/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -133,7 +133,7 @@ large proportions of undesirable (e.g., <code>NA</code>,
 <code>type = "quality</code> to make this graphic:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix</span>, type <span class="op">=</span> <span class="st">"quality"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-5-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="data-visualisation-and-low-dimensional-projections">Data visualisation and low-dimensional projections<a class="anchor" aria-label="anchor" href="#data-visualisation-and-low-dimensional-projections"></a>
@@ -176,7 +176,7 @@ continuous legends can be difficult to interpret meaningful value
 differences easily.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix</span>, type <span class="op">=</span> <span class="st">"matrix"</span>, norm_method <span class="op">=</span> <span class="st">"RobustSigmoid"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-6-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p>You can control the normalisation type with the
 <code>norm_method</code> argument, whether to rescale to the unit
 interval after normalisation with the <code>unit_int</code> argument.
@@ -202,7 +202,7 @@ will just plot two random features from <code>catch22</code> here:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix</span>, type <span class="op">=</span> <span class="st">"violin"</span>,</span>
 <span>     feature_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CO_f1ecac"</span>, <span class="st">"PD_PeriodicityWang_th0_01"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-7-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p>Note that when using these defined <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> generics, you
 can pass any additional arguments to certain geoms to control the plot
 look through the <code>...</code> argument in the <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code>
@@ -242,7 +242,7 @@ points:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix</span>, type <span class="op">=</span> <span class="st">"box"</span>,</span>
 <span>     feature_names <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CO_f1ecac"</span>, <span class="st">"PD_PeriodicityWang_th0_01"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-9-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="low-dimensional-projections">Low dimensional projections<a class="anchor" aria-label="anchor" href="#low-dimensional-projections"></a>
@@ -354,7 +354,7 @@ reduction algorithm</li>
 two-dimensional scatterplot of the results:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">low_dim</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-11-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p>As another example, a <em>t</em>-SNE version can be specified in a
 similar fashion, with any function parameters for the method supplied to
 the <code>...</code> argument to <code>project</code>. Shaded covariance
@@ -371,7 +371,7 @@ the perplexity of the <em>t</em>-SNE algorithm:</p>
 <span>                    seed <span class="op">=</span> <span class="fl">123</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">low_dim2</span>, show_covariance <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-12-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="pairwise-correlations">Pairwise correlations<a class="anchor" aria-label="anchor" href="#pairwise-correlations"></a>
@@ -381,7 +381,7 @@ the perplexity of the <em>t</em>-SNE algorithm:</p>
 object:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix</span>, type <span class="op">=</span> <span class="st">"cor"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-13-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p>Similarly, you can control the normalisation type with the
 <code>norm_method</code> argument and the hierarchical clustering method
 with the <code>clust_method</code> argument (the example above used
@@ -603,7 +603,7 @@ cleanliness):</p>
 <span><span class="co">#&gt; 2 accuracy    0.3333333    0.3022222   0.9525793 0.39474545   1.0000000</span></span>
 <span><span class="co">#&gt; 3 accuracy    0.3333333    0.3688889  -0.5819144 0.59184415   1.0000000</span></span>
 <span><span class="co">#&gt; 4 accuracy    0.3333333    0.1377778   4.4907312 0.01089970   1.0000000</span></span>
-<span><span class="co">#&gt; 5 accuracy    0.3333333    0.0800000   5.7287155 0.00459701   0.7768946</span></span>
+<span><span class="co">#&gt; 5 accuracy    0.3333333    0.0800000   5.7287155 0.00459701   0.7814916</span></span>
 <span><span class="co">#&gt; 6 accuracy    0.3333333    0.1022222   4.8702462 0.00821823   1.0000000</span></span></code></pre></div>
 <p><em>NOTE: Although it was not used in this vignette for simplicity,
 it is strongly recommended to use parallel processing in</em>
@@ -627,14 +627,14 @@ filtering the original full feature data and making use of the
 <span></span>
 <span><span class="va">feature_matrix_filt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span><span class="va">feature_matrix_filt</span>, class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"feature_calculations"</span>, <span class="st">"data.frame"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix_filt</span>, type <span class="op">=</span> <span class="st">"cor"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-18-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p>We can also easily draw a violin plot of the top 10 features to
 visualise the distributions by group:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">feature_matrix_filt</span>,</span>
 <span>     type <span class="op">=</span> <span class="st">"violin"</span>,</span>
 <span>     feature_names <span class="op">=</span> <span class="va">top_10</span><span class="op">$</span><span class="va">original_names</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-19-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-19-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p><code>theftdlc</code> also contains a function <code>interval</code>
 for summarising the results of <code>classify</code>.
 <code>interval</code> returns an object of class
@@ -699,7 +699,7 @@ to set <code>by_set = FALSE</code> manually):</p>
 <span><span class="co">#&gt; 5                                catch22_CO_trev_1_num 0.13777778 0.11343455</span></span>
 <span><span class="co">#&gt; 6                          catch22_DN_HistogramMode_10 0.08000000 0.05018576</span></span>
 <span><span class="co">#&gt; 7                           catch22_DN_HistogramMode_5 0.10222222 0.04427376</span></span>
-<span><span class="co">#&gt; 8                catch22_DN_OutlierInclude_n_001_mdrmd 0.08888889 0.07317540</span></span>
+<span><span class="co">#&gt; 8                catch22_DN_OutlierInclude_n_001_mdrmd 0.09777778 0.07244055</span></span>
 <span><span class="co">#&gt; 9                catch22_DN_OutlierInclude_p_001_mdrmd 0.09777778 0.07244055</span></span>
 <span><span class="co">#&gt; 10              catch22_FC_LocalSimple_mean1_tauresrat 0.46222222 0.39858746</span></span>
 <span><span class="co">#&gt; 11                 catch22_FC_LocalSimple_mean3_stderr 0.56444444 0.53910721</span></span>
@@ -722,7 +722,7 @@ to set <code>by_set = FALSE</code> manually):</p>
 <span><span class="co">#&gt; 5  0.1621210</span></span>
 <span><span class="co">#&gt; 6  0.1098142</span></span>
 <span><span class="co">#&gt; 7  0.1601707</span></span>
-<span><span class="co">#&gt; 8  0.1046024</span></span>
+<span><span class="co">#&gt; 8  0.1231150</span></span>
 <span><span class="co">#&gt; 9  0.1231150</span></span>
 <span><span class="co">#&gt; 10 0.5258570</span></span>
 <span><span class="co">#&gt; 11 0.5897817</span></span>
@@ -837,7 +837,7 @@ summary:</p>
 <code class="sourceCode R"><span><span class="va">interval_calcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/interval.html">interval</a></span><span class="op">(</span><span class="va">set_classifiers</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">interval_calcs</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-22-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-22-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -940,7 +940,7 @@ visualisation:</p>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
 <span>                   panel.grid.minor <span class="op">=</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_blank</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-24-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level2">
 <h2 id="feature-selection">Feature selection<a class="anchor" aria-label="anchor" href="#feature-selection"></a>
@@ -983,7 +983,7 @@ lambda plot for the CV model. Defaults to <code>FALSE</code>
 </ol>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feature_matrix_red</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/shrink.html">shrink</a></span><span class="op">(</span><span class="va">feature_matrix</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
-<p><img src="theftdlc_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;"></p>
+<p><img src="theftdlc_files/figure-html/unnamed-chunk-25-1.png" class="r-plt" alt="" width="672" style="display: block; margin: auto;"></p>
 <p>We can then compare the number of features between our original set
 and the reduced feature set:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
@@ -1008,7 +1008,7 @@ dimensional cases, such as when features from all six sets in
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

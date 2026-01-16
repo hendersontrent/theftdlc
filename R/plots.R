@@ -2,6 +2,7 @@
 
 #' Produce a plot for a feature_calculations object
 #'
+#' @importFrom stats sd
 #' @importFrom rlang .data
 #' @import dplyr
 #' @import ggplot2
@@ -189,6 +190,10 @@ plot.feature_calculations <- function(x, type = c("matrix", "cor", "violin", "bo
       dplyr::filter(.data$id %in% ids_to_keep) %>%
       tidyr::pivot_wider(id_cols = "id", names_from = "names", values_from = "values") %>%
       dplyr::select(-c(.data$id))
+
+    # Filter to features that have SD > 0
+
+    cor_dat <- Filter(function(x) stats::sd(x, na.rm = TRUE) != 0, cor_dat)
 
     #--------- Correlation ----------
 

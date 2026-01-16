@@ -2,7 +2,7 @@ Package: theftdlc
 Type: Package
 Title: Analyse and Interpret Time Series Features
 Version: 0.2.2
-Date: 2025-12-19
+Date: 2026-01-17
 Authors@R: c(
   person("Trent", "Henderson", email = "then6675@uni.sydney.edu.au", role = c("cre", "aut"))
   )
@@ -47,6 +47,6 @@ Suggests:
     rmarkdown,
     pkgdown,
     testthat
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 URL: https://hendersontrent.github.io/theftdlc/
