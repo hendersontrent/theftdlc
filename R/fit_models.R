@@ -30,11 +30,16 @@ fit_models <- function(data, iter_data, row_id, is_null_run = FALSE, classifier)
     train <- train[, c("group", iter_filt$feature_name)]
     test <- test[, c("group", iter_filt$feature_name)]
   } else{
+    # Columns are named "<set>_<feature>", so match the set prefix exactly (a substring
+    # match would also pick up e.g. "fftquantiles_*" for "quantiles" or "allfeatures_catch22_*" for "catch22")
+
+    set_cols <- colnames(train)[startsWith(colnames(train), paste0(iter_filt$set_name, "_"))]
+
     train <- train %>%
-      dplyr::select(c("group", contains(iter_filt$set_name)))
+      dplyr::select(c("group", dplyr::all_of(set_cols)))
 
     test <- test %>%
-      dplyr::select(c("group", contains(iter_filt$set_name)))
+      dplyr::select(c("group", dplyr::all_of(set_cols)))
   }
 
   if(is_null_run){
@@ -59,10 +64,10 @@ fit_models <- function(data, iter_data, row_id, is_null_run = FALSE, classifier)
   # Fit classifier, generate predictions, and calculate metrics
 
   mod <- classifier(formula = group ~ ., data = train)
-  cm <- t(as.matrix(table(stats::predict(mod, newdata = test), test$group)))
+  cm <- t(as.matrix(table(stats::predict(mod, newdata = test), test$group))) # Rows are true classes, columns are predicted classes
   acc <- sum(diag(cm)) / sum(cm)
-  precision <- diag(cm) / rowSums(cm)
-  recall <- diag(cm) / colSums(cm)
+  precision <- diag(cm) / colSums(cm) # TP / (TP + FP)
+  recall <- diag(cm) / rowSums(cm) # TP / (TP + FN)
   mean_precision <- mean(precision, na.rm = TRUE)
   mean_recall <- mean(recall, na.rm = TRUE)
   mean_f1_score <- mean(2 * (precision * recall) / (precision + recall), na.rm = TRUE)

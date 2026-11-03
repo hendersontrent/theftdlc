@@ -56,7 +56,7 @@ project <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
   normed <- data %>%
     dplyr::select(c(.data$id, .data$names, .data$values, .data$feature_set)) %>%
     tidyr::drop_na() %>%
-    dplyr::group_by(.data$names) %>%
+    dplyr::group_by(.data$feature_set, .data$names) %>% # Same-named features from different sets are normalized separately
     dplyr::mutate(values = normaliseR::normalise(.data$values, norm_method = norm_method, unit_int = unit_int)) %>%
     dplyr::ungroup() %>%
     tidyr::drop_na() %>%
@@ -96,7 +96,7 @@ project <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
   if(low_dim_method == "PCA"){
 
     fits <- wide_data %>%
-      stats::prcomp(center = FALSE, scale. = FALSE, ...)
+      stats::prcomp(center = TRUE, scale. = FALSE, ...)
 
     projected <- fits
 

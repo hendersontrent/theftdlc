@@ -131,7 +131,7 @@ interval <- function(data, metric = c("accuracy", "precision", "recall", "f1"),
     intervals <- intervals %>%
       dplyr::filter(model_type == model_type_str) %>%
       dplyr::reframe(.mean = mean(.data$values),
-                     interval_width = stats::qt(interval, (n_samps - 1)) * stats::sd(.data$values) / sqrt(n_samps),
+                     interval_width = stats::qt((1 + interval) / 2, (n_samps - 1)) * stats::sd(.data$values) / sqrt(n_samps),
                      .lower = .data$.mean - .data$interval_width,
                      .upper = .data$.mean + .data$interval_width,
                      .by = !!rlang::sym(grouper)) %>%

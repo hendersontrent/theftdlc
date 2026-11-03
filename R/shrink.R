@@ -108,7 +108,7 @@ shrink <- function(data, threshold = c("one", "all"), plot = FALSE, ...){
     coefs_df <- vector(mode = "list", length = length(names(coefs)))
 
     for(i in 1:length(names(coefs))){
-      coefs_1 <- data.frame(names = rownames(coefs[[1]]), values = coefs[[1]][, 1])
+      coefs_1 <- data.frame(names = rownames(coefs[[i]]), values = coefs[[i]][, 1])
       rownames(coefs_1) <- NULL
       coefs_1$group <- names(coefs)[i]
       coefs_df[[i]] <- coefs_1
@@ -135,11 +135,11 @@ shrink <- function(data, threshold = c("one", "all"), plot = FALSE, ...){
 
     } else{
 
-      coefs_df$sums <- rowSums(coefs_df)
+      coefs_df$nonzeroes <- rowSums(coefs_df != 0)
 
       coefs_df <- coefs_df %>%
-        dplyr::filter(.data$sums != 0) %>%
-        dplyr::select(-c(.data$sums)) %>%
+        dplyr::filter(.data$nonzeroes == num_classes) %>%
+        dplyr::select(-c("nonzeroes")) %>%
         tibble::rownames_to_column(var = "names") %>%
         dplyr::mutate(feature_set = gsub("_.*", "\\1", .data$names),
                       names = sub("^[^_]*_", "", .data$names)) %>%

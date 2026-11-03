@@ -21,7 +21,7 @@ select_stat_cols <- function(data, by_set, metric, hypothesis){
       } else if(metric == "recall"){
         tmp <- data %>% dplyr::select(c(.data$model_type, .data$feature_set, .data$mean_recall)) %>% dplyr::rename(mymetric = .data$mean_recall)
       } else{
-        tmp <- data %>% dplyr::select(c(.data$model_type, .data$feature_set, .data$mean_f1_score)) %>% dplyr::rename(mymetric = .data$mean_recall)
+        tmp <- data %>% dplyr::select(c(.data$model_type, .data$feature_set, .data$mean_f1_score)) %>% dplyr::rename(mymetric = .data$mean_f1_score)
       }
     } else{
       if(metric == "accuracy"){

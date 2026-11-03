@@ -13,8 +13,6 @@
 
 filter_duplicates <- function(data, preference = NULL, seed = 123){
 
-  '%ni%' <- Negate('%in%')
-
   if(sum(c("catch22", "feasts", "tsfeatures", "Kats") %in% unique(data$feature_set)) < 2){
     message("Only one set of 'catch22', 'feasts', 'tsfeatures', or 'Kats' with potential duplicates is in your feature data. Exiting and returning original input data.")
     return(data)
@@ -42,99 +40,38 @@ filter_duplicates <- function(data, preference = NULL, seed = 123){
                               "ARCH.LM", "shift_kl_max", "time_kl_shift", "diff1_pacf5", "diff2x_pacf5",
                               "x_pacf5", "kpss_stat", "SC_FluctAnal_2_rsrangefit_50_1_logi_prop_r1")
 
-    # Set up features to remove based on sets in data
+    # For each group of duplicates in the dictionary, find which (set, name) pairs are in the data.
+    # If two or more are present, retain a random one of those present and drop the rest.
+    # Every other feature is passed through untouched
 
-    sets_to_filter <- unique(data$feature_set)[unique(data$feature_set) %in% c("catch22", "feasts", "tsfeatures", "Kats")]
-    other_sets_to_keep <- unique(data$feature_set)[!unique(data$feature_set) %in% sets_to_filter]
-
-    if(sum(c("feasts", "tsfeatures", "Kats", "catch22") %in% unique(data$feature_set)) == 3){
-      sets_to_filter <- c("feasts", "tsfeatures", "Kats")
-      dups <- dictionary
-    } else if("feasts" %ni% unique(data$feature_set) && sum(c("tsfeatures", "Kats") %in% unique(data$feature_set) == 2)){
-      sets_to_filter <- c("tsfeatures", "Kats")
-      dups <- dictionary %>% dplyr::filter(!is.na(.data$tsfeatures_name)) %>% dplyr::filter(!is.na(.data$Kats_name)) %>% dplyr::select(c(.data$tsfeatures_name, .data$Kats_name))
-    } else if("tsfeatures" %ni% unique(data$feature_set) && sum(c("feasts", "Kats") %in% unique(data$feature_set) == 2)){
-      sets_to_filter <- c("feasts", "Kats")
-      dups <- dictionary %>% dplyr::filter(!is.na(.data$feasts_name)) %>% dplyr::filter(!is.na(.data$Kats_name)) %>% dplyr::select(c(.data$feasts_name, .data$Kats_name))
-    } else {
-      sets_to_filter <- c("feasts", "tsfeatures")
-      dups <- dictionary %>% dplyr::filter(!is.na(.data$feasts_name)) %>% dplyr::filter(!is.na(.data$tsfeatures_name)) %>% dplyr::select(c(.data$feasts_name, .data$tsfeatures_name))
-    }
-
-    # Retain other data
-
-    other_sets <- data %>%
-      dplyr::filter(.data$feature_set %in% other_sets_to_keep)
-
-    # Handle duplicate features
+    sets_present <- intersect(c("catch22", "feasts", "tsfeatures", "Kats"), unique(data$feature_set))
 
     set.seed(seed)
+    to_drop <- list()
 
-    # Find which features to be handled exist in the data
+    for(i in 1:nrow(dictionary)){
 
-    to_filter <- intersect(unique(as.vector(stats::na.omit(as.vector(t(as.matrix(dictionary)))))), unique(data$names))
-    to_filter_apply <- to_filter # To use later
+      dup_names <- unlist(dictionary[i, paste0(sets_present, "_name")])
+      names(dup_names) <- sets_present
+      dup_names <- dup_names[!is.na(dup_names)]
+      dup_names <- dup_names[mapply(function(set, name){any(data$feature_set == set & data$names == name)},
+                                    names(dup_names), dup_names)]
 
-    # Filter duplicate data
+      if(length(dup_names) > 1){
+        keeper <- sample(seq_along(dup_names), size = 1)
 
-    dup_sets <- data %>%
-      dplyr::filter(.data$feature_set %in% sets_to_filter) %>%
-      dplyr::filter(names %in% to_filter)
-
-    # Loop over vector of features to filter, dropping analogous names in the dictionary in each iteration to avoid double-ups or triple-ups of unique features
-
-    contains_value <- function(row, my_vector) {
-      any(sapply(row, function(col) col %in% my_vector))
+        to_drop[[length(to_drop) + 1]] <- data.frame(feature_set = names(dup_names)[-keeper],
+                                                     names = unname(dup_names[-keeper]))
+      }
     }
 
-    storage <- list()
-
-    while(length(to_filter_apply) > 0){
-
-      # Filter dictionary
-
-      tmp_dict <- dictionary %>%
-        filter(apply(dictionary, 1, contains_value, to_filter_apply[1]))
-
-      feats_to_exclude <- stats::na.omit(as.character(tmp_dict[1, ]))
-
-      # Remove any analogous features from original vector so we don't double up
-
-      to_filter_apply <- to_filter_apply[!to_filter_apply %in% feats_to_exclude]
-
-      # Choose a set to retain
-
-      feat <- tmp_dict[, colSums(is.na(tmp_dict)) == 0]
-      colnames(feat) <- gsub("_name", "\\1", colnames(feat))
-      selected_set <- sample(colnames(feat), size = 1, replace = FALSE)
-      selected_feature <- as.character(feat[1, selected_set])
-
-      # Filter duplicates from data
-
-      tmp <- dup_sets %>%
-        dplyr::filter(.data$names == selected_feature) %>%
-        dplyr::mutate(keeper = dplyr::case_when(
-          .data$feature_set == selected_set & .data$names == selected_feature ~ TRUE,
-          TRUE                                                                ~ FALSE)) %>%
-        dplyr::filter(.data$keeper) %>%
-        dplyr::select(-c(.data$keeper))
-
-      storage[[to_filter_apply[1]]] <- tmp
+    if(length(to_drop) > 0){
+      to_drop <- do.call("rbind", to_drop)
+      filtered_feats <- data %>%
+        dplyr::anti_join(to_drop, by = c("feature_set" = "feature_set", "names" = "names"))
+    } else{
+      filtered_feats <- data
     }
-
-    storage <- do.call("rbind", storage)
-
-    # Add back in non-duplicate features from these sets
-
-    dup_sets_other_feats <- data %>%
-      dplyr::filter(.data$feature_set %in% sets_to_filter) %>%
-      dplyr::filter(.data$names %ni% unique(as.vector(stats::na.omit(as.vector(t(as.matrix(dictionary)))))))
-
-    filtered_feats <- dplyr::bind_rows(storage, other_sets, dup_sets_other_feats)
-
-    # Check we did not remove any more rows than we should have
-
-    #stopifnot((length(na.omit(as.vector(t(as.matrix(dups))))) - nrow(dups)) * length(unique(data$id)) == nrow(data) - nrow(filtered_feats))
 
     # Return final object
 
