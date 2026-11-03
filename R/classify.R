@@ -62,6 +62,11 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
     stopifnot("id" %in% colnames(tt_labels))
   }
 
+  # The seeds set below (and in filter_duplicates and resample_data) are restored to the
+  # caller's random number generator state on exit, so they don't leak into the user's session
+
+  withr::local_preserve_seed()
+
   # Set up data
 
   if(by_set){
@@ -251,7 +256,8 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
       # Compute main results
 
       if(is_parallel){
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         outs <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
@@ -282,7 +288,8 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
     } else{
 
       if(is_parallel){
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         outs <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier)) %>%
@@ -305,7 +312,8 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
       # Compute main results
 
       if(is_parallel){
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         outs <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))
@@ -331,7 +339,8 @@ classify <- function(data, tt_labels = NULL, classifier = NULL, train_size = 0.7
     } else{
 
       if(is_parallel){
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         outs <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ fit_models(res_data, iters, .x, is_null_run = FALSE, classifier = classifier))

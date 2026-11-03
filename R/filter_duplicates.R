@@ -46,7 +46,7 @@ filter_duplicates <- function(data, preference = NULL, seed = 123){
 
     sets_present <- intersect(c("catch22", "feasts", "tsfeatures", "Kats"), unique(data$feature_set))
 
-    set.seed(seed)
+    withr::local_seed(seed) # Restores the caller's RNG state on exit
     to_drop <- list()
 
     for(i in 1:nrow(dictionary)){

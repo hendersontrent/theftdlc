@@ -91,7 +91,7 @@ project <- function(data, norm_method = c("zScore", "Sigmoid", "RobustSigmoid", 
   n_samples_omitted <- n_samples - n_samples_after
   if (n_features_omitted > 0) {message(paste(n_features_omitted, "features omitted due to NAs", sep = " "))}
   if (n_samples_omitted > 0) {message(paste(n_samples_omitted, "samples omitted due to NAs", sep = " "))}
-  set.seed(seed)
+  withr::local_seed(seed) # Restores the caller's RNG state on exit
 
   if(low_dim_method == "PCA"){
 

@@ -38,7 +38,8 @@ Imports:
     mclust,
     normaliseR,
     correctR,
-    glmnet
+    glmnet,
+    withr
 Suggests: 
     lifecycle,
     cachem,

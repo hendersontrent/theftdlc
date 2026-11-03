@@ -225,3 +225,53 @@ test_that("filter_duplicates keeps exactly one copy of each duplicated feature a
     expect_equal(nrow(out), nrow(feats) - 4 * n_series)
   }
 })
+
+test_that("seeded functions restore the caller's RNG state and stay reproducible", {
+
+  feats <- make_features(list(quantiles = c("q1", "q2", "q3"), catch22 = c("CO_FirstMin_ac", "DN_HistogramMode_5"),
+                              tsfeatures = c("firstmin_ac", "stability")))
+  tt <- data.frame(id = unique(feats$id))
+  tt$set_split <- ifelse(seq_len(nrow(tt)) %% 4 == 0, "Test", "Train")
+
+  calls <- list(
+    classify = function() classify(feats, by_set = FALSE, n_resamples = 3, use_null = TRUE, seed = 4),
+    classify_tt_labels = function() classify(feats, tt_labels = tt, by_set = FALSE, n_resamples = 3),
+    cluster = function() cluster(feats, k = 2, seed = 4),
+    project = function() project(feats, low_dim_method = "tSNE", perplexity = 5, seed = 4),
+    filter_duplicates = function() filter_duplicates(feats, seed = 4)
+  )
+
+  for(nm in names(calls)){
+    set.seed(99)
+    before <- .Random.seed
+    first <- suppressMessages(calls[[nm]]())
+    expect_identical(.Random.seed, before, info = nm)
+
+    # Same result from a different caller state
+
+    set.seed(100)
+    second <- suppressMessages(calls[[nm]]())
+    expect_identical(first, second, info = nm)
+  }
+
+  # No seed is created where the caller had none
+
+  rm(".Random.seed", envir = globalenv())
+  suppressMessages(cluster(feats, k = 2))
+  expect_false(exists(".Random.seed", envir = globalenv(), inherits = FALSE))
+})
+
+test_that("parallel classify and compare_features restore the caller's future plan", {
+
+  skip_on_cran()
+
+  feats <- make_features(list(quantiles = c("q1", "q2")))
+  old <- future::plan(future::sequential)
+  on.exit(future::plan(old), add = TRUE)
+
+  res <- suppressWarnings(suppressMessages(classify(feats, by_set = FALSE, n_resamples = 3, use_null = TRUE, n_workers = 2)))
+  expect_true(inherits(future::plan(), "sequential"))
+
+  suppressWarnings(suppressMessages(compare_features(res, by_set = FALSE, hypothesis = "null", n_workers = 2)))
+  expect_true(inherits(future::plan(), "sequential"))
+})
