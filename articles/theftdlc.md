@@ -1,6 +1,7 @@
 # Introduction to theftdlc
 
 ``` r
+
 library(dplyr)
 library(ggplot2)
 library(theft)
@@ -31,12 +32,14 @@ comes standard with `theft` called `simData`. This dataset is a
 for six different types of processes. The dataset can be accessed via:
 
 ``` r
+
 theft::simData
 ```
 
 The data follows the following structure:
 
 ``` r
+
 head(simData)
 #> # A tsibble: 6 x 4 [1]
 #> # Key:       id, process [1]
@@ -54,6 +57,7 @@ We will use `theft` to quickly calculate features using the `catch22`
 set:
 
 ``` r
+
 feature_matrix <- calculate_features(data = simData, 
                                      feature_set = "catch22")
 ```
@@ -72,6 +76,7 @@ large proportions of undesirable (e.g., `NA`, `NaN` etc.) values. We can
 specify the plot `type = "quality` to make this graphic:
 
 ``` r
+
 plot(feature_matrix, type = "quality")
 ```
 
@@ -117,6 +122,7 @@ legends can be difficult to interpret meaningful value differences
 easily.
 
 ``` r
+
 plot(feature_matrix, type = "matrix", norm_method = "RobustSigmoid")
 ```
 
@@ -145,6 +151,7 @@ to plot (i.e., a vector of characters specifying feature names from the
 we will just plot two random features from `catch22` here:
 
 ``` r
+
 plot(feature_matrix, type = "violin",
      feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"))
 ```
@@ -173,6 +180,7 @@ For example, we may wish to control the point size and transparency in
 the above plot (not rendered here for space):
 
 ``` r
+
 plot(feature_matrix, type = "violin",
      feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"),
      size = 0.7, alpha = 0.9)
@@ -182,6 +190,7 @@ Alternatively, we may wish to identify if any univariate outliers exist
 by drawing a boxplot instead, which depicts outliers as points:
 
 ``` r
+
 plot(feature_matrix, type = "box",
      feature_names = c("CO_f1ecac", "PD_PeriodicityWang_th0_01"))
 ```
@@ -204,7 +213,7 @@ on it to reduce its dimensionality to a bivariate state which can then
 be easily plotted:
 
 - Principal components analysis (PCA)—`"PCA"`
-- $t$-Stochastic Neighbor Embedding ($t$-SNE)—`"tSNE"`
+- $`t`$-Stochastic Neighbor Embedding ($`t`$-SNE)—`"tSNE"`
 - Classical multidimensional scaling (MDS)—`"ClassicalMDS"`
 - Kruskal’s non-metric multidimensional scaling—`"KruskalMDS"`
 - Sammon’s non-linear mapping non-metric multidimensional
@@ -221,9 +230,8 @@ The result is stored in a custom object class called
 - `norm_method`—character denoting the rescaling/normalising method to
   apply. Can be one of `"zScore"`, `"Sigmoid"`, `"RobustSigmoid"`,
   `"MinMax"`, or `"MaxAbs"`. Defaults to `"zScore"`
-- `unit_int`—Boolean whether to rescale into unit interval
-  $\lbrack 0,1\rbrack$ after applying normalisation method. Defaults to
-  `FALSE`
+- `unit_int`—Boolean whether to rescale into unit interval $`[0,1]`$
+  after applying normalisation method. Defaults to `FALSE`
 - `low_dim_method`—character specifying the low dimensional embedding
   method to use. Can be one of `"PCA"` or `"tSNE"`, `"ClassicalMDS"`,
   `"KruskalMDS"`, `"SammonMDS"`, or `"UMAP"`. Defaults to `"PCA"`
@@ -249,6 +257,7 @@ essentially a named list comprised of four elements:
     algorithm
 
 ``` r
+
 low_dim <- project(feature_matrix,
                    norm_method = "RobustSigmoid",
                    unit_int = TRUE,
@@ -261,6 +270,7 @@ We can similarly call
 to produce a two-dimensional scatterplot of the results:
 
 ``` r
+
 plot(low_dim)
 ```
 
@@ -274,6 +284,7 @@ disabled when plotting `feature_projection` objects by setting
 perplexity of the *t*-SNE algorithm:
 
 ``` r
+
 low_dim2 <- project(feature_matrix,
                     norm_method = "RobustSigmoid",
                     unit_int = TRUE,
@@ -292,6 +303,7 @@ You can plot correlations between feature vectors using
 `plot(type = "cor")` on a `feature_calculations` object:
 
 ``` r
+
 plot(feature_matrix, type = "cor")
 ```
 
@@ -364,6 +376,7 @@ resamples for efficiency (in practice, we would use more!) with the
 default linear SVM:
 
 ``` r
+
 feature_classifiers <- classify(feature_matrix,
                                 by_set = FALSE,
                                 n_resamples = 5,
@@ -377,6 +390,7 @@ used with R’s `predict` generic as `classify` internally constructs
 confusion matrices from model predictions):
 
 ``` r
+
 myclassifier <- function(formula, data){
   mod <- e1071::svm(formula, data = data, kernel = "radial", scale = FALSE,
                     probability = TRUE)
@@ -423,6 +437,7 @@ that we are using the defaults for the other arguments for code
 cleanliness):
 
 ``` r
+
 feature_vs_null <- compare_features(feature_classifiers,
                                     by_set = FALSE,
                                     hypothesis = "null")
@@ -461,6 +476,7 @@ head(feature_vs_null)
 Or to conduct pairwise comparisons between individual features:
 
 ``` r
+
 pairwise_features <- compare_features(feature_classifiers,
                                       by_set = FALSE,
                                       hypothesis = "pairwise",
@@ -492,8 +508,8 @@ head(pairwise_features)
 
 *NOTE: Although it was not used in this vignette for simplicity, it is
 strongly recommended to use parallel processing in* `compare_features`
-*by setting* `n_workers` $> 1$. *Performance benefits will be especially
-pronounced for pairwise comparisons.*
+*by setting* `n_workers` $`>1`$. *Performance benefits will be
+especially pronounced for pairwise comparisons.*
 
 We can then use `ggplot2` to summarise and visualise our results. Here
 is a pairwise correlation plot between the top 10 features in `catch22`
@@ -502,6 +518,7 @@ feature data and making use of the `plot` generic defined for objects of
 class `feature_calculations`:
 
 ``` r
+
 top_10 <- feature_vs_null %>%
   dplyr::slice_min(p.value, n = 10) %>%
   dplyr::select(c(feature_set, original_names, p.value))
@@ -519,6 +536,7 @@ We can also easily draw a violin plot of the top 10 features to
 visualise the distributions by group:
 
 ``` r
+
 plot(feature_matrix_filt,
      type = "violin",
      feature_names = top_10$original_names)
@@ -539,25 +557,26 @@ information. `interval` takes the following arguments:
 - `by_set`—Boolean specifying whether to compute intervals for each
   feature set. Defaults to `TRUE`. If `FALSE`, the function will instead
   calculate intervals for each feature
-- `type`—character denoting whether to calculate a $\pm$ SD interval
-  with `"sd"`, confidence interval based off the $t$-distribution with
+- `type`—character denoting whether to calculate a $`\pm`$ SD interval
+  with `"sd"`, confidence interval based off the $`t`$-distribution with
   `"se"`, or based on a quantile with `"quantile"`. Defaults to `"sd"`
 - `interval`—numeric scalar denoting the width of the interval to
-  calculate. Defaults to `1` if `type = "sd"` to produce a $\pm 1$ SD
+  calculate. Defaults to `1` if `type = "sd"` to produce a $`\pm 1`$ SD
   interval. Defaults to `0.95` if `type = "se"` or `type = "quantile"`
-  for a $95\%$ interval
+  for a $`95\%`$ interval
 - `model_type`—character denoting whether to calculate intervals for
   main models with `"main"` or null models with `"null"` if the
   `use_null` argument when using `classify` was `use_null = TRUE`.
   Defaults to `"main"`
 
 We can evidently use `interval` to produce a variety of different
-summaries for us. For example, we might wish to compute the $\pm 1$ SD
+summaries for us. For example, we might wish to compute the $`\pm1`$ SD
 interval for each feature’s main model classification accuracy values
 (note that the defaults for the function do this for us, so we only need
 to set `by_set = FALSE` manually):
 
 ``` r
+
 interval(feature_classifiers, by_set = FALSE)
 #>                                                  names      .mean     .lower
 #> 1         catch22_CO_Embed2_Dist_tau_d_expfit_meandiff 0.33333333 0.31111111
@@ -615,6 +634,7 @@ argument. Let’s try both `catch22` and a custom set of just mean and
 standard deviation:
 
 ``` r
+
 feature_matrix2 <- calculate_features(data = simData, 
                                       feature_set = "catch22",
                                       features = list("mean" = mean, "sd" = sd),
@@ -697,12 +717,13 @@ head(set_classifiers)
 ```
 
 Note that `classify` constructs a set of `"All features"` (i.e., all
-features across all computed sets) automatically when $> 2$ unique
+features across all computed sets) automatically when $`>2`$ unique
 feature sets are detected in the feature data. Since `interval` returns
 an S3 object, we can use the `plot` generic to automatically draw a
 useful visual summary:
 
 ``` r
+
 interval_calcs <- interval(set_classifiers)
 
 plot(interval_calcs)
@@ -713,7 +734,7 @@ plot(interval_calcs)
 ## Cluster analysis
 
 `theftdlc` also supports quick and simple cluster analysis using either
-[$k$-means](https://en.wikipedia.org/wiki/K-means_clustering),
+[$`k`$-means](https://en.wikipedia.org/wiki/K-means_clustering),
 hierarchical clustering, or [Gaussian mixture
 models](https://en.wikipedia.org/wiki/Mixture_model) through the
 `cluster` function. `cluster` takes a few similar key arguments to other
@@ -726,9 +747,8 @@ models](https://en.wikipedia.org/wiki/Mixture_model) through the
 - `norm_method`—character denoting the rescaling/normalising method to
   apply. Can be one of `"zScore"`, `"Sigmoid"`, `"RobustSigmoid"`,
   `"MinMax"`, or `"MaxAbs"`. Defaults to `"zScore"`
-- `unit_int`—Boolean whether to rescale into unit interval
-  $\lbrack 0,1\rbrack$ after applying normalisation method. Defaults to
-  `FALSE`
+- `unit_int`—Boolean whether to rescale into unit interval $`[0,1]`$
+  after applying normalisation method. Defaults to `FALSE`
 - `clust_method`—character specifying the clustering algorithm to use.
   Can be one of `"kmeans"`, `"hclust"`, or `"mclust"`. Defaults to
   `"kmeans"`
@@ -757,17 +777,19 @@ essentially a named list comprised of two elements:
     with the cluster label appended
 2.  `"ModelFit"`—the raw model object from the clustering algorithm
 
-We can easily fit a $k$-means model with `k = 6` (since
+We can easily fit a $`k`$-means model with `k = 6` (since
 [`theft::simData`](https://hendersontrent.github.io/theft/reference/simData.html)
 contains data for six different temporal processes):
 
 ``` r
+
 feature_clusters <- cluster(feature_matrix, k = 6)
 ```
 
 From here, it’s easy to do any further analysis or data visualisation:
 
 ``` r
+
 feature_clusters$Data %>%
     dplyr::filter(names %in% c("CO_HistogramAMI_even_2_5", 
                                "DN_OutlierInclude_p_001_mdrmd")) %>%
@@ -800,7 +822,7 @@ likelihood generalized linear model through the `glmnet` package. Since
 currently only possible if `calculate_features` has a `group` column.
 Specifically, for the binomial case, `shrink` finds the time-series
 features whose coefficients are non-zero, and for the multinomial case
-(i.e., $> 2$ groups) `shrink` finds the time-series features who are
+(i.e., $`>2`$ groups) `shrink` finds the time-series features who are
 non-zero across all group distinctions. `shrink` only takes four
 arguments and returns a `feature_calculations` object that can be used
 with all of `theftdlc`, just like `calculate_features`:
@@ -815,10 +837,11 @@ with all of `theftdlc`, just like `calculate_features`:
 3.  `plot` — whether to plot the misclassification error lambda plot for
     the CV model. Defaults to `FALSE`
 4.  `...` — additional arguments that are passed to
-    [`glmnet::cv.glmnet`](https://rdrr.io/pkg/glmnet/man/cv.glmnet.html)
+    [`glmnet::cv.glmnet`](https://glmnet.stanford.edu/reference/cv.glmnet.html)
     to control the model fitting process
 
 ``` r
+
 feature_matrix_red <- shrink(feature_matrix, plot = TRUE)
 ```
 
@@ -828,12 +851,13 @@ We can then compare the number of features between our original set and
 the reduced feature set:
 
 ``` r
+
 length(unique(feature_matrix$names))
 #> [1] 22
 length(unique(feature_matrix_red$names))
 #> [1] 4
 ```
 
-We see that the selection process retained only $4$ features. Note that
-this process is far more useful in higher dimensional cases, such as
-when features from all six sets in `theft` are calculated.
+We see that the selection process retained only $`4`$ features. Note
+that this process is far more useful in higher dimensional cases, such
+as when features from all six sets in `theft` are calculated.

@@ -88,6 +88,7 @@ Trent Henderson
 ## Examples
 
 ``` r
+
 library(theft)
 
 features <- theft::calculate_features(theft::simData,

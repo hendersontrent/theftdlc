@@ -12,8 +12,8 @@
 <link rel="icon" sizes="any" href="../favicon.ico">
 <link rel="manifest" href="../site.webmanifest">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to theftdlc">
 </head>
@@ -58,7 +58,7 @@
                         <h4 data-toc-skip class="author">Trent
 Henderson</h4>
             
-            <h4 data-toc-skip class="date">2026-01-16</h4>
+            <h4 data-toc-skip class="date">2026-11-03</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/hendersontrent/theftdlc/blob/main/vignettes/theftdlc.Rmd" class="external-link"><code>vignettes/theftdlc.Rmd</code></a></small>
       <div class="d-none name"><code>theftdlc.Rmd</code></div>
@@ -298,7 +298,7 @@ rescaling/normalising method to apply. Can be one of
 </li>
 <li>
 <code>unit_int</code>—Boolean whether to rescale into unit interval
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math>
 after applying normalisation method. Defaults to <code>FALSE</code>
 </li>
 <li>
@@ -660,7 +660,7 @@ for each feature set. Defaults to <code>TRUE</code>. If
 each feature</li>
 <li>
 <code>type</code>—character denoting whether to calculate a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mo>±</mo><annotation encoding="application/x-tex">\pm</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>±</mi><annotation encoding="application/x-tex">\pm</annotation></semantics></math>
 SD interval with <code>"sd"</code>, confidence interval based off the
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>t</mi><annotation encoding="application/x-tex">t</annotation></semantics></math>-distribution
 with <code>"se"</code>, or based on a quantile with
@@ -670,7 +670,7 @@ with <code>"se"</code>, or based on a quantile with
 <code>interval</code>—numeric scalar denoting the width of the
 interval to calculate. Defaults to <code>1</code> if
 <code>type = "sd"</code> to produce a
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm 1</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>±</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm 1</annotation></semantics></math>
 SD interval. Defaults to <code>0.95</code> if <code>type = "se"</code>
 or <code>type = "quantile"</code> for a
 <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95</mn><mi>%</mi></mrow><annotation encoding="application/x-tex">95\%</annotation></semantics></math>
@@ -685,7 +685,7 @@ intervals for main models with <code>"main"</code> or null models with
 </ul>
 <p>We can evidently use <code>interval</code> to produce a variety of
 different summaries for us. For example, we might wish to compute the
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>±</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm1</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>±</mi><mn>1</mn></mrow><annotation encoding="application/x-tex">\pm1</annotation></semantics></math>
 SD interval for each feature’s main model classification accuracy values
 (note that the defaults for the function do this for us, so we only need
 to set <code>by_set = FALSE</code> manually):</p>
@@ -866,7 +866,7 @@ rescaling/normalising method to apply. Can be one of
 </li>
 <li>
 <code>unit_int</code>—Boolean whether to rescale into unit interval
-<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="true" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="true" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false" form="prefix">[</mo><mn>0</mn><mo>,</mo><mn>1</mn><mo stretchy="false" form="postfix">]</mo></mrow><annotation encoding="application/x-tex">[0,1]</annotation></semantics></math>
 after applying normalisation method. Defaults to <code>FALSE</code>
 </li>
 <li>
@@ -979,7 +979,7 @@ lambda plot for the CV model. Defaults to <code>FALSE</code>
 </li>
 <li>
 <code>...</code> — additional arguments that are passed to
-<code><a href="https://rdrr.io/pkg/glmnet/man/cv.glmnet.html" class="external-link">glmnet::cv.glmnet</a></code> to control the model fitting process</li>
+<code><a href="https://glmnet.stanford.edu/reference/cv.glmnet.html" class="external-link">glmnet::cv.glmnet</a></code> to control the model fitting process</li>
 </ol>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">feature_matrix_red</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/shrink.html">shrink</a></span><span class="op">(</span><span class="va">feature_matrix</span>, plot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
@@ -1008,7 +1008,7 @@ dimensional cases, such as when features from all six sets in
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer>
