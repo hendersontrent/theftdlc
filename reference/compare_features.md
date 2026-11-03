@@ -102,5 +102,5 @@ compare_features(classifiers,
 #>             hypothesis   names_a names_b   metric names_a_mean names_b_mean
 #> 1 User_mean != User_sd User_mean User_sd accuracy    0.1259259     0.562963
 #>   t_statistic     p.value
-#> 1      -14.75 0.004564931
+#> 1   -20.85965 0.002290298
 ```
