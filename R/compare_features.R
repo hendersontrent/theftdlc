@@ -81,7 +81,8 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       if(is_parallel){
 
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         results <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
@@ -112,7 +113,8 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       if(is_parallel){
 
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         results <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
@@ -138,7 +140,8 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       if(is_parallel){
 
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         results <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
@@ -170,7 +173,8 @@ compare_features <- function(data, metric = c("accuracy", "precision", "recall",
 
       if(is_parallel){
 
-        future::plan(future::multisession, workers = n_workers)
+        old_plan <- future::plan(future::multisession, workers = n_workers)
+        on.exit(future::plan(old_plan), add = TRUE) # Restore the caller's plan
 
         results <- 1:nrow(iters) %>%
           furrr::future_map_dfr(~ stat_test(data$ClassificationResults, iters, .x, by_set = by_set,
