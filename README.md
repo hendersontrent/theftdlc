@@ -19,12 +19,22 @@
 <a href="https://cran.r-project.org/package=theftdlc"><img src="https://cranlogs.r-pkg.org/badges/theftdlc" alt="CRAN downloads"/></a>
 </p>
 
-*theftdlc* is an R package for analyzing, interpreting, and visualizing time-series features calculated with [*theft*](https://hendersontrent.github.io/theft/).
-It covers data-quality checks, normalization, low-dimensional projections, clustering, feature selection, time-series classification, and statistical hypothesis testing for comparing feature sets.
-*theftdlc* is the “downloadable content” (DLC) for *theft*, just like the [DLC](https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree) you get for video games.
+`theftdlc` is an R package for analyzing, interpreting, and visualizing
+time-series features calculated with
+[`theft`](https://hendersontrent.github.io/theft/). It covers
+data-quality checks, normalization, low-dimensional projections,
+clustering, feature selection, time-series classification, and
+statistical hypothesis testing for comparing feature sets. `theftdlc` is
+the “downloadable content” (DLC) for `theft`, just like the
+[DLC](https://en.bandainamcoent.eu/elden-ring/elden-ring/shadow-of-the-erdtree)
+you get for video games.
 
-📖 **Full documentation:** [hendersontrent.github.io/theftdlc](https://hendersontrent.github.io/theftdlc/), including the vignette and function reference.
-📄 **Paper:** [“Feature-Based Time-Series Analysis in R using the Theft Ecosystem”](https://journal.r-project.org/articles/RJ-2025-023/) describes the methods and walks through the full workflow.
+📖 **Full documentation:**
+[hendersontrent.github.io/theftdlc](https://hendersontrent.github.io/theftdlc/),
+including the vignette and function reference. 📄 **Paper:**
+[“Feature-Based Time-Series Analysis in R using the Theft
+Ecosystem”](https://journal.r-project.org/articles/RJ-2025-023/)
+describes the methods and walks through the full workflow.
 
 ## Installation
 
@@ -40,8 +50,10 @@ Or install the development version from GitHub:
 devtools::install_github("hendersontrent/theftdlc")
 ```
 
-*theftdlc* depends on [*theft*](https://github.com/hendersontrent/theft) (version 0.8.1 or later), which provides the `feature_calculations` objects that its functions take as input.
-See the *theft* README for how to install the Python-based feature sets that *theft* can use.
+`theftdlc` depends on [`theft`](https://github.com/hendersontrent/theft)
+(version 0.8.1 or later), which provides the `feature_calculations`
+objects that its functions take as input. See the `theft` README for how
+to install the Python-based feature sets that `theft` can use.
 
 ## Functions
 
@@ -56,26 +68,38 @@ See the *theft* README for how to install the Python-based feature sets that *th
 | `interval()` | Summarizes classification results with a measure of central tendency and an interval |
 | `shrink()` | Selects features with a cross-validated penalized generalized linear model |
 
-Features are normalized with [*normaliseR*](https://github.com/hendersontrent/normaliseR).
-Older function names remain available as aliases: `tsfeature_classifier()` for `classify()`, `calculate_interval()` for `interval()`, and `reduce_dims()` for `project()`.
+Features are normalized with
+[*normaliseR*](https://github.com/hendersontrent/normaliseR). Older
+function names remain available as aliases: `tsfeature_classifier()` for
+`classify()`, `calculate_interval()` for `interval()`, and
+`reduce_dims()` for `project()`.
 
-## The *theft* ecosystem
+## The `theft` ecosystem
 
-Collectively, *theft* and *theftdlc* are the “*theft* ecosystem”.
-*theft* extracts features from seven feature sets (`"catch22"`, `"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, `"tsfel"`, and `"hctsa"`) and from any number of user-supplied features, and *theftdlc* does everything after that.
+Collectively, `theft` and `theftdlc` are the “`theft` ecosystem”.
+`theft` extracts features from seven feature sets (`"catch22"`,
+`"feasts"`, `"kats"`, `"tsfeatures"`, `"tsfresh"`, `"tsfel"`, and
+`"hctsa"`) and from any number of user-supplied features, and `theftdlc`
+does everything after that.
 
-<img src="man/figures/theft-packages.png" alt="Hex stickers of the theft and theftdlc packages for R" />
+<p align="center">
 
-A high-level view of how the ecosystem is typically used:
+<img src="man/figures/theft-packages.png" alt="Hex stickers of the theft and theftdlc packages for R" width="50%" />
+</p>
 
-<img src="man/figures/workflow-graphic_ecosystem-final.png" alt="Schematic of the theft ecosystem in R" />
+Here is a high-level view of the package functionality:
+
+<img src="man/figures/theft-workflow-graphic.png" alt="Schematic of the theft ecosystem in R" />
 
 Many more functions and options are available in the packages.
 
 ## Quick tour
 
-*theft* and *theftdlc* combine into an efficient tidy workflow.
-The code below calculates features using [*catch22*](https://github.com/hendersontrent/Rcatch22) and a custom set of the mean and standard deviation, then projects the feature space into two dimensions using principal components analysis:
+`theft` and `theftdlc` combine into an efficient tidy workflow. The code
+below calculates features using
+[*catch22*](https://github.com/hendersontrent/Rcatch22) and a custom set
+of the mean and standard deviation, then projects the feature space into
+two dimensions using principal components analysis:
 
 ``` r
 library(dplyr)
@@ -93,9 +117,12 @@ calculate_features(data = theft::simData,
 
 ![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
-Here `calculate_features()` comes from *theft*, while `project()` and the `plot()` method come from *theftdlc*.
+Here `calculate_features()` comes from `theft`, while `project()` and
+the `plot()` method come from `theftdlc`.
 
-In the same way, we can compare the time-series classification performance of *catch22* against our custom set of the first two moments:
+In the same way, we can compare the time-series classification
+performance of *catch22* against our custom set of the first two
+moments:
 
 ``` r
 calculate_features(data = theft::simData, 
@@ -110,23 +137,26 @@ calculate_features(data = theft::simData,
 ```
 
                hypothesis feature_set   metric  set_mean  null_mean t_statistic
-    1    User != own null        User accuracy 0.5466667 0.09333333    3.631296
-    2 catch22 != own null     catch22 accuracy 0.7377778 0.15111111    5.794157
-          p.value
-    1 0.011067234
-    2 0.002205415
+    1    User != own null        User accuracy 0.5466667 0.09333333    5.446944
+    2 catch22 != own null     catch22 accuracy 0.7066667 0.15555556   10.381508
+           p.value
+    1 0.0027588119
+    2 0.0002430423
 
-`classify()` and `compare_features()` come from *theftdlc*.
+`classify()` and `compare_features()` come from `theftdlc`.
 
-See the [vignette](https://hendersontrent.github.io/theftdlc/articles/theftdlc.html) for more information and the full functionality of both packages.
+See the
+[vignette](https://hendersontrent.github.io/theftdlc/articles/theftdlc.html)
+for more information and the full functionality of both packages.
 
-## Citing *theftdlc*
+## Citing `theftdlc`
 
-If you use *theft* or *theftdlc*, please cite both the paper:
+If you use `theft` or `theftdlc`, please cite both the paper:
 
-> T. Henderson and B. D. Fulcher.
-> [“Feature-Based Time-Series Analysis in R using the Theft Ecosystem”](https://doi.org/10.32614/RJ-2025-023).
-> *The R Journal* **17**(3), 43-68 (2025).
+> T. Henderson and B. D. Fulcher. [“Feature-Based Time-Series Analysis
+> in R using the Theft
+> Ecosystem”](https://doi.org/10.32614/RJ-2025-023). *The R Journal*
+> **17**(3), 43-68 (2025).
 
 BibTeX version:
 
@@ -150,7 +180,7 @@ and the software:
     To cite package 'theft' in publications use:
 
       Henderson T (2026). _theft: Tools for Handling Extraction of Features
-      from Time Series_. R package version 0.9.0,
+      from Time Series_. R package version 0.9.1,
       <https://hendersontrent.github.io/theft/>.
 
     A BibTeX entry for LaTeX users is
@@ -159,14 +189,14 @@ and the software:
         title = {theft: Tools for Handling Extraction of Features from Time Series},
         author = {Trent Henderson},
         year = {2026},
-        note = {R package version 0.9.0},
+        note = {R package version 0.9.1},
         url = {https://hendersontrent.github.io/theft/},
       }
 
     To cite package 'theftdlc' in publications use:
 
       Henderson T (2026). _theftdlc: Analyse and Interpret Time Series
-      Features_. R package version 0.2.2,
+      Features_. R package version 0.3.0,
       <https://hendersontrent.github.io/theftdlc/>.
 
     A BibTeX entry for LaTeX users is
@@ -175,10 +205,10 @@ and the software:
         title = {theftdlc: Analyse and Interpret Time Series Features},
         author = {Trent Henderson},
         year = {2026},
-        note = {R package version 0.2.2},
+        note = {R package version 0.3.0},
         url = {https://hendersontrent.github.io/theftdlc/},
       }
 
 ## License
 
-*theftdlc* is licensed under the [MIT License](LICENSE.md).
+`theftdlc` is licensed under the [MIT License](LICENSE.md).

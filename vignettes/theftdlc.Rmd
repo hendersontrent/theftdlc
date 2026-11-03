@@ -362,11 +362,11 @@ From here, it's easy to do any further analysis or data visualisation:
 
 ```{r, message = FALSE, warning = FALSE}
 feature_clusters$Data %>%
-    dplyr::filter(names %in% c("CO_HistogramAMI_even_2_5", 
+    dplyr::filter(names %in% c("CO_HistogramAMI_even_5bin_ami2", 
                                "DN_OutlierInclude_p_001_mdrmd")) %>%
     tidyr::pivot_wider(id_cols = c("id", "group", "cluster"), 
                        names_from = "names", values_from = "values") %>%
-    ggplot2::ggplot(ggplot2::aes(x = CO_HistogramAMI_even_2_5, 
+    ggplot2::ggplot(ggplot2::aes(x = CO_HistogramAMI_even_5bin_ami2, 
                                  DN_OutlierInclude_p_001_mdrmd, 
                                  colour = as.factor(cluster))) +
     ggplot2::stat_ellipse(ggplot2::aes(fill = as.factor(cluster)), geom = "polygon", alpha = 0.2) +
